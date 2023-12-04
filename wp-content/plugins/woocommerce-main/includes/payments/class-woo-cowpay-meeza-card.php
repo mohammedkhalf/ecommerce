@@ -75,6 +75,9 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
     {
 
         $customer_order = wc_get_order($order_id);
+
+        // var_dump(home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key);die;
+
         $cardNumber = $_POST['cowpay_meeza_card_number'];
         $expireDate = $_POST['cowpay_meeza_card_expire_date'];
         $cvv = $_POST['cowpay_meeza_card_cvv'];
@@ -83,6 +86,7 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
         $description = $this->get_cp_description($customer_order);
         $amount = $customer_order->order_total;
         $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
+        $return_url = home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key;
 
         $req_params = array(
             'PAN' => $cardNumber,
@@ -96,7 +100,8 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
             'customer_merchant_profile_id' => $customer_profile_id,
             'description'=>$description,
             'return_url'=>home_url('/'),
-            "signature"=>$signature
+            "signature"=>$signature,
+            'return_url' =>$return_url
         );
 
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_meeza_card($req_params);
@@ -112,14 +117,19 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
             if ( ! session_id() ) {
                 session_start();
             }
-        
-            $_SESSION['meezaCardDetails'] = $response;// An array 
-            WC()->cart->empty_cart();
 
-            return array(
-                'result'   => 'success',
-                'redirect' => $this->get_return_url($customer_order),
-            );
+            
+        
+            if(!empty($response->ThreeDSUrl)){
+                $_SESSION['meezaCardDetails'] = $response;// An array 
+                WC()->cart->empty_cart();
+                wp_safe_redirect($response->ThreeDSUrl);
+                exit;
+            }
+            // return array(
+            //     'result'   => 'success',
+            //     'redirect' => $this->get_return_url($customer_order),
+            // );
         } else { // error
             // update order meta
             $this->set_cowpay_meta($customer_order, $req_params);

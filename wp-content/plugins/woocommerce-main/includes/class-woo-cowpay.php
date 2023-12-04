@@ -175,6 +175,10 @@ class WooCowpay
 		if (isset($_SESSION['walletDetails'])) {
             $this->loader->add_filter('woocommerce_thankyou_order_received_text_meeza', $this, 'woo_title_order_received_meeza');
         }
+
+		if (isset($_SESSION['meezaCardDetails'])) {
+            $this->loader->add_filter('woocommerce_thankyou_order_received_text_meeza_card', $this, 'woo_title_order_received_meeza_card');
+        }
 	}
 
 	function woo_title_order_received() {
@@ -203,6 +207,22 @@ class WooCowpay
             $title = "Thank you , Your order has been received .<br>Please use the following reference number 
 			<b>".$_SESSION['walletDetails']->payment_gateway_reference_id."</b> 
 			to Follow your request and pay <b>".$_SESSION['walletDetails']->amount." EGP</b>  From Your Wallet";
+            unset($_SESSION['walletDetails']);
+			
+			return $title;
+		}
+	}
+
+	function woo_title_order_received_meeza_card(){
+
+		if ( ! session_id() ) {
+			session_start();
+		}
+
+		if (isset($_SESSION['meezaCardDetails'])) {
+            $title = "Thank you , Your order has been received .<br>Please use the following reference number 
+			<b>".$_SESSION['meezaCardDetails']->payment_gateway_reference_id."</b> 
+			to Follow your request and pay <b>".$_SESSION['meezaCardDetails']->amount." EGP</b>  Using Meeza Card";
             unset($_SESSION['walletDetails']);
 			
 			return $title;
