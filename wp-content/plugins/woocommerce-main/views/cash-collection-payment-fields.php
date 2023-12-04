@@ -1,5 +1,3 @@
-
-
 <p class="form-row cowpay_cash_collection-floor-field validate-required validate-cowpay_cash_collection-floor form-row-wide" id="cowpay_cash_collection_floor_field" data-priority="90" data-o_class="form-row form-row-wide cowpay_cash_collection-floor-field validate-required validate-postcode">
     <label for="cowpay_cash_collection-floor" class=""><?=esc_html__('Floor', 'cowpay')?>&nbsp;<abbr class="required" title="required">*</abbr></label>
     <span class="woocommerce-input-wrapper">

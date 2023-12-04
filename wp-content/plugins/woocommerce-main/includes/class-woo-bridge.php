@@ -29,6 +29,7 @@ class Woo_Bridge
         require_once(__DIR__ . "/payments/class-woo-cowpay-credit-card.php");
         require_once(__DIR__ . "/payments/class-woo-cowpay-cash-collection.php");
         require_once(__DIR__ . "/payments/class-woo-cowpay-meeza-wallet.php");
+        require_once(__DIR__ . "/payments/class-woo-cowpay-meeza-card.php");
         require_once(__DIR__ . "/rest_api/class-woo-cowpay-api.php");
     }
 
@@ -45,8 +46,10 @@ class Woo_Bridge
         $methods[] = 'WC_Payment_Gateway_Cowpay_CC';
         /** @see WC_Payment_Gateway_Cowpay_Cash_Collection*/
         $methods[] = 'WC_Payment_Gateway_Cowpay_Cash_Collection';
-        /** @see WC_Payment_Gateway_Cowpay_Checkout*/
+        /** @see WC_Payment_Gateway_Cowpay_Meeza_Wallet*/
         $methods[] = 'WC_Payment_Gateway_Cowpay_Meeza_wallet';
+        /** @see WC_Payment_Gateway_Cowpay_Meeza_Card*/
+        $methods[] = 'WC_Payment_Gateway_Cowpay_Meeza_Card';
         return $methods;
     }
 

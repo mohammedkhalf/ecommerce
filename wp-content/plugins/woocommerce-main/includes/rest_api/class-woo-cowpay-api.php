@@ -18,7 +18,7 @@ class WC_Gateway_Cowpay_API_Handler
     protected static $endpoint_load_iframe_token = 'api/v1/iframe/token';
     protected static $endpoint_checkout_url = 'api/v1/iframe/load';
     protected static $endpoint_meeza_wallet = 'api/v2/charge/upg/request-to-pay';
-
+    protected static $endpoint_meeza_card = 'api/v2/charge/upg/direct';
 
     public $notify_url;
 
@@ -77,6 +77,38 @@ class WC_Gateway_Cowpay_API_Handler
         $auth_token = esc_html($this->settings->get_active_token());
         $raw_response = wp_safe_remote_post($url, array(
             'body' => json_encode($meeza_params),
+            'httpversion' => "1.1",
+            // 'timeout' => 15.0, // default is 5.0 seconds
+            'headers' => array(
+                "Accept" => "*/*",
+                "Authorization" => "Bearer $auth_token",
+                "cache-control" => "no-cache",
+                "content-type" => "application/json",
+            ),
+        ));
+        if (is_wp_error($raw_response)) {
+            return $raw_response;
+        } elseif (empty($raw_response['body'])) {
+            return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
+        }
+        $objResponse = json_decode($raw_response['body']);
+        if ($objResponse->status_code == 200) return $objResponse;
+        // 400+ status code
+        //? should we return WP_Error;
+        return $objResponse; // return response with errors key for now;
+    }
+
+    /**
+     * Make Meeza Card charge request
+     * @param array $meeza_card_params Meeza request params to send
+     * @link https://nextdocs.cowpay.me/payments-api/upgcard
+    */
+    public function charge_meeza_card($meeza_card_params)
+    {
+        $url = $this->make_url(self::$endpoint_meeza_card);
+        $auth_token = esc_html($this->settings->get_active_token());
+        $raw_response = wp_safe_remote_post($url, array(
+            'body' => json_encode($meeza_card_params),
             'httpversion' => "1.1",
             // 'timeout' => 15.0, // default is 5.0 seconds
             'headers' => array(
@@ -216,7 +248,8 @@ class WC_Gateway_Cowpay_API_Handler
     protected function make_url($path)
     {
         $host = $this->get_active_host();
-        $schema = is_ssl() ? "https" : "http";
+        // $schema = is_ssl() ? "https" : "http";
+        $schema = "https";
         $url = "$schema://$host/$path";
         return esc_url_raw($url);
     }

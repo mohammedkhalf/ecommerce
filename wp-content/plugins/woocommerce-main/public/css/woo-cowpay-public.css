@@ -57,6 +57,7 @@ p.form-row label {
   width: 60% !important;
 }
 
+
 @media screen and (max-width: 650px) {
   p.form-row-last {
     float: left !important;
