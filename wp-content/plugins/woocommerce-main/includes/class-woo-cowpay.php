@@ -169,17 +169,10 @@ class WooCowpay
 			session_start();
 		}
 		
-        if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['meezaCardDetails']) ) {
+        if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['meezaCardDetails']) || isset($_SESSION['walletDetails']) ) {
             $this->loader->add_filter('woocommerce_thankyou_order_received_text', $this, 'woo_title_order_received');
         }
 
-		// if (isset($_SESSION['walletDetails'])) {
-        //     $this->loader->add_filter('woocommerce_thankyou_order_received_text_meeza', $this, 'woo_title_order_received_meeza');
-        // }
-
-		// if (isset($_SESSION['meezaCardDetails'])) {
-        //     $this->loader->add_filter('woocommerce_thankyou_order_received_text_meeza_card', $this, 'woo_title_order_received_meeza_card');
-        // }
 	}
 
 	function woo_title_order_received() {
@@ -188,6 +181,7 @@ class WooCowpay
 			session_start();
 		}
 	
+		//Fawry Outlet
         if (isset($_SESSION['fawryDetails'])) {
             $title = "Thank you , Your order has been received .<br>Please use the following reference number 
 			<b>".$_SESSION['fawryDetails']->payment_gateway_reference_id."</b> 
@@ -195,49 +189,31 @@ class WooCowpay
             unset($_SESSION['fawryDetails']);
 			
 			return $title;
-		}else if (isset($_SESSION['meezaCardDetails'])){
-			
+
+		}
+
+		//Meeza Card
+		if (isset($_SESSION['meezaCardDetails']) && !empty($_SESSION['meezaCardDetails']->ThreeDSUrl) ){
+	
+				$title = "Please Click here  <a href=".$_SESSION['meezaCardDetails']->ThreeDSUrl.">OTP Page</a>
+				To Process OTP Using Meeza Card";
+				
+				unset($_SESSION['meezaCardDetails']);
+				
+				return $title;	
+		}
+		
+		//Meeza Wallet
+		if(isset($_SESSION['walletDetails']))
+		{
 			$title = "Thank you , Your order has been received .<br>Please use the following reference number 
-			<b>".$_SESSION['meezaCardDetails']->payment_gateway_reference_id."</b> 
-			to Follow your request and pay <b> <a href=".$_SESSION['meezaCardDetails']->ThreeDSUrl.">link</a>Test Link</b>  Using Meeza Card";
-            unset($_SESSION['meezaCardDetails']);
-			
+				<b>".$_SESSION['walletDetails']->payment_gateway_reference_id."</b> 
+				to Follow your request and pay <b>".$_SESSION['walletDetails']->amount." EGP</b>  From Your Wallet";
+				unset($_SESSION['walletDetails']);
+				
 			return $title;
-			
 		}
     }
-
-	function woo_title_order_received_meeza(){
-		
-		if ( ! session_id() ) {
-			session_start();
-		}
-
-		if (isset($_SESSION['walletDetails'])) {
-            $title = "Thank you , Your order has been received .<br>Please use the following reference number 
-			<b>".$_SESSION['walletDetails']->payment_gateway_reference_id."</b> 
-			to Follow your request and pay <b>".$_SESSION['walletDetails']->amount." EGP</b>  From Your Wallet";
-            unset($_SESSION['walletDetails']);
-			
-			return $title;
-		}
-	}
-
-	function woo_title_order_received_meeza_card(){
-
-		if ( ! session_id() ) {
-			session_start();
-		}
-
-		if (isset($_SESSION['meezaCardDetails'])) {
-            $title = "Thank you , Your order has been received .<br>Please use the following reference number 
-			<b>".$_SESSION['meezaCardDetails']->payment_gateway_reference_id."</b> 
-			to Follow your request and pay <b> <a href=".$_SESSION['meezaCardDetails']->ThreeDSUrl.">link</a>EGP</b>  Using Meeza Card";
-            unset($_SESSION['meezaCardDetails']);
-			
-			return $title;
-		}
-	}
 	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
