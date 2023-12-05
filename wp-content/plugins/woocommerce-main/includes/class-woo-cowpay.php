@@ -191,18 +191,25 @@ class WooCowpay
 			return $title;
 
 		}
-
 		//Meeza Card
-		if (isset($_SESSION['meezaCardDetails']) && !empty($_SESSION['meezaCardDetails']->ThreeDSUrl) ){
-	
+		if (isset($_SESSION['meezaCardDetails']) ){
+
+			if(!empty($_SESSION['meezaCardDetails']->ThreeDSUrl)){
+
 				$title = "Please Click here  <a href=".$_SESSION['meezaCardDetails']->ThreeDSUrl.">OTP Page</a>
 				To Process OTP Using Meeza Card";
-				
 				unset($_SESSION['meezaCardDetails']);
-				
 				return $title;	
+
+			}else{
+
+				$title = "Thank you , Your order has been received Using Meeza Card";
+			
+		    	return $title;
+			}
+
 		}
-		
+
 		//Meeza Wallet
 		if(isset($_SESSION['walletDetails']))
 		{
