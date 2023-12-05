@@ -106,14 +106,14 @@ class WooCowpayAdmin
 			'meeza_wallet', // menu slug, used as url param by wordpress
 			array($this, 'render_meeza_wallet_settings') // callback when clicked, we redirect to WooCommerce settings
 		);
-		// add_submenu_page(
-		// 	'cowpay_setting', // parent slug, this should match menu slug in the above line
-		// 	esc_html__('Meeza Card', 'cowpay'),  // page title
-		// 	esc_html__('Meeza Card', 'cowpay'), // this sub menu title
-		// 	'manage_options', // capability, current user role should have this permission
-		// 	'meeza_card', // menu slug, used as url param by wordpress
-		// 	array($this, 'render_meeza_card_settings') // callback when clicked, we redirect to WooCommerce settings
-		// );
+		add_submenu_page(
+			'cowpay_setting', // parent slug, this should match menu slug in the above line
+			esc_html__('Meeza Card', 'cowpay'),  // page title
+			esc_html__('Meeza Card', 'cowpay'), // this sub menu title
+			'manage_options', // capability, current user role should have this permission
+			'meeza_card', // menu slug, used as url param by wordpress
+			array($this, 'render_meeza_card_settings') // callback when clicked, we redirect to WooCommerce settings
+		);
 	}
 
 	function render_cowpay_setting()

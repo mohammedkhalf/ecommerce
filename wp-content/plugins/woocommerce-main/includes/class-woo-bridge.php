@@ -29,7 +29,7 @@ class Woo_Bridge
         require_once(__DIR__ . "/payments/class-woo-cowpay-credit-card.php");
         require_once(__DIR__ . "/payments/class-woo-cowpay-cash-collection.php");
         require_once(__DIR__ . "/payments/class-woo-cowpay-meeza-wallet.php");
-        // require_once(__DIR__ . "/payments/class-woo-cowpay-meeza-card.php");
+        require_once(__DIR__ . "/payments/class-woo-cowpay-meeza-card.php");
         require_once(__DIR__ . "/rest_api/class-woo-cowpay-api.php");
     }
 
