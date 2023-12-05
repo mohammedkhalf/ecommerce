@@ -222,7 +222,7 @@ class WooCowpay
 		if (isset($_SESSION['meezaCardDetails'])) {
             $title = "Thank you , Your order has been received .<br>Please use the following reference number 
 			<b>".$_SESSION['meezaCardDetails']->payment_gateway_reference_id."</b> 
-			to Follow your request and pay <b>".$_SESSION['meezaCardDetails']->amount." EGP</b>  Using Meeza Card";
+			to Follow your request and pay <b> <a href=".$_SESSION['meezaCardDetails']->ThreeDSUrl.">link</a>EGP</b>  Using Meeza Card";
             unset($_SESSION['walletDetails']);
 			
 			return $title;

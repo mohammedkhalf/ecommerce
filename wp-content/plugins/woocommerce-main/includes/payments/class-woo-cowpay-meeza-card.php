@@ -118,19 +118,14 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
                 session_start();
             }
 
-
-            if(!empty($response->ThreeDSUrl)){
-                $_SESSION['meezaCardDetails'] = $response;// An array 
-                WC()->cart->empty_cart();
-                wp_redirect($response->ThreeDSUrl);
-                exit;
-            }else{
-                die("error in threeDSUrl");
-            }
-            // return array(
-            //     'result'   => 'success',
-            //     'redirect' => $this->get_return_url($customer_order),
-            // );
+            $_SESSION['meezaCardDetails'] = $response;// An array 
+            
+            WC()->cart->empty_cart();
+              
+            return array(
+                'result'   => 'success',
+                'redirect' => $this->get_return_url($customer_order),
+            );
         } else { // error
             // update order meta
             $this->set_cowpay_meta($customer_order, $req_params);
