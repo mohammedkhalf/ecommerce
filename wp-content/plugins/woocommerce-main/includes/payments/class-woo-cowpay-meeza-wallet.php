@@ -85,6 +85,8 @@ class WC_Payment_Gateway_Cowpay_Meeza_wallet extends WC_Payment_Gateway_Cowpay
         $description = $this->get_cp_description($customer_order);
         $amount = $customer_order->order_total;
         $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
+        $return_url = home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key;
+
 
         $req_params = array(
             'merchant_reference_id' => $merchant_ref_id,
@@ -97,7 +99,7 @@ class WC_Payment_Gateway_Cowpay_Meeza_wallet extends WC_Payment_Gateway_Cowpay
             'description' => $description,
             "currency_code"=> "EGP",
             "request_from_mobile_number"=> $customer_order->get_billing_phone(),
-            "return_url" => "https://t1.tamkeen.dev/onlinePayments/invoice/6a75f87c-8936-11ee-87d1-039fee71d87f",
+            "return_url" =>$return_url
         );
 
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_meeza_wallet($req_params);
