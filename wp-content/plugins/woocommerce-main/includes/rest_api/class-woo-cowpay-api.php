@@ -248,8 +248,7 @@ class WC_Gateway_Cowpay_API_Handler
     protected function make_url($path)
     {
         $host = $this->get_active_host();
-        // $schema = is_ssl() ? "https" : "http";
-        $schema = "https";
+        $schema = is_ssl() ? "https" : "http";
         $url = "$schema://$host/$path";
         return esc_url_raw($url);
     }

@@ -76,8 +76,6 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
 
         $customer_order = wc_get_order($order_id);
 
-        // var_dump(home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key);die;
-
         $cardNumber = $_POST['cowpay_meeza_card_number'];
         $expireDate = $_POST['cowpay_meeza_card_expire_date'];
         $cvv = $_POST['cowpay_meeza_card_cvv'];
