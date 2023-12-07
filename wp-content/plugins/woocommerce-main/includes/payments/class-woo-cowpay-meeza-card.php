@@ -77,8 +77,12 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
         $customer_order = wc_get_order($order_id);
 
         $cardNumber = $_POST['cowpay_meeza_card_number'];
-        $expireDate = $_POST['cowpay_meeza_card_expire_date'];
+        $expireMonth = $_POST['cowpay_meeza_card_expire_month'];
+        $expireYear = $_POST['cowpay_meeza_card_expire_year'];
+        $expireDate =  $expireMonth.''.$expireYear;
         $cvv = $_POST['cowpay_meeza_card_cvv'];
+
+
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
         $description = $this->get_cp_description($customer_order);
@@ -88,7 +92,7 @@ class WC_Payment_Gateway_Cowpay_Meeza_Card extends WC_Payment_Gateway_Cowpay
 
         $req_params = array(
             'PAN' => $cardNumber,
-            'expiry_date'=> $expireDate,
+            'expiry_date'=>$expireDate,
             "cvv2"=>$cvv,
             'amount' => $amount,
             'customer_mobile' => $customer_order->get_billing_phone(),
