@@ -182,6 +182,13 @@ class Cowpay_Server_Callback
 
     private function is_valid_signature($payload)
     {
+        $sign = md5("{$this->settings->get_merchant_hash()}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
+
+        return $sign === $payload['signature'];
+    }
+
+    private function is_valid_signature_backup($payload)
+    {
         $hypo_arr = array(
             $this->settings->get_merchant_hash(),
             $payload["amount"],
