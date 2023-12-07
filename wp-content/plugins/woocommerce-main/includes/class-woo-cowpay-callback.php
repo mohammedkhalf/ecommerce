@@ -29,6 +29,9 @@ class Cowpay_Server_Callback
             case 'order_status_update':
                 $order_status = $data['order_status'];
                 switch ($order_status) {
+                    case 'UNPAID':
+                        $this->handle_unpaid($data);
+                        break;
                     case 'PAID':
                         $this->handle_paid($data);
                         break;
@@ -136,6 +139,19 @@ class Cowpay_Server_Callback
         $admin_complete_order_status = $this->settings->get_order_status();
         $order->update_status($admin_complete_order_status);
         $order->add_order_note(esc_html__('server callback update: Successfully paid','woo-cowpay'));
+    }
+
+    private function handle_unpaid($data)
+    {
+        $merchant_reference_id =  $data["merchant_reference_id"];
+        $order = $this->find_order($merchant_reference_id);
+        if ($order == false) {
+            // TODO: log a warning message
+            // don't create order as it is already expired
+            return;
+        }
+        $order->update_status("wc-pending");
+        $order->add_order_note(__('server callback update: The order was unpaid','woo-cowpay'));
     }
 
     private function handle_expired($data)
