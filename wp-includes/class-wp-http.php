@@ -506,11 +506,11 @@ class WP_Http {
 	 * @throws WpOrg\Requests\Exception On unsuccessful URL validation.
 	 * @param string $location URL to redirect to.
 	 */
-	public static function validate_redirects( $location ) {
-		if ( ! wp_http_validate_url( $location ) ) {
-			throw new WpOrg\Requests\Exception( __( 'A valid URL was not provided.' ), 'wp_http.redirect_failed_validation' );
-		}
-	}
+	// public static function validate_redirects( $location ) {
+	// 	if ( ! wp_http_validate_url( $location ) ) {
+	// 		throw new WpOrg\Requests\Exception( __( 'A valid URL was not provided.' ), 'wp_http.redirect_failed_validation' );
+	// 	}
+	// }
 
 	/**
 	 * Tests which transports are capable of supporting the request.
