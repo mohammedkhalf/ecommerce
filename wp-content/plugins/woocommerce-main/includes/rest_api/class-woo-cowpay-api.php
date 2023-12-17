@@ -43,7 +43,7 @@ class WC_Gateway_Cowpay_API_Handler
     {
         $url = $this->make_url(self::$endpoint_charge_fawry);
         $auth_token = esc_html($this->settings->get_active_token());
-        $raw_response = wp_safe_remote_post($url, array(
+        $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($fawry_params),
             'httpversion' => "1.1",
             // 'timeout' => 15.0, // default is 5.0 seconds
@@ -54,16 +54,15 @@ class WC_Gateway_Cowpay_API_Handler
                 "content-type" => "application/json",
             ),
         ));
+
         if (is_wp_error($raw_response)) {
             return $raw_response;
         } elseif (empty($raw_response['body'])) {
             return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
         }
-        $objResponse = json_decode($raw_response['body']);
-        if ($objResponse->status_code == 200) return $objResponse;
-        // 400+ status code
-        //? should we return WP_Error;
-        return $objResponse; // return response with errors key for now;
+        
+        $objResponse = json_decode($raw_response['body'],true);
+        return $objResponse;
     }
 
      /**
