@@ -54,7 +54,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
     {
         // Transaction was not successful
         // Add notice to the cart
-        wc_add_notice($response->status_description, 'error');
+        wc_add_notice($response->operationMessage, 'error');
         // Add note to the order for your reference
         $order->add_order_note('Error:  Failure');
         //$customer_order->update_status("wc-cancelled",esc_html__('The order was failed','cowpay'));
@@ -142,7 +142,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             }
         } else if (
             isset($maybe_error->statusCode)
-            && isset($maybe_error->status_description)
+            && isset($maybe_error->operationMessage)
             && $maybe_error->statusCode != 201
         ) { // extract errors from the server response
             $errors = $maybe_error->errors;
@@ -153,7 +153,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
                 $return_messages = array_values($errors);
             } else {
                 // if we can't find detailed errors, return status description as the error
-                $return_messages[] = $maybe_error->status_description;
+                $return_messages[] = $maybe_error->operationMessage;
             }
         } else if (!isset($maybe_error->statusCode)) { // server should return it in the response
             $return_messages[] = esc_html__("Unexpected Cowpay response");
