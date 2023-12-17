@@ -8890,3 +8890,9 @@ function wp_admin_notice( $message, $args = array() ) {
 
 	echo wp_kses_post( wp_get_admin_notice( $message, $args ) );
 }
+
+add_filter('http_request_host_is_external', function($bool, $host, $url){
+	if($url === 'https://apigateway.cowpay.me:8000/payment/Pay' && $host === 'https://apigateway.cowpay.me:8000'){
+			return true;
+	}
+}, 10, 3);

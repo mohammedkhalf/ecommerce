@@ -10,7 +10,7 @@ class WC_Gateway_Cowpay_API_Handler
     private static ?WC_Gateway_Cowpay_API_Handler $instance = null;
     private $settings;
 
-    protected static $production_host = 'https://apigateway.cowpay.me:8000';
+    protected static $production_host = 'apigateway.cowpay.me:8000';
     protected static $staging_host = 'staging.cowpay.me';
     protected static $endpoint_charge_fawry = 'payment/Pay';
     protected static $endpoint_charge_cc = 'api/v2/charge/card/init';
@@ -48,7 +48,7 @@ class WC_Gateway_Cowpay_API_Handler
             'httpversion' => "1.1",
             // 'timeout' => 15.0, // default is 5.0 seconds
             'headers' => array(
-                "Accept" => "*/*",
+                "Accept" => "application/json",
                 "Authorization" => "Bearer $auth_token",
                 "cache-control" => "no-cache",
                 "content-type" => "application/json",
