@@ -60,8 +60,7 @@ class WC_Gateway_Cowpay_API_Handler
         } elseif (empty($raw_response['body'])) {
             return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
         }
-        
-        $objResponse = json_decode($raw_response['body'],true);
+        $objResponse = json_decode($raw_response['body']);
         return $objResponse;
     }
 

@@ -141,9 +141,9 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
                 }
             }
         } else if (
-            isset($maybe_error->status_code)
+            isset($maybe_error->statusCode)
             && isset($maybe_error->status_description)
-            && $maybe_error->status_code != 200
+            && $maybe_error->statusCode != 200
         ) { // extract errors from the server response
             $errors = $maybe_error->errors;
 
@@ -155,7 +155,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
                 // if we can't find detailed errors, return status description as the error
                 $return_messages[] = $maybe_error->status_description;
             }
-        } else if (!isset($maybe_error->status_code)) { // server should return it in the response
+        } else if (!isset($maybe_error->statusCode)) { // server should return it in the response
             $return_messages[] = esc_html__("Unexpected Cowpay response");
         }
         return $return_messages;
