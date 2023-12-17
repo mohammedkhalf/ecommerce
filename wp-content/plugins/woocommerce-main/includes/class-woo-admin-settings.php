@@ -34,7 +34,7 @@ class Cowpay_Admin_Settings
     public function get_active_host()
     {
         $staging_host = "staging.cowpay.me";
-        $production_host = "cowpay.me";
+        $production_host = "https://apigateway.cowpay.me:8000";
         return $this->get_environment() == 1 ? $production_host : $staging_host;
     }
 

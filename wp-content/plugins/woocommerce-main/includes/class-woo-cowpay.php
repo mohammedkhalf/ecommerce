@@ -165,6 +165,7 @@ class WooCowpay
 		$this->loader->add_action('plugins_loaded', $plugin_i18n, 'load_plugin_textdomain');
 	}
 	private function handleThankyouPage(){
+		
 		if ( ! session_id() ) {
 			session_start();
 		}

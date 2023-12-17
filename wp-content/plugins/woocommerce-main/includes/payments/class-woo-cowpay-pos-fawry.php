@@ -77,8 +77,16 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
      */
     public function process_payment($order_id)
     {
+
+        echo "<pre>";
+        print_r($order_id);
+        echo "</pre>";
+        die;
+
+
         $customer_order = wc_get_order($order_id);
 
+   
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
         $description = $this->get_cp_description($customer_order);
@@ -86,15 +94,21 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
         $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
 
         $req_params = array(
-            'merchant_reference_id' => $merchant_ref_id,
-            'customer_merchant_profile_id' => $customer_profile_id,
-            'customer_name' => $customer_order->get_formatted_billing_full_name(),
-            'customer_email' => $customer_order->get_billing_email(),
-            'customer_mobile' => $customer_order->get_billing_phone(),
-            'amount' => $amount,
-            'signature' => $signature,
-            'description' => $description
+            "gatewayTargetMethod" => "PayAtFawry",
+            "merchantReferenceId" => $merchant_ref_id,
+            "customerMerchantProfileId" => $customer_profile_id,
+            "amount" => $amount,
+            "signature" => $signature,
+            "customerMobile"  => $customer_order->get_billing_phone(),
+            "customerFirstName" => $customer_order->get_formatted_first_name(),
+            "customerLastName" => $customer_order->get_formatted_last_name(),
+            "customerEmail" => $customer_order->get_billing_email(),
+            "description" => $description,
+            "isfeesOnCustomer" => false
         );
+
+      
+
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_fawry($req_params);
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success

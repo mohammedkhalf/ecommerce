@@ -194,6 +194,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             $amount,
             $this->cp_admin_settings->get_merchant_hash()
         ));
+        
         return hash('sha256', $message);
     }
 
