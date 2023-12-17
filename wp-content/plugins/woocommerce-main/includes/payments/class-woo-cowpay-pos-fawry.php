@@ -105,9 +105,6 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
 
         if (empty($messages)) { // success
 
-            echo "<pre>"; print_r($response); echo "</pre>"; die;
-
-
             // update order meta
             $this->set_cowpay_meta($customer_order, $req_params, $response);
 
@@ -117,6 +114,9 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
             if ( ! session_id() ) {
                 session_start();
             }
+
+            echo "<pre>"; print_r($response); echo "</pre>"; die;
+
         
             $_SESSION['fawryDetails'] = $response;// An array
             WC()->cart->empty_cart();
