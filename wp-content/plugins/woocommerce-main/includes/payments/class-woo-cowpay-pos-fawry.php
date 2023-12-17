@@ -92,8 +92,8 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
             "amount" => $amount,
             "signature" => $signature,
             "customerMobile"  => $customer_order->get_billing_phone(),
-            "customerFirstName" => $customer_order->get_formatted_first_name(),
-            "customerLastName" => $customer_order->get_formatted_last_name(),
+            "customerFirstName" => $customer_order->get_formatted_billing_full_name(),
+            "customerLastName" => $customer_order->get_formatted_billing_full_name(),
             "customerEmail" => $customer_order->get_billing_email(),
             "description" => $description,
             "isfeesOnCustomer" => false
