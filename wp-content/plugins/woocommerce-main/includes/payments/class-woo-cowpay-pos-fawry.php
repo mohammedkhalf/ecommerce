@@ -102,9 +102,12 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_fawry($req_params);
         $messages = $this->get_user_error_messages($response);
 
-        var_dump($messages);die;
 
         if (empty($messages)) { // success
+
+            echo "<pre>"; print_r($response); echo "</pre>"; die;
+
+
             // update order meta
             $this->set_cowpay_meta($customer_order, $req_params, $response);
 
@@ -123,6 +126,9 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
                 'redirect' => $this->get_return_url($customer_order),
             );
         } else { // error
+
+            echo "<pre>"; print_r("hello"); echo "</pre>"; die;
+
             // update order meta
             $this->set_cowpay_meta($customer_order, $req_params);
 
