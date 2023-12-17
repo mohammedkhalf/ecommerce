@@ -272,12 +272,12 @@ class WP_Http {
 
 		$parsed_url = parse_url( $url );
 
-		// if ( empty( $url ) || empty( $parsed_url['scheme'] ) ) {
-		// 	$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
-		// 	/** This action is documented in wp-includes/class-wp-http.php */
-		// 	do_action( 'http_api_debug', $response, 'response', 'WpOrg\Requests\Requests', $parsed_args, $url );
-		// 	return $response;
-		// }
+		if ( empty( $url ) || empty( $parsed_url['scheme'] ) ) {
+			$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
+			/** This action is documented in wp-includes/class-wp-http.php */
+			do_action( 'http_api_debug', $response, 'response', 'WpOrg\Requests\Requests', $parsed_args, $url );
+			return $response;
+		}
 
 		if ( $this->block_request( $url ) ) {
 			$response = new WP_Error( 'http_request_not_executed', __( 'User has blocked requests through HTTP.' ) );
@@ -506,11 +506,11 @@ class WP_Http {
 	 * @throws WpOrg\Requests\Exception On unsuccessful URL validation.
 	 * @param string $location URL to redirect to.
 	 */
-	// public static function validate_redirects( $location ) {
-	// 	if ( ! wp_http_validate_url( $location ) ) {
-	// 		throw new WpOrg\Requests\Exception( __( 'A valid URL was not provided.' ), 'wp_http.redirect_failed_validation' );
-	// 	}
-	// }
+	public static function validate_redirects( $location ) {
+		if ( ! wp_http_validate_url( $location ) ) {
+			throw new WpOrg\Requests\Exception( __( 'A valid URL was not provided.' ), 'wp_http.redirect_failed_validation' );
+		}
+	}
 
 	/**
 	 * Tests which transports are capable of supporting the request.
