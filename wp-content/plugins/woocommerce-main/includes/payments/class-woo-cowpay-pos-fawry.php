@@ -115,7 +115,7 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
                 session_start();
             }
 
-            echo "<pre>"; print_r($response); echo "</pre>"; die;
+            echo "<pre>"; var_dump($response->data->paymentGatewayReferenceId,"hello"); echo "</pre>"; die;
 
         
             $_SESSION['fawryDetails'] = $response;// An array
