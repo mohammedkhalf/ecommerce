@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Singleton class that reads cowpay admin settings (merchant code, hash, ...)
  */
@@ -16,7 +17,7 @@ class Cowpay_Admin_Settings
     private function __construct()
     {
         $this->settings = get_option(self::$settings_key);
-        $this->settings_key = 'cowpay_settings';
+        //$this->settings_key = 'cowpay_settings';
     }
 
     public static function getInstance()
