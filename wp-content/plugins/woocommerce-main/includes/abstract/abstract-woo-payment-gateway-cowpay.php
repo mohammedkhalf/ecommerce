@@ -143,7 +143,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
         } else if (
             isset($maybe_error->statusCode)
             && isset($maybe_error->status_description)
-            && $maybe_error->statusCode != 200
+            && $maybe_error->statusCode != 201
         ) { // extract errors from the server response
             $errors = $maybe_error->errors;
 
