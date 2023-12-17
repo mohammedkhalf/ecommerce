@@ -114,9 +114,6 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
             if ( ! session_id() ) {
                 session_start();
             }
-
-            echo "<pre>"; var_dump($response->data->paymentGatewayReferenceId,"hello"); echo "</pre>"; die;
-
         
             $_SESSION['fawryDetails'] = $response;// An array
             WC()->cart->empty_cart();
@@ -126,8 +123,6 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
                 'redirect' => $this->get_return_url($customer_order),
             );
         } else { // error
-
-            echo "<pre>"; print_r("hello"); echo "</pre>"; die;
 
             // update order meta
             $this->set_cowpay_meta($customer_order, $req_params);
