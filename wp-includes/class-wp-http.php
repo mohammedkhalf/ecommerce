@@ -272,12 +272,12 @@ class WP_Http {
 
 		$parsed_url = parse_url( $url );
 
-		if ( empty( $url ) || empty( $parsed_url['scheme'] ) ) {
-			$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
-			/** This action is documented in wp-includes/class-wp-http.php */
-			do_action( 'http_api_debug', $response, 'response', 'WpOrg\Requests\Requests', $parsed_args, $url );
-			return $response;
-		}
+		// if ( empty( $url ) || empty( $parsed_url['scheme'] ) ) {
+		// 	$response = new WP_Error( 'http_request_failed', __( 'A valid URL was not provided.' ) );
+		// 	/** This action is documented in wp-includes/class-wp-http.php */
+		// 	do_action( 'http_api_debug', $response, 'response', 'WpOrg\Requests\Requests', $parsed_args, $url );
+		// 	return $response;
+		// }
 
 		if ( $this->block_request( $url ) ) {
 			$response = new WP_Error( 'http_request_not_executed', __( 'User has blocked requests through HTTP.' ) );
