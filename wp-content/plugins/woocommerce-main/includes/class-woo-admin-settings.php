@@ -10,13 +10,13 @@ class Cowpay_Admin_Settings
     private static $instance = null;
     private $settings;
 
-    private static $settings_key = 'cowpay_settings';
+    private $settings_key = 'cowpay_settings';
 
     // The constructor is private
     // to prevent initiation with outer code.
     private function __construct()
     {
-        $this->settings = get_option(self::$settings_key);
+        $this->settings = get_option($this->$settings_key);  //self::$settings_key
         //$this->settings_key = 'cowpay_settings';
     }
 
