@@ -47,6 +47,7 @@ class Cowpay_Admin_Settings
             "clientId" => 'M_'.$this->get_merchant_code(),
             "secret" => $this->get_merchant_code().''.$this->get_phone_number()
         ];
+
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($payload),
             'httpversion' => "1.1",
@@ -62,11 +63,9 @@ class Cowpay_Admin_Settings
         } elseif (empty($raw_response['body'])) {
             return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
         }
-
+        
         $authToken = json_decode($raw_response['body']);
-        var_dump($authToken);die;
         return $authToken;
-
         //return $this->get_environment() == 1 ? $this->get_auth_token() : $this->get_staging_auth_token();
     }
 
