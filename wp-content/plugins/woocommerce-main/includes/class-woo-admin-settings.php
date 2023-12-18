@@ -49,7 +49,7 @@ class Cowpay_Admin_Settings
             "secret" => $this->get_merchant_code().''.$this->get_phone_number()
         ];
 
-        echo "<pre>";print_r($payload,$url);echo "</pre>";die;
+        echo "<pre>";var_dump($payload,$url);echo "</pre>";die;
 
 
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
