@@ -44,14 +44,12 @@ class WC_Gateway_Cowpay_API_Handler
      */
     public function charge_fawry($fawry_params)
     {
-        //get Token Url
         $tokenUrl = $this->make_token_url(self::$endpoint_get_token);
-
-        var_dump($tokenUrl);die;
-        //pass to get active token
-        
         $url = $this->make_url(self::$endpoint_charge_fawry);
-        $auth_token = esc_html($this->settings->get_active_token());
+        $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
+
+        var_dump($auth_token);die;
+
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($fawry_params),
             'httpversion' => "1.1",

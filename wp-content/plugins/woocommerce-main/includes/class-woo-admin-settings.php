@@ -38,20 +38,41 @@ class Cowpay_Admin_Settings
         $production_host = "https://apigateway.cowpay.me:8000";
         return $this->get_environment() == 1 ? $production_host : $staging_host;
     }
-
-    // public function get_token_active_host ()
-    // {
-    //     $identity_staging_host = 'sit.cowpay.me:8002';
-    //     $identity_production_host = 'identity.cowpay.me:8002';   
-    //     return $this->get_environment() == 1 ? $identity_production_host : $identity_staging_host;
-    // }
-
     /**
      * Returns correct auth token depending on current activated environment in admin settings.
      */
-    public function get_active_token($url,$merchantCode)
+    public function get_active_token($url)
     {
-        return $this->get_environment() == 1 ? $this->get_auth_token() : $this->get_staging_auth_token();
+        $secret = $this->get_merchant_code().''.$this->get_phone_number();
+        $payload = [
+            "clientId" =>$this->get_merchant_code(),
+            "secret" => $secret
+        ];
+
+        
+        var_dump($payload);die;
+
+        $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
+            'body' => json_encode($fawry_params),
+            'httpversion' => "1.1",
+            // 'timeout' => 15.0, // default is 5.0 seconds
+            'headers' => array(
+                "Accept" => "application/json",
+                "Authorization" => "Bearer $auth_token",
+                "cache-control" => "no-cache",
+                "content-type" => "application/json",
+            ),
+        ));
+
+        if (is_wp_error($raw_response)) {
+            return $raw_response;
+        } elseif (empty($raw_response['body'])) {
+            return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
+        }
+        $objResponse = json_decode($raw_response['body']);
+        return $objResponse;
+
+        //return $this->get_environment() == 1 ? $this->get_auth_token() : $this->get_staging_auth_token();
     }
 
 
