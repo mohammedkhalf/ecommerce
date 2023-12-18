@@ -166,7 +166,7 @@ class WooCowpayAdmin
 			'YOUR_MERCHANT_CODE' => "",
 			'YOUR_MERCHANT_HASH' => "",
 			'YOUR_AUTHORIZATION_TOKEN' => "",
-			'YOUR_PHONE_NUMBER' => "",
+			'YOUR_PHONE_NUMBER' => "01xxxxxxxx",
 			'description' => "No Description",
 			'cowpay_callbackurl' => add_query_arg('action', 'cowpay', home_url('/')),
 			'environment' => 2,
