@@ -44,7 +44,7 @@ class Cowpay_Admin_Settings
     public function get_active_token($url)
     {
         $secret = $this->get_merchant_code().''.$this->get_phone_number();
-        
+
         $payload = [
             "clientId" =>$this->get_merchant_code(),
             "secret" => $secret
@@ -66,7 +66,7 @@ class Cowpay_Admin_Settings
             return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
         }
 
-        var_dump($raw_response);die;
+        echo "<pre>";print_r($raw_response);echo "</pre>";die;
         return $objResponse;
 
         //return $this->get_environment() == 1 ? $this->get_auth_token() : $this->get_staging_auth_token();
