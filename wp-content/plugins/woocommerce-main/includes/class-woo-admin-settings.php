@@ -39,12 +39,12 @@ class Cowpay_Admin_Settings
         return $this->get_environment() == 1 ? $production_host : $staging_host;
     }
 
-    public function get_token_active_host ()
-    {
-        $identity_staging_host = 'sit.cowpay.me:8002';
-        $identity_production_host = 'identity.cowpay.me:8002';   
-        return $this->get_environment() == 1 ? $identity_production_host : $identity_staging_host;
-    }
+    // public function get_token_active_host ()
+    // {
+    //     $identity_staging_host = 'sit.cowpay.me:8002';
+    //     $identity_production_host = 'identity.cowpay.me:8002';   
+    //     return $this->get_environment() == 1 ? $identity_production_host : $identity_staging_host;
+    // }
 
     /**
      * Returns correct auth token depending on current activated environment in admin settings.

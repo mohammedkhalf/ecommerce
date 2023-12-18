@@ -248,6 +248,11 @@ class WC_Gateway_Cowpay_API_Handler
         return $this->settings->get_environment() == 1 ? self::$production_host : self::$staging_host;
     }
 
+    public function get_token_active_host()
+    {
+        return $this->settings->get_environment() == 1 ? self::$identity_production_host : self::$identity_staging_host;
+    }
+
     /**
      * return url from endpoint path, take into
      * account http/https and production/staging selection
