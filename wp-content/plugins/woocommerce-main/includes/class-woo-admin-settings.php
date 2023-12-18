@@ -16,7 +16,7 @@ class Cowpay_Admin_Settings
     // to prevent initiation with outer code.
     private function __construct()
     {
-        $this->settings = get_option($this->$settings_key);  //self::$settings_key
+        $this->settings = get_option($this->settings_key);  //self::$settings_key
         //$this->settings_key = 'cowpay_settings';
     }
 
