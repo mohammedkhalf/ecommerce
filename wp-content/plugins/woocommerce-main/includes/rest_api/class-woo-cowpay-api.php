@@ -12,6 +12,8 @@ class WC_Gateway_Cowpay_API_Handler
 
     protected static $production_host = 'apigateway.cowpay.me:8000';
     protected static $staging_host = 'staging.cowpay.me';
+    protected static $identity_staging_host = 'sit.cowpay.me:8002';
+    protected static $identity_production_host = 'identity.cowpay.me:8002';
     protected static $endpoint_charge_fawry = 'payment/Pay';
     protected static $endpoint_charge_cc = 'api/v2/charge/card/init';
     protected static $endpoint_charge_cash_collection = 'api/v1/charge/cash-collection';
@@ -19,6 +21,7 @@ class WC_Gateway_Cowpay_API_Handler
     protected static $endpoint_checkout_url = 'api/v1/iframe/load';
     protected static $endpoint_meeza_wallet = 'api/v2/charge/upg/request-to-pay';
     protected static $endpoint_meeza_card = 'api/v2/charge/upg/direct';
+    protected static $endpoint_get_token = 'GetToken';
 
     public $notify_url;
 
@@ -41,6 +44,12 @@ class WC_Gateway_Cowpay_API_Handler
      */
     public function charge_fawry($fawry_params)
     {
+        //get Token Url
+        $tokenUrl = $this->make_token_url(self::$endpoint_get_token);
+
+        var_dump($tokenUrl);die;
+        //pass to get active token
+        
         $url = $this->make_url(self::$endpoint_charge_fawry);
         $auth_token = esc_html($this->settings->get_active_token());
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
@@ -246,6 +255,14 @@ class WC_Gateway_Cowpay_API_Handler
     protected function make_url($path)
     {
         $host = $this->get_active_host();
+        $schema = is_ssl() ? "https" : "http";
+        $url = "$schema://$host/$path";
+        return esc_url_raw($url);
+    }
+
+    protected function make_token_url($path)
+    {
+        $host = $this->get_token_active_host();
         $schema = is_ssl() ? "https" : "http";
         $url = "$schema://$host/$path";
         return esc_url_raw($url);
