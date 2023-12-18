@@ -43,11 +43,10 @@ class Cowpay_Admin_Settings
      */
     public function get_active_token($url)
     {
-        $secret = $this->get_merchant_code().''.$this->get_phone_number();
 
         $payload = [
-            "clientId" =>$this->get_merchant_code(),
-            "secret" => $secret
+            "clientId" => 'M'.$this->get_merchant_code(),
+            "secret" => $this->get_merchant_code().''.$this->get_phone_number()
         ];
 
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
