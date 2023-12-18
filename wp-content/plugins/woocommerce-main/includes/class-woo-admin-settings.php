@@ -45,12 +45,9 @@ class Cowpay_Admin_Settings
     {
 
         $payload = [
-            "clientId" => 'M'.$this->get_merchant_code(),
+            "clientId" => 'M_'.$this->get_merchant_code(),
             "secret" => $this->get_merchant_code().''.$this->get_phone_number()
         ];
-
-        echo "<pre>";var_dump($payload,$url);echo "</pre>";die;
-
 
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($payload),
@@ -61,7 +58,6 @@ class Cowpay_Admin_Settings
                 "content-type" => "application/json",
             ),
         ));
-
 
         if (is_wp_error($raw_response)) {
             return $raw_response;
