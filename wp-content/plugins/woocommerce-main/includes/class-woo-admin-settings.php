@@ -49,15 +49,19 @@ class Cowpay_Admin_Settings
             "secret" => $this->get_merchant_code().''.$this->get_phone_number()
         ];
 
+        echo "<pre>";print_r($payload,$url);echo "</pre>";die;
+
+
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($payload),
             'httpversion' => "1.1",
             'headers' => array(
-                "Accept" => "application/json",
-                "cache-control" => "no-cache",
+                // "Accept" => "application/json",
+                // "cache-control" => "no-cache",
                 "content-type" => "application/json",
             ),
         ));
+
 
         if (is_wp_error($raw_response)) {
             return $raw_response;
