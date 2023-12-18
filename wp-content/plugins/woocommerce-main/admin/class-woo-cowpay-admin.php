@@ -166,6 +166,7 @@ class WooCowpayAdmin
 			'YOUR_MERCHANT_CODE' => "",
 			'YOUR_MERCHANT_HASH' => "",
 			'YOUR_AUTHORIZATION_TOKEN' => "",
+			'YOUR_PHONE_NUMBER' => "",
 			'description' => "No Description",
 			'cowpay_callbackurl' => add_query_arg('action', 'cowpay', home_url('/')),
 			'environment' => 2,
@@ -203,6 +204,16 @@ class WooCowpayAdmin
 				$options = get_option('cowpay_settings');
 				woo_cowpay_view('field-auth-token', array("options" => $options));
 			}, // callback
+			'cowpay',
+			'cowpay_section_main'
+		);
+		add_settings_field(
+			'YOUR_PHONE_NUMBER',
+			esc_html__('Phone Number', 'cowpay'),
+			function () {
+				$options = get_option('cowpay_settings');
+				woo_cowpay_view('field-phone-number', array("options" => $options));
+			},
 			'cowpay',
 			'cowpay_section_main'
 		);

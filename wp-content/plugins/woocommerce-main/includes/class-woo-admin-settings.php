@@ -127,4 +127,11 @@ class Cowpay_Admin_Settings
         $value = $this->settings['order_status'];
         return sanitize_text_field($value);
     }
+
+    public function get_phone_number()
+    {
+        $value = $this->settings['YOUR_PHONE_NUMBER'];
+        return sanitize_text_field($value);
+    }
+
 }
