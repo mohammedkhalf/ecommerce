@@ -131,9 +131,6 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
         $return_messages = array();
         if (is_wp_error($maybe_error)) { // extract readable error messages from wp_error object
             $error_codes = $maybe_error->get_error_codes();
-            if(!empty($error_codes) ){
-                echo "<pre>"; print_r($error_codes); echo "</pre>"; die;
-            }
             foreach ($error_codes as $error_code) {
                 if ($error_code == 'http_request_failed') {
                     // get more readable error instead of 'not valid url'
