@@ -194,11 +194,10 @@ class Cowpay_Server_Callback
 
     private function is_valid_signature($payload)
     {
-        $cowpaySign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
-
+        $callbackSign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
         $order = $this->find_order($payload["merchant_reference_id"]);
-
-        echo "<pre>"; print_r($order); echo "</pre>";die;
+        $cp_merchant_reference_id = $order->get_order_number() . '-' . wp_generate_uuid4();
+        echo "<pre>"; print_r($cp_merchant_reference_id); echo "</pre>";die;
         // $systemSign = md5("{$this->settings->get_merchant_hash()}{ }");
         
         return $cowpaySign;
