@@ -147,7 +147,7 @@ class Cowpay_Server_Callback
             $order = $this->create_order_recovery($data);
         }
 
-        var_dump($order, "inside paid");die;
+        var_dump($order, "inside paid" , 'after');die;
 
         $order->payment_complete();
         $admin_complete_order_status = $this->settings->get_order_status();
