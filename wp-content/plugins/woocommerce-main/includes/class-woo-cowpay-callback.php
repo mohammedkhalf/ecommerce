@@ -23,9 +23,6 @@ class Cowpay_Server_Callback
         // var_dump($checkSign);die;
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $callback_type = "order_status_update";
-
-        var_dump(strtoupper($data['order_status']),  $callback_type);die;
-
         switch ($callback_type) {
             case 'charge_request':
                 // order created successfully
@@ -142,6 +139,9 @@ class Cowpay_Server_Callback
     {
         $merchant_reference_id =  $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
+
+        var_dump($order, "inside paid");die;
+
         if ($order == false) {
             // TODO: log a warning message
             // try to recover if order is not created before
