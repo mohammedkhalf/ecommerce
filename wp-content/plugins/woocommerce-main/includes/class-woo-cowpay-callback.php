@@ -22,13 +22,7 @@ class Cowpay_Server_Callback
         // $checkSign = $this->is_valid_signature($data);
         // var_dump($checkSign);die;
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-        $callback_type = "order_status_update";
-        switch ($callback_type) {
-            case 'charge_request':
-                // order created successfully
-                $this->handle_order_creation($data);
-                break;
-            case 'order_status_update':
+               //$callback_type = "order_status_update";
                 $order_status = strtoupper($data['order_status']);
                 switch ($order_status) {
                     case 'UNPAID':
@@ -49,14 +43,7 @@ class Cowpay_Server_Callback
                     default:
                         return $this->exit_error("unknown order status '$order_status'");
                         break;
-                }
-                break;
-            case 'withdrawal_request':
-                # we are not handling withdrawals in this plugin yet
-                break;
-            default:
-                return $this->exit_error("unknown callback request type '$callback_type'");
-        }
+                }        
         wp_die("callback successfully handled", 200);
     }
 
