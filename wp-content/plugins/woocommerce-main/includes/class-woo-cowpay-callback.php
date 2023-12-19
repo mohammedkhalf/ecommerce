@@ -19,11 +19,6 @@ class Cowpay_Server_Callback
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
         if (!$data) return $this->exit_error("not valid callback");
-
-        $checkSign = $this->is_valid_signature($data);
-        var_dump($checkSign);die;
-
-
         if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $callback_type = $data['callback_type'];
         switch ($callback_type) {
@@ -77,13 +72,27 @@ class Cowpay_Server_Callback
     {
         // get post data payload
         $data = json_decode(file_get_contents('php://input'), true);
+
         // empty data?
         if (!isset($data) || empty($data)) return false;
+
+        $customData = [
+            "merchant_code" =>$data['merchantCode'],
+            "cowpay_reference_id" =>$data['cowpayReferenceId'],
+            "merchant_reference_id" => $data['merchantReferenceId'],
+            "payment_gateway_reference_id" => $data['paymentGatewayReferenceId'],
+            "order_status" => $data['status'],
+            "amount" => $data['amount'],
+        ];
+
+        var_dump($customData);die;
+
         // check required fields
-        $required_data_keys = array("cowpayReferenceId", "paymentGatewayReferenceId", "merchantReferenceId", "status", "amount", "merchantCode");
-        foreach ($required_data_keys as $key) if (!isset($data[$key])) return false;
+        $required_data_keys = array("merchant_code","cowpay_reference_id", "payment_gateway_reference_id", "merchant_reference_id", "order_status", "amount");
+        foreach ($required_data_keys as $key) if (!isset($customData[$key])) return false;
+
         // we are safe now
-        return $data;
+        return $customData;
     }
 
     /**
@@ -184,14 +193,7 @@ class Cowpay_Server_Callback
 
     private function is_valid_signature($payload)
     {
-        $cowpaySign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpayReferenceId"]}{$payload["merchantReferenceId"]}{$payload["status"]}");
-
-        $order = $this->find_order($payload["merchantReferenceId"]);
-
-        var_dump($order,"hello");die;
-
-
-        $systemSign = md5("{$this->settings->get_merchant_hash()}{$payload["amount"]}{$payload["cowpayReferenceId"]}{$payload["merchantReferenceId"]}{$payload["status"]}");
+        $sign = md5("{$this->settings->get_merchant_hash()}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
 
         return $sign === $payload['signature'];
     }
