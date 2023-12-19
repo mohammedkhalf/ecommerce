@@ -132,7 +132,7 @@ class Cowpay_Server_Callback
         $merchant_reference_id =  $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         
-        var_dump($order,"hello");die;
+        var_dump($data["merchant_reference_id"],"hello");die;
 
 
         var_dump($order->get_order_number());die;
