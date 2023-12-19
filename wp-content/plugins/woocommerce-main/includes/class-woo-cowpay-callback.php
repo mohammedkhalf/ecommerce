@@ -131,15 +131,12 @@ class Cowpay_Server_Callback
     {
         $merchant_reference_id =  $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
-        
-        var_dump($order,"hello");die;
-
         if ($order == false) {
             // TODO: log a warning message
             // try to recover if order is not created before
             $order = $this->create_order_recovery($data);
         }
-        //$order->payment_complete();
+        $order->payment_complete();
         $admin_complete_order_status = $this->settings->get_order_status();
         $order->update_status($admin_complete_order_status);
         $order->add_order_note(esc_html__('server callback update: Successfully paid','woo-cowpay'));
