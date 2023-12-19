@@ -126,6 +126,9 @@ class Cowpay_Server_Callback
     {
         $merchant_reference_id =  $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
+
+        var_dump($order->get_order_number());die;
+
         if ($order == false) {
             // TODO: log a warning message
             // try to recover if order is not created before
