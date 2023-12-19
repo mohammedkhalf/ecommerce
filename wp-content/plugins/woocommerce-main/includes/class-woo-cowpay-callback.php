@@ -19,7 +19,12 @@ class Cowpay_Server_Callback
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
         if (!$data) return $this->exit_error("not valid callback");
-        //if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
+
+        $checkSign = $this->is_valid_signature($data);
+
+        var_dump($checkSign);die;
+
+        if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $callback_type = "order_status_update";
         switch ($callback_type) {
             case 'charge_request':
@@ -189,9 +194,8 @@ class Cowpay_Server_Callback
 
     private function is_valid_signature($payload)
     {
-        $sign = md5("{$this->settings->get_merchant_hash()}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
-
-        return $sign === $payload['signature'];
+        $cowpaySign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
+        return $cowpaySign;
     }
 
     private function is_valid_signature_backup($payload)
