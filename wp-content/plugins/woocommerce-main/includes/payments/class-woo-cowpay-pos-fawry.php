@@ -99,6 +99,8 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
             "isfeesOnCustomer" => false
         );
 
+        var_dump($req_params);die;
+
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_fawry($req_params);
         $messages = $this->get_user_error_messages($response);
 
