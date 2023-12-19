@@ -186,7 +186,12 @@ class Cowpay_Server_Callback
     {
         $cowpaySign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpayReferenceId"]}{$payload["merchantReferenceId"]}{$payload["status"]}");
 
-        var_dump($cowpaySign,"hello");die;
+        $order = $this->find_order($payload["merchantReferenceId"]);
+
+        var_dump($order,"hello");die;
+
+
+        $systemSign = md5("{$this->settings->get_merchant_hash()}{$payload["amount"]}{$payload["cowpayReferenceId"]}{$payload["merchantReferenceId"]}{$payload["status"]}");
 
         return $sign === $payload['signature'];
     }
