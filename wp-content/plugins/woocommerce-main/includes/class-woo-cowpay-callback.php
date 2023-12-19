@@ -186,7 +186,7 @@ class Cowpay_Server_Callback
     {
         $cowpaySign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpayReferenceId"]}{$payload["merchantReferenceId"]}{$payload["status"]}");
 
-        var_dump($cowpaySign);die;
+        var_dump($cowpaySign,"hello");die;
 
         return $sign === $payload['signature'];
     }
