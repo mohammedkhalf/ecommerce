@@ -197,16 +197,16 @@ class WooCowpayAdmin
 			'cowpay',
 			'cowpay_section_main'
 		);
-		add_settings_field(
-			'YOUR_AUTHORIZATION_TOKEN',
-			esc_html__('Authorization Token', 'cowpay'),
-			function () {
-				$options = get_option('cowpay_settings');
-				woo_cowpay_view('field-auth-token', array("options" => $options));
-			}, // callback
-			'cowpay',
-			'cowpay_section_main'
-		);
+		// add_settings_field(
+		// 	'YOUR_AUTHORIZATION_TOKEN',
+		// 	esc_html__('Authorization Token', 'cowpay'),
+		// 	function () {
+		// 		$options = get_option('cowpay_settings');
+		// 		woo_cowpay_view('field-auth-token', array("options" => $options));
+		// 	}, // callback
+		// 	'cowpay',
+		// 	'cowpay_section_main'
+		// );
 		add_settings_field(
 			'YOUR_PHONE_NUMBER',
 			esc_html__('Phone Number', 'cowpay'),
