@@ -21,9 +21,6 @@ class Cowpay_Server_Callback
         if (!$data) return $this->exit_error("not valid callback");
         //if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $callback_type = "order_status_update";
-
-        var_dump($data , $callback_type);die;
-
         switch ($callback_type) {
             case 'charge_request':
                 // order created successfully
