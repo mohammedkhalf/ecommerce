@@ -19,8 +19,11 @@ class Cowpay_Server_Callback
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
         if (!$data) return $this->exit_error("not valid callback");
-        if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-        $callback_type = $data['callback_type'];
+        //if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
+        $callback_type = "order_status_update";
+
+        var_dump($data , $callback_type);die;
+
         switch ($callback_type) {
             case 'charge_request':
                 // order created successfully
@@ -84,13 +87,9 @@ class Cowpay_Server_Callback
             "order_status" => $data['status'],
             "amount" => $data['amount'],
         ];
-
-        var_dump($customData);die;
-
         // check required fields
         $required_data_keys = array("merchant_code","cowpay_reference_id", "payment_gateway_reference_id", "merchant_reference_id", "order_status", "amount");
         foreach ($required_data_keys as $key) if (!isset($customData[$key])) return false;
-
         // we are safe now
         return $customData;
     }
