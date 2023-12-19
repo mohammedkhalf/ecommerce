@@ -27,7 +27,7 @@ class Cowpay_Server_Callback
                 $this->handle_order_creation($data);
                 break;
             case 'order_status_update':
-                $order_status = $data['order_status'];
+                $order_status = strtoupper($data['order_status']);
                 switch ($order_status) {
                     case 'UNPAID':
                         $this->handle_unpaid($data);
