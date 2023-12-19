@@ -198,7 +198,7 @@ class Cowpay_Server_Callback
 
         $order = $this->find_order($payload["merchant_reference_id"]);
 
-        var_dump($order);die;
+        echo "<pre>"; print_r($order); echo "</pre>"; die;
         // $systemSign = md5("{$this->settings->get_merchant_hash()}{ }");
         
         return $cowpaySign;
