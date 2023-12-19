@@ -122,7 +122,7 @@ class Cowpay_Server_Callback
      */
     public function find_order($id)
     {
-        $order = wc_get_orders(array('cp_merchant_reference_id' => $id, 'limit' => 1));
+        $order = wc_get_orders(array('cp_merchantReferenceId' => $id, 'limit' => 1));  //cp_merchant_reference_id
         if (empty($order)) return false;
         return $order[0];
     }
@@ -132,10 +132,8 @@ class Cowpay_Server_Callback
         $merchant_reference_id =  $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         
-        var_dump($data["merchant_reference_id"],"hello");die;
+        var_dump($order,"hello");die;
 
-
-        var_dump($order->get_order_number());die;
         if ($order == false) {
             // TODO: log a warning message
             // try to recover if order is not created before
