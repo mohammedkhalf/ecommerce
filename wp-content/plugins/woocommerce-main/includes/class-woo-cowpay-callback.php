@@ -137,7 +137,6 @@ class Cowpay_Server_Callback
 
     private function handle_paid($data)
     {
-        var_dump($data["merchant_reference_id"]);die;
         $merchant_reference_id =  $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
