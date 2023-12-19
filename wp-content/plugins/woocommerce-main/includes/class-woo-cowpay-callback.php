@@ -18,16 +18,18 @@ class Cowpay_Server_Callback
     {
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
-
-
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // var_dump($checkSign);die;
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-            $order_status = strtoupper($data['order_status']);
-
-
-
+        $callback_type = "order_status_update";
+        switch ($callback_type) {
+            case 'charge_request':
+                // order created successfully
+                $this->handle_order_creation($data);
+                break;
+            case 'order_status_update':
+                $order_status = strtoupper($data['order_status']);
                 switch ($order_status) {
                     case 'UNPAID':
                         $this->handle_unpaid($data);
@@ -47,8 +49,14 @@ class Cowpay_Server_Callback
                     default:
                         return $this->exit_error("unknown order status '$order_status'");
                         break;
-            }
-       
+                }
+                break;
+            case 'withdrawal_request':
+                # we are not handling withdrawals in this plugin yet
+                break;
+            default:
+                return $this->exit_error("unknown callback request type '$callback_type'");
+        }
         wp_die("callback successfully handled", 200);
     }
 
@@ -184,12 +192,7 @@ class Cowpay_Server_Callback
     private function is_valid_signature($payload)
     {
         $callbackSign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
-        $order = $this->find_order($payload["merchant_reference_id"]);
-        echo "<pre>"; print_r($cp_merchant_reference_id); echo "</pre>";die;
-        $cp_merchant_reference_id = $order->get_order_number() . '-' . wp_generate_uuid4();
-        echo "<pre>"; print_r($cp_merchant_reference_id); echo "</pre>";die;
-        // $systemSign = md5("{$this->settings->get_merchant_hash()}{ }");
-        return $cowpaySign;
+        return $callbackSign;
     }
 
     private function is_valid_signature_backup($payload)
