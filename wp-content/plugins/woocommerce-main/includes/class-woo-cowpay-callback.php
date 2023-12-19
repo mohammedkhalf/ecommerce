@@ -19,12 +19,9 @@ class Cowpay_Server_Callback
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
         if (!$data) return $this->exit_error("not valid callback");
-
-        $checkSign = $this->is_valid_signature($data);
-
-        var_dump($checkSign);die;
-
-        if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
+        // $checkSign = $this->is_valid_signature($data);
+        // var_dump($checkSign);die;
+        // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $callback_type = "order_status_update";
         switch ($callback_type) {
             case 'charge_request':
@@ -196,10 +193,10 @@ class Cowpay_Server_Callback
     {
         $callbackSign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
         $order = $this->find_order($payload["merchant_reference_id"]);
+        echo "<pre>"; print_r($cp_merchant_reference_id); echo "</pre>";die;
         $cp_merchant_reference_id = $order->get_order_number() . '-' . wp_generate_uuid4();
         echo "<pre>"; print_r($cp_merchant_reference_id); echo "</pre>";die;
         // $systemSign = md5("{$this->settings->get_merchant_hash()}{ }");
-        
         return $cowpaySign;
     }
 
