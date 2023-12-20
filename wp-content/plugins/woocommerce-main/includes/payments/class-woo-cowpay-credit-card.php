@@ -227,9 +227,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         //load plugin with bearer Token
         $tokenUrl = $this->api_settings->make_token_url("GetToken");
         $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
-
-        var_dump($auth_token,"hello");die;
-
         if (!empty($auth_token)) {
             WC()->session->set( 'tansaction_id' , $auth_token );
             // TODO: add option to use OTP plugin when return_url is not exist
@@ -240,7 +237,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             return $res;
         }
 
-
+        
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $messages = $this->get_user_error_messages($response);
