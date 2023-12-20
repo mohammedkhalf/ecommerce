@@ -220,19 +220,14 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $expireYear = $_POST['cowpay_meeza_card_expire_year'];
         $expireDate =  $expireMonth.''.$expireYear;
         $cvv = $_POST['cowpay_meeza_card_cvv'];
+        $customer_order = wc_get_order($order_id);
         //validation Card data
         $validationErrors =$this->validate_input_fields($cardNumber,$cvv);
 
         if(!empty($validationErrors)){
-            // display to the customer
-            foreach ($validationErrors as $m) {
-                wc_add_notice($m, "error");
-            }
-            // display to the admin
-            $one_line_message = join(', ', $validationErrors);
+            return new WP_Error('cowpay_api_empty_response', __('there are errors'));
         }
 
-        $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $messages = $this->get_user_error_messages($response);
