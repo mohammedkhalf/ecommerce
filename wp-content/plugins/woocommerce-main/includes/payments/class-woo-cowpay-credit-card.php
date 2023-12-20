@@ -299,7 +299,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
     public function form()
     {
-        woo_cowpay_view("credit-card-form-fields"); // have no data right now
+        woo_cowpay_view("credit-card-form"); // have no data right now
     }
    
 
