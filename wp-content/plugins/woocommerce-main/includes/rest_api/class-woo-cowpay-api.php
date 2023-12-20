@@ -260,7 +260,7 @@ class WC_Gateway_Cowpay_API_Handler
         return esc_url_raw($url);
     }
 
-    protected function make_token_url($path)
+    public function make_token_url($path)
     {
         $host = $this->get_token_active_host();
         $schema = is_ssl() ? "https" : "http";
