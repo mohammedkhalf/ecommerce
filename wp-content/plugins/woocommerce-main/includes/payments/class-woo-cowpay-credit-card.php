@@ -222,14 +222,14 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $cvv = $_POST['cowpay_meeza_card_cvv'];
         //validation Card data
         $validationErrors =$this->validate_input_fields($cardNumber,$cvv);
-        
+
         if(!empty($validationErrors)){
             // display to the customer
             foreach ($validationErrors as $m) {
                 wc_add_notice($m, "error");
             }
             // display to the admin
-            $one_line_message = join(', ', $messages);
+            $one_line_message = join(', ', $validationErrors);
             $customer_order->add_order_note("Error: $one_line_message");
         }
 
