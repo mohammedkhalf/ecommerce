@@ -51,7 +51,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         parent::init();
 
         $this->settings = Cowpay_Admin_Settings::getInstance();
-        $this->api_settings = WC_Gateway_Cowpay_API_Handler::getInstance();
+        $this->api_settings = WC_Gateway_Cowpay_API_Handler::get_instance();
 
     }
 
