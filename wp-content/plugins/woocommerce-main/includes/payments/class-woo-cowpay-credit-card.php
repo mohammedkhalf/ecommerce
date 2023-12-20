@@ -221,7 +221,18 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $expireDate =  $expireMonth.''.$expireYear;
         $cvv = $_POST['cowpay_meeza_card_cvv'];
         //validation Card data
-        $this->validate_input_fields($cardNumber,$cvv);
+        $validationErrors =$this->validate_input_fields($cardNumber,$cvv);
+        
+        if(!empty($validationErrors)){
+            // display to the customer
+            foreach ($validationErrors as $m) {
+                wc_add_notice($m, "error");
+            }
+            // display to the admin
+            $one_line_message = join(', ', $messages);
+            $customer_order->add_order_note("Error: $one_line_message");
+        }
+
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
@@ -328,16 +339,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
          * You can use the wc_add_notice() function if you want to add an error and display it to the user.
          * TODO: validate and display to the user useful information
          */
+        $return_messages = array();
+
         if(empty($cardNumber) || empty($cvv)){
-            wc_add_notice("Please Enter Credit Card information", 'error');
-            $res = array(
-                'result' => 'error',
-                'redirect' =>  wc_get_checkout_url()
-            );
-            return $res;
-            exit;
+            $return_messages[] = __("Please Enter Card Data");
         }
-        return true;
+
+        return $return_messages;
     }
 
 
