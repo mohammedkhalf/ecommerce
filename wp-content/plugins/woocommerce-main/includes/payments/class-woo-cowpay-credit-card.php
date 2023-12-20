@@ -221,7 +221,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $expireDate =  $expireMonth.''.$expireYear;
         $cvv = $_POST['cowpay_meeza_card_cvv'];
         //validation Card data
-        $checkCreditCard = $this->validate_fields($cardNumber,$cvv);
+        $checkCreditCard = $this->validate_input_fields($cardNumber,$cvv);
         var_dump($checkCreditCard);die;
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
@@ -312,12 +312,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
 
     // Validate fields
-    public function validate_fields($cardNumber,$cvv)
+    public function validate_fields()
     {
-        if( empyt($cardNumber) || empty($cvv) ){
-            wc_add_notice("Please Enter input fields", 'error');
-            return false;
-        }
         /**
          * Return true if the form passes validation or false if it fails.
          * You can use the wc_add_notice() function if you want to add an error and display it to the user.
@@ -325,6 +321,28 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
          */
         return true;
     }
+
+    public function validate_input_fields($cardNumber,$cvv)
+    {
+        /**
+         * Return true if the form passes validation or false if it fails.
+         * You can use the wc_add_notice() function if you want to add an error and display it to the user.
+         * TODO: validate and display to the user useful information
+         */
+        if(empty($cardNumber) || empty($cvv)){
+            wc_add_notice("Please Enter Credit Card information", 'error');
+            $res = array(
+                'result' => 'error',
+                'redirect' =>  wc_get_checkout_url()
+            );
+            return $res;
+            exit;
+        }
+        return true;
+
+    }
+
+
 
     /**
      * register cowpay otp script
