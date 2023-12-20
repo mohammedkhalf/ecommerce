@@ -230,7 +230,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             }
             // display to the admin
             $one_line_message = join(', ', $validationErrors);
-            $customer_order->add_order_note("Error: $one_line_message");
         }
 
         $customer_order = wc_get_order($order_id);
