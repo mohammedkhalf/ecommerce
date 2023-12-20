@@ -214,19 +214,16 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      */
     public function process_payment($order_id)
     {
+        $customer_order = wc_get_order($order_id);
         //POST Form data
+
+        var_dump($_POST);die;
+
         $cardNumber = $_POST['cowpay_meeza_card_number'];
         $expireMonth = $_POST['cowpay_meeza_card_expire_month'];
         $expireYear = $_POST['cowpay_meeza_card_expire_year'];
         $expireDate =  $expireMonth.''.$expireYear;
         $cvv = $_POST['cowpay_meeza_card_cvv'];
-        $customer_order = wc_get_order($order_id);
-        //validation Card data
-        $validationErrors =$this->validate_input_fields($cardNumber,$cvv);
-
-        if(!empty($validationErrors)){
-            return new WP_Error('cowpay_api_empty_response', __('there are errors'));
-        }
 
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
@@ -325,25 +322,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
          */
         return true;
     }
-
-    public function validate_input_fields($cardNumber,$cvv)
-    {
-        /**
-         * Return true if the form passes validation or false if it fails.
-         * You can use the wc_add_notice() function if you want to add an error and display it to the user.
-         * TODO: validate and display to the user useful information
-         */
-        $return_messages = array();
-
-        if(empty($cardNumber) || empty($cvv)){
-            $return_messages[] = __("Please Enter Card Data");
-        }
-
-        return $return_messages;
-    }
-
-
-
     /**
      * register cowpay otp script
      * method will be fired by wp_enqueue_scripts action
