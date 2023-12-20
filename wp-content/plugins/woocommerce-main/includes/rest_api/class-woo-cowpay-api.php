@@ -45,8 +45,8 @@ class WC_Gateway_Cowpay_API_Handler
     public function charge_fawry($fawry_params)
     {
         $tokenUrl = $this->make_token_url(self::$endpoint_get_token);
-        $url = $this->make_url(self::$endpoint_charge_fawry);
         $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
+        $url = $this->make_url(self::$endpoint_charge_fawry);
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($fawry_params),
             'httpversion' => "1.1",
@@ -66,6 +66,37 @@ class WC_Gateway_Cowpay_API_Handler
         }
         $objResponse = json_decode($raw_response['body']);
         return $objResponse;
+    }
+
+    /**
+     * Make card charge request
+     * @param array $cc_params credit card request params to send
+     * @link https://docs.cowpay.me/api/card
+    */
+    public function charge_cc($cc_params)
+    {
+        $url = $this->make_url(self::$endpoint_charge_cc);
+        $auth_token = esc_html($this->settings->get_active_token());
+        $raw_response = wp_safe_remote_post($url, array(
+            'body' => json_encode($cc_params),
+            'httpversion' => "2.00",
+            'headers' => array(
+                "Accept" => "application/json",
+                "Authorization" => "Bearer $auth_token",
+                "cache-control" => "no-cache",
+                "content-type" => "application/json",
+            ),
+        ));
+        if (is_wp_error($raw_response)) {
+            return $raw_response;
+        } elseif (empty($raw_response['body'])) {
+            return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
+        }
+        $objResponse = json_decode($raw_response['body']);
+        if ($objResponse->status_code == 200) return $objResponse;
+        // 400+ status code
+        //? should we return WP_Error;
+        return $objResponse; // return response with errors key for now;
     }
 
      /**
@@ -132,36 +163,7 @@ class WC_Gateway_Cowpay_API_Handler
         return $objResponse; // return response with errors key for now;
     }
 
-    /**
-     * Make card charge request
-     * @param array $cc_params credit card request params to send
-     * @link https://docs.cowpay.me/api/card
-     */
-    public function charge_cc($cc_params)
-    {
-        $url = $this->make_url(self::$endpoint_charge_cc);
-        $auth_token = esc_html($this->settings->get_active_token());
-        $raw_response = wp_safe_remote_post($url, array(
-            'body' => json_encode($cc_params),
-            'httpversion' => "2.00",
-            'headers' => array(
-                "Accept" => "application/json",
-                "Authorization" => "Bearer $auth_token",
-                "cache-control" => "no-cache",
-                "content-type" => "application/json",
-            ),
-        ));
-        if (is_wp_error($raw_response)) {
-            return $raw_response;
-        } elseif (empty($raw_response['body'])) {
-            return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
-        }
-        $objResponse = json_decode($raw_response['body']);
-        if ($objResponse->status_code == 200) return $objResponse;
-        // 400+ status code
-        //? should we return WP_Error;
-        return $objResponse; // return response with errors key for now;
-    }
+
 
     /**
      * Make card charge request

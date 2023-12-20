@@ -215,17 +215,42 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
         $customer_order = wc_get_order($order_id);
-        //POST Form data
-
-        var_dump($_POST);die;
-
-        $cardNumber = $_POST['cowpay_meeza_card_number'];
-        $expireMonth = $_POST['cowpay_meeza_card_expire_month'];
-        $expireYear = $_POST['cowpay_meeza_card_expire_year'];
+        $cardNumber = $_POST['cowpay_credit_card_number'];
+        $expireMonth = $_POST['cowpay_credit_card_expire_month'];
+        $expireYear = $_POST['cowpay_credit_card_expire_year'];
         $expireDate =  $expireMonth.''.$expireYear;
-        $cvv = $_POST['cowpay_meeza_card_cvv'];
-
+        $cvv = $_POST['cowpay_credit_card_cvv'];
         $request_params = $this->create_payment_request($order_id);
+
+        $request_params = [
+            "gatewayTargetMethod" => "MPGSCard",
+            "merchantReferenceId"=>$request_params['merchant_reference_id'],
+            "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
+            "amount"=>$request_params['amount'],
+            "signature"=>$request_params['signature'],
+            "customerMobile"=>$request_params['customer_mobile'],
+            "customerEmail"=>$request_params['customer_email'],
+            "isfeesOnCustomer"=>false,
+            "description"=>$request_params['description'],
+            "cardNumber"=>$cardNumber,
+            "cardExpMonth"=>$expireMonth,
+            "cardExpYear"=>$expireYear,
+            "cardCvv"=>$cvv,
+            "customerFirstName"=>$request_params['customer_name'],
+            "customerLastName"=>$request_params['customer_name'],
+            "customerAddress"=>"Cairo",
+            "customerCountry"=>"EG",
+            "customerState"=>"Cairo",
+            "customerCity"=>"Cairo",
+            "cardHolderName" => $request_params['customer_name'],
+            "customerZip"=>"123456",
+            "customerIP"=>"197.38.100.250",
+            "returnUrl3DS"=>$request_params['return_url'],
+        ];
+
+        echo "<pre>";print_r($request_params);echo "</pre>";die;
+        
+        
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
