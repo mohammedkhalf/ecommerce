@@ -10,9 +10,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 {
 
     public $notify_url;
-    public  $settings;
-    public $api_settings;
-
 
     // Setup our Gateway's id, description and other values
     function __construct()
@@ -49,10 +46,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         // add_action('wp_enqueue_scripts','check_otp_response');
 
         parent::init();
-
-        $this->settings = Cowpay_Admin_Settings::getInstance();
-        $this->api_settings = WC_Gateway_Cowpay_API_Handler::get_instance();
-
     }
 
     /**
@@ -224,20 +217,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
         $customer_order = wc_get_order($order_id);
-        //load plugin with bearer Token
-        $tokenUrl = $this->api_settings->make_token_url("GetToken");
-        $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
-        if (!empty($auth_token)) {
-            WC()->session->set( 'tansaction_id' , $auth_token );
-            // TODO: add option to use OTP plugin when return_url is not exist
-            $res = array(
-                'result' => 'success',
-                'redirect' =>  $this->get_transaction_url($customer_order)
-            );
-            return $res;
-        }
-
-
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $messages = $this->get_user_error_messages($response);
@@ -247,7 +226,15 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
             // display to the admin
             $customer_order->add_order_note(__($response->status_description));            
-            
+            if (isset($response->token) && $response->token == true) {
+                WC()->session->set( 'tansaction_id' , $response->token );
+                // TODO: add option to use OTP plugin when return_url is not exist
+                $res = array(
+                    'result' => 'success',
+                    'redirect' =>  $this->get_transaction_url($customer_order)
+                );
+                return $res;
+            }
             // not 3DS:
             WC()->cart->empty_cart();
             // wait server-to-server notification
@@ -293,12 +280,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      * @todo: should use the woo_cowpay_view function (add cc-form.php inside views folder)
      */
 
-    public function form()
-    {
-    //     wp_enqueue_script('wc-credit-card-form');
-        woo_cowpay_view("credit-card-payment-fields"); // have no data right now
-    }
-   
+
     /**
      * This function used by WC if $this->has_fields is true.
      * This returns the form that usually contains the credit card data.
@@ -314,6 +296,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $this->form();
         }
     }
+
+    public function form()
+    {
+        woo_cowpay_view("credit-card-form-fields"); // have no data right now
+    }
+   
+
 
     // Validate fields
     public function validate_fields()
@@ -336,8 +325,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     {
         $host = $this->cp_admin_settings->get_active_host();
         $schema = is_ssl() ? "https" : "http";
-        wp_enqueue_script('cowpay_card_js', "https://dev.cowpay.me/js/plugins/CardPlugin.js");
-        // wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
+        wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
 
@@ -354,51 +342,5 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         );
         WC()->session->__unset( 'tansaction_id' );
 
-    }
-
-    public function process_payment_backup($order_id)
-    {
-        $customer_order = wc_get_order($order_id);
-        $request_params = $this->create_payment_request($order_id);
-        $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
-        $messages = $this->get_user_error_messages($response);
-        if (empty($messages)) { // success
-            // update order meta
-            $this->set_cowpay_meta($customer_order, $request_params, $response);
-
-            // display to the admin
-            $customer_order->add_order_note(__($response->status_description));            
-            if (isset($response->token) && $response->token == true) {
-                WC()->session->set( 'tansaction_id' , $response->token );
-                // TODO: add option to use OTP plugin when return_url is not exist
-                $res = array(
-                    'result' => 'success',
-                    'redirect' =>  $this->get_transaction_url($customer_order)
-                );
-                return $res;
-            }
-            // not 3DS:
-            WC()->cart->empty_cart();
-            // wait server-to-server notification
-            //// $customer_order->payment_complete();
-
-            // Redirect to thank you page
-            return array(
-                'result'   => 'success',
-                'redirect' => $this->get_return_url($customer_order),
-            );
-        } else { // error
-            // update order meta
-            $this->set_cowpay_meta($customer_order, $request_params);
-
-            // display to the customer
-            foreach ($messages as $m) {
-                wc_add_notice($m, "error");
-            }
-
-            // display to the admin
-            $one_line_message = join(', ', $messages);
-            $customer_order->add_order_note("Error: $one_line_message");
-        }
     }
 }
