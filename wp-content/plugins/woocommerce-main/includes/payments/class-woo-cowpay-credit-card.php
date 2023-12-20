@@ -226,12 +226,9 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $customer_order = wc_get_order($order_id);
         //load plugin with bearer Token
         $tokenUrl = $this->api_settings->make_token_url("GetToken");
+        $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
 
-        var_dump($tokenUrl);die;
-
-        // $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
-
-        // var_dump($auth_token,"hello");die;
+        var_dump($auth_token,"hello");die;
 
         if (!empty($auth_token)) {
             WC()->session->set( 'tansaction_id' , $auth_token );
