@@ -3,7 +3,7 @@ jQuery(window).ready(function(){
   jQuery('body').on('updated_checkout', function(){
     if(cowpay_data.tansaction_id){
       COWPAYOTPDIALOG.init()
-      COWPAYOTPDIALOG.load(cowpay_data.tansaction_id); // the token from the charge request response
+      COWPAYOTPDIALOG.load(); // the token from the charge request response // cowpay_data.tansaction_id
     }
   });
   
