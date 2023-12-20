@@ -214,10 +214,16 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      */
     public function process_payment($order_id)
     {
+        //POST Form data
+        $cardNumber = $_POST['cowpay_meeza_card_number'];
+        $expireMonth = $_POST['cowpay_meeza_card_expire_month'];
+        $expireYear = $_POST['cowpay_meeza_card_expire_year'];
+        $expireDate =  $expireMonth.''.$expireYear;
+        $cvv = $_POST['cowpay_meeza_card_cvv'];
+        //validation Card data
+        $checkCreditCard = $this->validate_fields($cardNumber,$cvv);
+        var_dump($checkCreditCard);die;
         $customer_order = wc_get_order($order_id);
-
-        var_dump($order_id , "hello");die;
-
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $messages = $this->get_user_error_messages($response);
@@ -306,8 +312,12 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
 
     // Validate fields
-    public function validate_fields()
+    public function validate_fields($cardNumber,$cvv)
     {
+        if( empyt($cardNumber) || empty($cvv) ){
+            wc_add_notice("Please Enter input fields", 'error');
+            return false;
+        }
         /**
          * Return true if the form passes validation or false if it fails.
          * You can use the wc_add_notice() function if you want to add an error and display it to the user.
