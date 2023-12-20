@@ -187,9 +187,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      */
     private function create_payment_request($order_id)
     {
-
         $customer_order = wc_get_order($order_id);
-
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
         $description = $this->get_cp_description($customer_order);
@@ -217,6 +215,9 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
         $customer_order = wc_get_order($order_id);
+
+        var_dump($order_id , "hello");die;
+
         $request_params = $this->create_payment_request($order_id);
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $messages = $this->get_user_error_messages($response);
