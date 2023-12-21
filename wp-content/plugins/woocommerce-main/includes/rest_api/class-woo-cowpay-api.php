@@ -80,7 +80,7 @@ class WC_Gateway_Cowpay_API_Handler
         $url = $this->make_url(self::$endpoint_charge_cc);
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($cc_params),
-            'httpversion' => "2.00",
+            'httpversion' => "1.1",
             'headers' => array(
                 "Accept" => "application/json",
                 "Authorization" => "Bearer $auth_token",
