@@ -88,6 +88,9 @@ class WC_Gateway_Cowpay_API_Handler
                 "content-type" => "application/json",
             ),
         ));
+
+        var_dump($raw_response);die;
+
         if (is_wp_error($raw_response)) {
             return $raw_response;
         } elseif (empty($raw_response['body'])) {
