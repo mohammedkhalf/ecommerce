@@ -75,8 +75,9 @@ class WC_Gateway_Cowpay_API_Handler
     */
     public function charge_cc($cc_params)
     {
+        $tokenUrl = $this->make_token_url(self::$endpoint_get_token);
+        $auth_token = esc_html($this->settings->get_active_token($tokenUrl));
         $url = $this->make_url(self::$endpoint_charge_cc);
-        $auth_token = esc_html($this->settings->get_active_token());
         $raw_response = wp_safe_remote_post($url, array(
             'body' => json_encode($cc_params),
             'httpversion' => "2.00",
