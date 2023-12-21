@@ -94,11 +94,9 @@ class WC_Gateway_Cowpay_API_Handler
         } elseif (empty($raw_response['body'])) {
             return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
         }
+        
         $objResponse = json_decode($raw_response['body']);
-        if ($objResponse->status_code == 200) return $objResponse;
-        // 400+ status code
-        //? should we return WP_Error;
-        return $objResponse; // return response with errors key for now;
+        return $objResponse;
     }
 
      /**
