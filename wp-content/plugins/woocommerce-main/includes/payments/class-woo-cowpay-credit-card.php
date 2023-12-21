@@ -247,11 +247,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             "customerIP"=>"197.38.100.250",
             "returnUrl3DS"=>$request_params['return_url'],
         ];
-
-        echo "<pre>";print_r($request_params);echo "</pre>";die;
         
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
+
+        echo "<pre>";print_r($response);echo "</pre>";die;
+
+
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
             // update order meta
