@@ -283,7 +283,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             // Redirect to thank you page
             return array(
                 'result'   => 'success',
-                'redirect' => $this->get_return_url($customer_order),
+                'redirect' => $this->get_return_url(),
             );
         } else { // error
             // update order meta
