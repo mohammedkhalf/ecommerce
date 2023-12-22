@@ -81,6 +81,7 @@ class WC_Gateway_Cowpay_API_Handler
         $raw_response = wp_remote_post($url, array(   //wp_safe_remote_post
             'body' => json_encode($cc_params),
             'httpversion' => "1.1",
+            'timeout' => 15.0, // default is 5.0 seconds
             'headers' => array(
                 "Accept" => "application/json",
                 "Authorization" => "Bearer $auth_token",
@@ -94,7 +95,7 @@ class WC_Gateway_Cowpay_API_Handler
         } elseif (empty($raw_response['body'])) {
             return new WP_Error('cowpay_api_empty_response', __('Server Error, empty response'));
         }
-        
+
         $objResponse = json_decode($raw_response['body']);
         return $objResponse;
     }
