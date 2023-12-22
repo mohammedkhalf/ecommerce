@@ -258,21 +258,21 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $this->set_cowpay_meta($customer_order, $request_params, $response);
 
             // display to the admin
-            $customer_order->add_order_note(__($response->status_description));            
-            if (isset($response->token) && $response->token == true) {
-                WC()->session->set( 'tansaction_id' , $response->token );
-                // TODO: add option to use OTP plugin when return_url is not exist
-                $res = array(
-                    'result' => 'success',
-                    'redirect' =>  $this->get_transaction_url($customer_order)
-                );
-                return $res;
-            }
+            $customer_order->add_order_note(__($response->operationMessage));            
+            // if (isset($response->token) && $response->token == true) {
+            //     WC()->session->set( 'tansaction_id' , $response->token );
+            //     // TODO: add option to use OTP plugin when return_url is not exist
+            //     $res = array(
+            //         'result' => 'success',
+            //         'redirect' =>  $this->get_transaction_url($customer_order)
+            //     );
+            //     return $res;
+            // }
             // not 3DS:
+            var_dump($otpForm,"heelo");die;
             WC()->cart->empty_cart();
             // wait server-to-server notification
             //// $customer_order->payment_complete();
-            var_dump($otpForm,"heelo");die;
             // Redirect to thank you page
             return array(
                 'result'   => 'success',
