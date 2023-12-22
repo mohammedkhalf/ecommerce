@@ -250,8 +250,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
-        $Obj = $response->data;
-        var_dump(htmlspecialchars_decode($Obj->html));die;
+        $otpForm = $response->data;
 
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
@@ -273,7 +272,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             WC()->cart->empty_cart();
             // wait server-to-server notification
             //// $customer_order->payment_complete();
-
+            var_dump($otpForm,"heelo");die;
             // Redirect to thank you page
             return array(
                 'result'   => 'success',
