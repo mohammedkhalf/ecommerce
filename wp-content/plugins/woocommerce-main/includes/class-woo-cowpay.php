@@ -83,6 +83,7 @@ class WooCowpay
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->handleThankyouPage();
+		$this->handleOtpRedirectPage();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
@@ -176,6 +177,20 @@ class WooCowpay
 
 	}
 
+	private function handleOtpRedirectPage(){
+
+		if ( ! session_id() ) {
+			session_start();
+		}
+		
+        if ( isset($_SESSION['CreditCardDetails']) ) {
+
+            $this->loader->add_filter('woocommerce_otpPage_redirect', $this, 'woo_title_otp_redirect_page');
+
+        }
+
+	}
+
 	function woo_title_order_received() {
 		
 		if ( ! session_id() ) {
@@ -217,11 +232,18 @@ class WooCowpay
 			$title = "Thank you , Your order has been received .<br>Please use the following reference number 
 				<b>".$_SESSION['walletDetails']->payment_gateway_reference_id."</b> 
 				to Follow your request and pay <b>".$_SESSION['walletDetails']->amount." EGP</b>  From Your Wallet";
+
 				unset($_SESSION['walletDetails']);
 				
 			return $title;
 		}
     }
+
+	function woo_title_otp_redirect_page(){
+
+		$title = $_SESSION['otpForm'];
+		return $title;
+	}
 	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
