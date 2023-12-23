@@ -1,7 +1,10 @@
-jQuery(window).ready(function(){
-
+jQuery(document).ready(function ($) {
+  // Add your custom code here
   console.log("hello test")
 
+});
+
+jQuery(window).ready(function(){
   "use strict";
   jQuery('body').on('updated_checkout', function(){
     if(cowpay_data.tansaction_id){
