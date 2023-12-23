@@ -252,7 +252,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
         $otpForm = $response->data->html;
 
-        var_dump(trim($otpForm,'"'));die;
+        echo trim($otpForm,'"') ;die;
 
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
