@@ -92,4 +92,8 @@ defined( 'ABSPATH' ) || exit;
 
 console.log('inside')
 
+$("iframe").load(function(){
+    console.log('iframe load success')
+});
+
 </script>
