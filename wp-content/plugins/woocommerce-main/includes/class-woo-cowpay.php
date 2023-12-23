@@ -218,6 +218,7 @@ class WooCowpay
 			// $title = "Operation Done Successfully.<br>Please use the following reference number 
 			// <b>".$_SESSION['creditCard']->data->paymentGatewayReferenceId."</b> to Follow Your Transaction";
 			echo $_SESSION['creditCard']->data->html;
+			die;
 		}
 		
     }
