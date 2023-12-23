@@ -90,10 +90,14 @@ defined( 'ABSPATH' ) || exit;
 
 <script trpe="text/javascript">
 
-console.log('inside')
 
-$("#challengeFrame").load(function(){
-    console.log('iframe load success')
+jQuery(document).ready(function ($) {
+
+	$("iframe").load(function(){
+    	console.log('iframe load success')
+	});
+
 });
+
 
 </script>
