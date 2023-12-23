@@ -217,7 +217,7 @@ class WooCowpay
 			$_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
 			echo $_SESSION['creditCard']->data->html;
 			unset($_SESSION['creditCard']);
-			die;
+			// die;
 		}
 
 		//Credit Card Oop Done
