@@ -2518,7 +2518,7 @@ function rest_validate_number_value_from_schema( $value, $args, $param ) {
 			);
 		}
 
-		if ( empty( $args['exclusiveMinimum'] ) && $value < $args['minimum'] ) {
+		if ( empty( $args['exclusiveMinimum'] ) ) {   //&& $value < $args['minimum'] 
 			return new WP_Error(
 				'rest_out_of_bounds',
 				/* translators: 1: Parameter, 2: Minimum number. */
