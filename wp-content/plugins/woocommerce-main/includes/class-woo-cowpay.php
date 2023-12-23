@@ -212,15 +212,20 @@ class WooCowpay
 
 		}
 
-		//Credit Card
+		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-            
-			// $title = "Operation Done Successfully.<br>Please use the following reference number 
-			// <b>".$_SESSION['creditCard']->data->paymentGatewayReferenceId."</b> to Follow Your Transaction";
+			$_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
 			echo $_SESSION['creditCard']->data->html;
+			unset($_SESSION['creditCard']);
 			die;
 		}
-		
+
+		//Credit Card Oop Done
+		if (isset($_SESSION['orderNumber'])) {
+			$title = "Operation Done Successfully.<br>Please use the following reference number 
+			<b>".$_SESSION['orderNumber']."</b> to Follow Your Transaction";
+		}
+
     }
 
 	// function woo_title_otp_redirect_page(){
