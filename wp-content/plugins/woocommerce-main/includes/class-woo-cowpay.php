@@ -214,9 +214,12 @@ class WooCowpay
 
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-			$_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
-			echo $_SESSION['creditCard']->data->html;
-			unset($_SESSION['creditCard']);
+			
+			echo 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			die;
+			// $_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
+			// echo $_SESSION['creditCard']->data->html;
+			// unset($_SESSION['creditCard']);
 			// die;
 			//if isset(callback response) && response == 200{
 				// $title = "Operation Done Successfully.<br>Please use the following reference number 

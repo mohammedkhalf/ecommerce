@@ -21,13 +21,6 @@ defined( 'ABSPATH' ) || exit;
 <div class="woocommerce-order">
 
 	<?php
-		if(isset($_SESSION['callbackPayload']) && $_SESSION['callbackPayload']->paymentMethod == "CreditCard" ){
-			unset($_SESSION['callbackPayload']);
-			header("Location: https://www.google.com");die();
-		}
-	?>
-
-	<?php
 
 	if ( $order ) :
 
