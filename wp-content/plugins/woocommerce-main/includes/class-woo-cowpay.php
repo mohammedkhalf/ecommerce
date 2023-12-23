@@ -83,7 +83,7 @@ class WooCowpay
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->handleThankyouPage();
-		$this->handleOtpRedirectPage();
+		// $this->handleOtpRedirectPage();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
@@ -168,28 +168,32 @@ class WooCowpay
 	private function handleThankyouPage(){
 		
 		if ( ! session_id() ) {
+
 			session_start();
+			
 		}
 		
-        if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['meezaCardDetails']) || isset($_SESSION['walletDetails']) ) {
+        if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['creditCard'])  ) {
+
             $this->loader->add_filter('woocommerce_thankyou_order_received_text', $this, 'woo_title_order_received');
-        }
-
-	}
-
-	private function handleOtpRedirectPage(){
-
-		if ( ! session_id() ) {
-			session_start();
+        
 		}
-		
-        if ( isset($_SESSION['CreditCardDetails']) ) {
-
-            $this->loader->add_filter('woocommerce_otpPage_redirect', $this, 'woo_title_otp_redirect_page');
-
-        }
 
 	}
+
+	// private function handleOtpRedirectPage(){
+
+	// 	if ( ! session_id() ) {
+	// 		session_start();
+	// 	}
+		
+    //     if ( isset($_SESSION['CreditCardDetails']) ) {
+
+    //         $this->loader->add_filter('woocommerce_otpPage_redirect', $this, 'woo_title_otp_redirect_page');
+
+    //     }
+
+	// }
 
 	function woo_title_order_received() {
 		
@@ -207,43 +211,16 @@ class WooCowpay
 			return $title;
 
 		}
-		//Meeza Card
-		if (isset($_SESSION['meezaCardDetails']) ){
 
-			if(!empty($_SESSION['meezaCardDetails']->ThreeDSUrl)){
-
-				$title = "Please Click here  <a href=".$_SESSION['meezaCardDetails']->ThreeDSUrl.">OTP Page</a>
-				To Process OTP Using Meeza Card";
-				unset($_SESSION['meezaCardDetails']);
-				return $title;	
-
-			}else{
-
-				$title = "Thank you , Your order has been received Using Meeza Card";
-			
-		    	return $title;
-			}
+		//Credit Card
+        if (isset($_SESSION['creditCard'])) {
+            
+			echo $_SESSION['creditCard']->data->html;
 
 		}
-
-		//Meeza Wallet
-		if(isset($_SESSION['walletDetails']))
-		{
-			$title = "Thank you , Your order has been received .<br>Please use the following reference number 
-				<b>".$_SESSION['walletDetails']->payment_gateway_reference_id."</b> 
-				to Follow your request and pay <b>".$_SESSION['walletDetails']->amount." EGP</b>  From Your Wallet";
-
-				unset($_SESSION['walletDetails']);
-				
-			return $title;
-		}
+		
     }
-
-	function woo_title_otp_redirect_page(){
-
-		$title = $_SESSION['otpForm'];
-		return $title;
-	}
+	
 	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.

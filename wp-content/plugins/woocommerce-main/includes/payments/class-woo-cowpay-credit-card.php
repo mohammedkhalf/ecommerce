@@ -250,9 +250,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
-        $otpForm = $response->data->html;
-
-        echo trim($otpForm,'"') ;die;
 
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
@@ -271,21 +268,20 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             //     return $res;
             // }
             // not 3DS:
-            WC()->cart->empty_cart();
+
             if ( ! session_id() ) {
                 session_start();
             }
 
-            // var_dump($otpForm , "helkllo");die;
+            $_SESSION['creditCard'] = $response;// array
 
-            $_SESSION['otpForm'] = $otpForm;// otp Form
             WC()->cart->empty_cart();
             // wait server-to-server notification
             //// $customer_order->payment_complete();
             // Redirect to thank you page
             return array(
                 'result'   => 'success',
-                'redirect' => $this->get_return_url(),
+                'redirect' => $this->get_return_url($customer_order),
             );
         } else { // error
             // update order meta
