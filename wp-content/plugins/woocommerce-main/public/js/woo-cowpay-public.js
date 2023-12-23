@@ -1,9 +1,3 @@
-jQuery(document).ready(function ($) {
-  // Add your custom code here
-  console.log("hello test")
-
-});
-
 jQuery(window).ready(function(){
   "use strict";
   jQuery('body').on('updated_checkout', function(){

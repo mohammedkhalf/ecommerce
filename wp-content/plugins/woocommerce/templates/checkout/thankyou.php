@@ -87,3 +87,9 @@ defined( 'ABSPATH' ) || exit;
 	<?php endif; ?>
 
 </div>
+
+<script trpe="text/javascript">
+
+console.log('inside')
+
+</script>

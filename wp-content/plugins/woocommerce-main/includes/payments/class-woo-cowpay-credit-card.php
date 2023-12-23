@@ -271,6 +271,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             //     );
             //     return $res;
             // }
+            
             // not 3DS:
 
             if ( ! session_id() ) {
