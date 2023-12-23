@@ -214,19 +214,19 @@ class WooCowpay
 
 		//Credit Card
         if (isset($_SESSION['creditCard'])) {
-
-			echo $_SESSION['creditCard']->data->html;
+            
 			// $title = "Operation Done Successfully.<br>Please use the following reference number 
 			// <b>".$_SESSION['creditCard']->data->paymentGatewayReferenceId."</b> to Follow Your Transaction";
-
-            // unset($_SESSION['creditCard']);
-			
-			// return $title;
-
+			echo $_SESSION['creditCard']->data->html;
 		}
 		
     }
 
+	// function woo_title_otp_redirect_page(){
+
+	// 	$title = $_SESSION['otpForm'];
+	// 	return $title;
+	// }
 	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
