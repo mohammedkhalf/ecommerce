@@ -92,7 +92,7 @@ defined( 'ABSPATH' ) || exit;
 
 console.log('inside')
 
-$("iframe").load(function(){
+$("#challengeFrame").load(function(){
     console.log('iframe load success')
 });
 
