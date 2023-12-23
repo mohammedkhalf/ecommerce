@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 		if(isset($_SESSION['callbackPayload']) && $_SESSION['callbackPayload']->paymentMethod == "CreditCard" ){
 			unset($_SESSION['callbackPayload']);
-			var_dump("heelo");die;
+			header("Location: https://www.google.com");die();
 		}
 	?>
 
