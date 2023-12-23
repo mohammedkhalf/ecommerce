@@ -224,7 +224,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $request_params = $this->create_payment_request($order_id);
 
         $redirectPage = $request_params['return_url'];
-        $paymentPage =  home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key;
+        $_SESSION['paymentPage'] =  home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key;
 
         $request_params = [
             "gatewayTargetMethod" => "MPGSCard",
