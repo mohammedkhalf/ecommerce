@@ -196,7 +196,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
         $request_params = array(
             // redirect user to our controller to check otp response
-            'return_url' => $this->notify_url,
+            // 'return_url' => $this->notify_url,
+            'return_url' => home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key,
             'merchant_reference_id' => $merchant_ref_id,
             'customer_merchant_profile_id' => $customer_profile_id,
             'customer_name' => $customer_order->get_formatted_billing_full_name(),
