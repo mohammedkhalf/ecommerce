@@ -21,6 +21,14 @@ defined( 'ABSPATH' ) || exit;
 <div class="woocommerce-order">
 
 	<?php
+		if(isset($_SESSION['callbackPayload']) && $_SESSION['callbackPayload']->paymentMethod == "CreditCard" ){
+			unset($_SESSION['callbackPayload']);
+			var_dump("heelo");die;
+		}
+	?>
+
+	<?php
+
 	if ( $order ) :
 
 		do_action( 'woocommerce_before_thankyou', $order->get_id() );

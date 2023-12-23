@@ -19,8 +19,6 @@ class Cowpay_Server_Callback
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
         if (!$data) return $this->exit_error("not valid callback");
-        var_dump($data);die;
-
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $callback_type = "order_status_update";
@@ -58,9 +56,7 @@ class Cowpay_Server_Callback
             default:
                 return $this->exit_error("unknown callback request type '$callback_type'");
         }
-
         $_SESSION['callbackPayload'] =  $data;
-
         wp_die("callback successfully handled", 200);
     }
 
