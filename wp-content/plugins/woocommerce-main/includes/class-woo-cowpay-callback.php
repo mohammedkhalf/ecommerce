@@ -18,6 +18,9 @@ class Cowpay_Server_Callback
     {
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
+
+        var_dump($data);die;
+
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // var_dump($checkSign);die;
@@ -85,9 +88,10 @@ class Cowpay_Server_Callback
             "payment_gateway_reference_id" => $data['paymentGatewayReferenceId'],
             "order_status" => $data['status'],
             "amount" => $data['amount'],
+            "paymentMethod" => $data['paymentMethod']
         ];
         // check required fields
-        $required_data_keys = array("merchant_code","cowpay_reference_id", "payment_gateway_reference_id", "merchant_reference_id", "order_status", "amount");
+        $required_data_keys = array("merchant_code","cowpay_reference_id", "payment_gateway_reference_id", "merchant_reference_id", "order_status", "amount","paymentMethod");
         foreach ($required_data_keys as $key) if (!isset($customData[$key])) return false;
         // we are safe now
         return $customData;

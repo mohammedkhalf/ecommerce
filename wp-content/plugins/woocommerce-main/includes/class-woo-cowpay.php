@@ -218,21 +218,23 @@ class WooCowpay
 			echo $_SESSION['creditCard']->data->html;
 			unset($_SESSION['creditCard']);
 			// die;
-		}
 
-		//Credit Card Oop Done
-		if (isset($_SESSION['orderNumber'])) {
-			$title = "Operation Done Successfully.<br>Please use the following reference number 
-			<b>".$_SESSION['orderNumber']."</b> to Follow Your Transaction";
+			//if isset(callback response) && response == 200{
+				// $title = "Operation Done Successfully.<br>Please use the following reference number 
+				// <b>".$_SESSION['orderNumber']."</b> to Follow Your Transaction";
+				//return $title
+			//}else if (if isset(callback response) && response == 200) 
+				// $title = "Operation Failed";
+				//return $title
+			//else{
+				//call function until reply
+			//} 
+
 		}
 
     }
 
-	// function woo_title_otp_redirect_page(){
 
-	// 	$title = $_SESSION['otpForm'];
-	// 	return $title;
-	// }
 	/**
 	 * Register all of the hooks related to the admin area functionality
 	 * of the plugin.
