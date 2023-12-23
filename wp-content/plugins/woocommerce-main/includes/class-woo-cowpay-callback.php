@@ -56,18 +56,7 @@ class Cowpay_Server_Callback
             default:
                 return $this->exit_error("unknown callback request type '$callback_type'");
         }
-        
-        if($data['paymentMethod'] == "CreditCard"){
-
-            if( $_SESSION['currentPage'] == $_SESSION['paymentPage']){
-
-                header("Location: https://www.google.com/");
-                die();
-
-            }
-
-        }
-
+        $_SESSION['callbackPayload'] = $data;
         wp_die("callback successfully handled", 200);
     }
 

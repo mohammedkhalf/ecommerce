@@ -214,12 +214,20 @@ class WooCowpay
 
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-			
-			$_SESSION['currentPage'] = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			// $_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
-			echo $_SESSION['creditCard']->data->html;
-			unset($_SESSION['creditCard']);
-			die;
+
+			if(isset($_SESSION['callbackPayload'])){
+
+				header("Location: https://example.com/myOtherPage.php");
+				unset($_SESSION['callbackPayload']);
+				die();
+				
+			}else{
+				$_SESSION['currentPage'] = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+				// $_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
+				echo $_SESSION['creditCard']->data->html;
+				unset($_SESSION['creditCard']);
+				die;
+			}
 			//if isset(callback response) && response == 200{
 				// $title = "Operation Done Successfully.<br>Please use the following reference number 
 				// <b>".$_SESSION['orderNumber']."</b> to Follow Your Transaction";
