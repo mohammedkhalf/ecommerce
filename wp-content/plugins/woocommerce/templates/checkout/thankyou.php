@@ -93,17 +93,16 @@ defined( 'ABSPATH' ) || exit;
 
 jQuery(document).ready(function ($) {
 
+	var timesRefreshed = 0;
+
 	$("iframe").load(function(){
+
     	console.log('iframe load success')
-
-		if (e.target.hasAttribute('type') &&  e.target.getAttribute('type').toLowerCase() == 'submit') {
-
-
-			
-		}
-
-
-
+		if(timesRefreshed == 1){
+        	$(this).attr("src","https://www.google.com");
+    	}
+        //add to times resreshed counter
+        timesRefreshed++; 
 	});
 
 
