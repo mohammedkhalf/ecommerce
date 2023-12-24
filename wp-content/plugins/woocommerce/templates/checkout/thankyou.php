@@ -100,7 +100,7 @@ jQuery(document).ready(function ($) {
 		$("iframe").load(function(){
 
 			console.log('iframe load success')
-			// console.log(redirectUrl)
+			console.log(redirectUrl)
 			timesRefreshed++; 
 
 			if(timesRefreshed == 3){
