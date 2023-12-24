@@ -103,7 +103,7 @@ jQuery(document).ready(function ($) {
 			console.log(redirectUrl)
 			timesRefreshed++; 
 
-			if(timesRefreshed == 3){
+			if(timesRefreshed == 2){
 				
 				window.location.href = redirectUrl;
 
