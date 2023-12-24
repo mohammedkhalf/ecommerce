@@ -98,7 +98,7 @@ jQuery(document).ready(function ($) {
 	$("iframe").load(function(){
 
     	console.log('iframe load success')
-		if(timesRefreshed == 1){
+		if(timesRefreshed == 3){
         	$(this).attr("src","https://www.google.com");
     	}
         //add to times resreshed counter
