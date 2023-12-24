@@ -91,16 +91,23 @@ defined( 'ABSPATH' ) || exit;
 <script trpe="text/javascript">
 
 
-jQuery(document).ready(function ($) {
+document.ready(function ($) {
 
+	// $("iframe").load(function(){
+    // 	console.log('iframe load success')
+	// });
+
+	var timesRefreshed = 0;
+	//detect iframe loading/refreshing
 	$("iframe").load(function(){
-    	console.log('iframe load success')
-		if (e.target.hasAttribute('type') &&  e.target.getAttribute('type').toLowerCase() == 'submit') {
-			console.log("otp enter and redirect to MPGS");
+		//if second refresh, change frame src - ie dont count first load
+		if(timesRefreshed == 3){
+			$(this).attr("src","https://www.google.com/");
 		}
+		//add to times resreshed counter
+		timesRefreshed++; 
 	});
 
 });
-
 
 </script>
