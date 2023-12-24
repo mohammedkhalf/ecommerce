@@ -90,8 +90,7 @@ defined( 'ABSPATH' ) || exit;
 
 <script trpe="text/javascript">
 
-
-jQuery(function(){
+jQuery(window).ready(function(){
 	// $("iframe").load(function(){
     // 	console.log('iframe load success')
 	// });
