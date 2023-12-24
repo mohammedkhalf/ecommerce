@@ -95,7 +95,7 @@ jQuery(document).ready(function ($) {
 
 		var timesRefreshed = 0;
 
-		var redirectUrl = <?php echo $_SESSION['return_url']; ?>
+		var redirectUrl = "<?php echo $_SESSION['return_url']; ?>";
 
 		$("iframe").load(function(){
 
