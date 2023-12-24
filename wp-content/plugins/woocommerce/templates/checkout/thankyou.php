@@ -100,7 +100,10 @@ jQuery(document).ready(function ($) {
     	console.log('iframe load success')
 		if(timesRefreshed == 3){
         	$(this).attr("src","https://www.google.com");
-			window.location.replace("https://www.google.com");
+
+			if (window.top.location != document.location) {
+				window.top.location.href = "https://www.google.com";
+			}
     	}
         //add to times resreshed counter
         timesRefreshed++; 
