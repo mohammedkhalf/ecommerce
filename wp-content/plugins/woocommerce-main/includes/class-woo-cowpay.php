@@ -219,7 +219,7 @@ class WooCowpay
 			$_SESSION['orderNumber'] = $_SESSION['creditCard']->data->orderNumber;
 			echo $_SESSION['creditCard']->data->html;
 			unset($_SESSION['creditCard']);
-			// die;
+			die;
 			//if isset(callback response) && response == 200{
 				// $title = "Operation Done Successfully.<br>Please use the following reference number 
 				// <b>".$_SESSION['orderNumber']."</b> to Follow Your Transaction";

@@ -197,7 +197,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $request_params = array(
             // redirect user to our controller to check otp response
             // 'return_url' => $this->notify_url,
-            'return_url' => "https://www.google.com",
+            'return_url' => home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key,
             'merchant_reference_id' => $merchant_ref_id,
             'customer_merchant_profile_id' => $customer_profile_id,
             'customer_name' => $customer_order->get_formatted_billing_full_name(),
@@ -222,9 +222,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $expireDate =  $expireMonth.''.$expireYear;
         $cvv = $_POST['cowpay_credit_card_cvv'];
         $request_params = $this->create_payment_request($order_id);
-
-        $redirectPage = $request_params['return_url'];
-        $_SESSION['paymentPage'] =  home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key;
+        $_SESSION['return_url'] =  $request_params['return_url'];
 
         $request_params = [
             "gatewayTargetMethod" => "MPGSCard",
@@ -249,7 +247,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             "cardHolderName" => $request_params['customer_name'],
             "customerZip"=>"123456",
             "customerIP"=>"197.38.100.250",
-            "returnUrl3DS"=>$redirectPage,
+            "returnUrl3DS"=>$request_params['return_url'],
         ];
         
         
@@ -271,7 +269,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             //     );
             //     return $res;
             // }
-            
+
             // not 3DS:
 
             if ( ! session_id() ) {
@@ -367,7 +365,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     {
         $host = $this->cp_admin_settings->get_active_host();
         $schema = is_ssl() ? "https" : "http";
-        wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
+        //wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
 

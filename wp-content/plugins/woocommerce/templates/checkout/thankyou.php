@@ -95,8 +95,12 @@ jQuery(document).ready(function ($) {
 
 		var timesRefreshed = 0;
 
+		var redirectUrl = <?php echo $_SESSION['return_url']; ?>
+
 		$("iframe").load(function(){
+
 			console.log('iframe load success')
+			console.log(redirectUrl)
 
 			timesRefreshed++; 
 
