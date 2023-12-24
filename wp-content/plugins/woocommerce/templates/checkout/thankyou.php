@@ -91,16 +91,16 @@ defined( 'ABSPATH' ) || exit;
 <script trpe="text/javascript">
 
 
-document.ready(function () {
+$(document).ready(function () {
 
 	// $("iframe").load(function(){
     // 	console.log('iframe load success')
 	// });
-
 	var timesRefreshed = 0;
 	//detect iframe loading/refreshing
 	$("iframe").load(function(){
 		//if second refresh, change frame src - ie dont count first load
+		console.log('iframe load success')
 		if(timesRefreshed == 3){
 			$(this).attr("src","https://www.google.com/");
 		}
