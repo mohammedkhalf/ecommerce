@@ -90,9 +90,6 @@ defined( 'ABSPATH' ) || exit;
 
 <script trpe="text/javascript">
 
-
-$(document).ready(function () {
-
 	// $("iframe").load(function(){
     // 	console.log('iframe load success')
 	// });
@@ -108,6 +105,5 @@ $(document).ready(function () {
 		timesRefreshed++; 
 	});
 
-});
 
 </script>
