@@ -100,13 +100,12 @@ jQuery(document).ready(function ($) {
 		$("iframe").load(function(){
 
 			console.log('iframe load success')
-			console.log(redirectUrl)
-
+			// console.log(redirectUrl)
 			timesRefreshed++; 
 
 			if(timesRefreshed == 3){
 				
-				window.location.href = 'https://www.google.com';
+				window.location.href = redirectUrl;
 
 		    	// $(this).attr("src","https://www.google.com");
 				// if (window.top.location != document.location) {
