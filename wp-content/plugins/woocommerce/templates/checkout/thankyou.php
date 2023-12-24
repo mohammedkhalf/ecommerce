@@ -93,31 +93,26 @@ defined( 'ABSPATH' ) || exit;
 
 jQuery(document).ready(function ($) {
 
-		// var timesRefreshed = 0;
-		// $("iframe").load(function(){
-		// 	console.log('iframe load success')
-		// 	if(timesRefreshed == 3){
-		//     	// $(this).attr("src","https://www.google.com");
-		// 		if (window.top.location != document.location) {
-		// 			window.top.location.href = document.location.href;
-		// 		}
-		// 	}
-		//     //add to times resreshed counter
-		//     timesRefreshed++; 
-		// });
+		var timesRefreshed = 0;
 
-	    var loadCount = 0; // Counter variable to track the number of iframe loads
-	    $("iframe").addEventListener('load', function () {
-                // This code will be executed when the iframe has loaded
-                console.log('Iframe has loaded!');
-                // Increment the load count
-                loadCount++;
-                // Check if the iframe has loaded three times
-                if (loadCount === 3) {
-                    // Redirect to a URL after the iframe has loaded three times
-                    window.location.href = 'https://www.google.com';
-                }
+		$("iframe").load(function(){
+			console.log('iframe load success')
+
+			timesRefreshed++; 
+
+			if(timesRefreshed == 3){
+				
+				window.location.href = 'https://www.google.com';
+
+		    	// $(this).attr("src","https://www.google.com");
+				// if (window.top.location != document.location) {
+				// 	window.top.location.href = document.location.href;
+				// }
+			}
+		    //add to times resreshed counter
 		});
+
+	  
 
 	});
 
