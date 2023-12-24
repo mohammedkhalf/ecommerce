@@ -90,6 +90,8 @@ defined( 'ABSPATH' ) || exit;
 
 <script trpe="text/javascript">
 
+
+jQuery(function(){
 	// $("iframe").load(function(){
     // 	console.log('iframe load success')
 	// });
@@ -105,5 +107,6 @@ defined( 'ABSPATH' ) || exit;
 		timesRefreshed++; 
 	});
 
+});
 
 </script>
