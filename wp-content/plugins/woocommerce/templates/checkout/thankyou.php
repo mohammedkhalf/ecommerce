@@ -90,12 +90,25 @@ defined( 'ABSPATH' ) || exit;
 
 <script trpe="text/javascript">
 
+
+jQuery(document).ready(function ($) {
+
 	$("iframe").load(function(){
     	console.log('iframe load success')
+
 		if (e.target.hasAttribute('type') &&  e.target.getAttribute('type').toLowerCase() == 'submit') {
-			console.log("otp enter and redirect to MPGS");
+
+
+			
 		}
+
+
+
 	});
+
+
+
+});
 
 
 </script>
