@@ -16,7 +16,7 @@
     <label for="cowpay_credit_card_expire_month" class="">Expire Month&nbsp;<abbr class="required" title="required">*</abbr></label>
     <span class="woocommerce-input-wrapper">
         
-        <select id="cowpay_credit_card_expire_month" name="cowpay_credit_card_expire_month" class="form-row cowpay_credit_card_expire_month_field validate-required validate_cowpay_credit_card_expire_month form-row-wide" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="2" style="width:400px;height:20px">
+        <select id="cowpay_credit_card_expire_month" name="cowpay_credit_card_expire_month" class="form-row cowpay_credit_card_expire_month_field validate-required validate_cowpay_credit_card_expire_month form-row-wide" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="2" style="width:400px;height:26px">
            <option value="01"> 01 </option>
            <option value="02"> 02 </option>
            <option value="03"> 03 </option>
@@ -41,7 +41,7 @@
     <label for="cowpay_credit_card_expire_month" class="">Expire Year&nbsp;<abbr class="required" title="required">*</abbr></label>
     <span class="woocommerce-input-wrapper">
         
-        <select id="cowpay_credit_card_expire_year" name="cowpay_credit_card_expire_year" class="form-row cowpay_credit_card_expire_year_field validate-required validate_cowpay_credit_card_expire_year form-row-wide" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="2" style="width:400px;height:20px">
+        <select id="cowpay_credit_card_expire_year" name="cowpay_credit_card_expire_year" class="form-row cowpay_credit_card_expire_year_field validate-required validate_cowpay_credit_card_expire_year form-row-wide" inputmode="numeric" autocomplete="off" autocorrect="no" autocapitalize="no" spellcheck="no" type="tel" maxlength="2" style="width:400px;height:26px">
     
         <?php for ($i = 0; $i <= 10; $i++) { ?>
             <option value="<?php echo date('y', strtotime('+' . $i . ' year')) ?>"> <?php echo date('y', strtotime('+' . $i . ' year')) ?></option>;
