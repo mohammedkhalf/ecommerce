@@ -92,8 +92,10 @@ defined( 'ABSPATH' ) || exit;
 	<?php endif; ?>
 
 </div>
-<!-- 
+
 <script trpe="text/javascript">
+
+
 jQuery(document).ready(function ($) {
 		var timesRefreshed = 0;
 		var redirectUrl = "<?php echo $_SESSION['return_url']; ?>";
@@ -106,4 +108,6 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	});
-</script> -->
+
+
+</script>
