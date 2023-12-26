@@ -57,11 +57,16 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 	 * @param  WC_Order $order the order object.
 	 * @return string transaction URL, or empty string.
 	 */
-	public function get_transaction_url( $order ) {
+	public function get_transaction_url( $response ) {
 
+        return $response->data->html;
+        die;
+
+        
 		$return_url     = '';
 		$transaction_id = $order->get_transaction_id();
 		if ( ! empty( $this->view_transaction_url ) && ! empty( $transaction_id ) ) {
+            
 			$return_url = sprintf( $this->view_transaction_url, $transaction_id );
 		}
 
@@ -273,7 +278,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
                 // TODO: add option to use OTP plugin when return_url is not exist
                 $res = array(
                     'result' => 'success',
-                    'redirect' =>  $this->get_transaction_url($customer_order)
+                    'redirect' =>  $this->get_transaction_url($response)
                 );
                 return $res;
             }
