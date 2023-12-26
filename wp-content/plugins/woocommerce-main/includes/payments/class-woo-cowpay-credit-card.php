@@ -263,8 +263,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
             //redirect to OTP Page
             if (isset($response->data->html) && !empty($response->data->html)) {
-                WC()->session->set('order_id',$order_id);
-                WC()->session->set('customer_order',$customer_order);
+                WC()->session->set('return_url', $_SESSION['return_url']);
                 echo $_SESSION['creditCard']->data->html;
                 unset($_SESSION['creditCard']);
                 //WC()->session->set('otp_iframe' , $response->data->html );
@@ -384,17 +383,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         // this line will pass `admin_url('admin-ajax.php')` value to be accessed through
         // plugin_ajax_object.ajax_url in javascipt file with the handle cowpay_js (the one above)
         // wp_localize_script('cowpay_js', 'cowpay_data', array('ajax_url' => admin_url('admin-ajax.php')));
-        
-        $order_id = WC()->session->get('order_id');
-        $customer_order = WC()->session->get('customer_order');
+
         wp_localize_script('woo-cowpay', 'cowpay_data', array(
             // 'order_id' => WC()->session->get( 'order_id'),
             // 'ajax_url' => WC()->ajax_url(),
-            'return_url' =>home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key
+            'return_url' =>WC()->session->get('return_url')
             )
         );
-        WC()->session->__unset( 'order_id' );
-        WC()->session->__unset( 'customer_order' );
     }
 
    

@@ -84,7 +84,6 @@ defined( 'ABSPATH' ) || exit;
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
 			<?php 
-			    // unset($_SESSION['return_url']);
 				echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your order has been received.', 'woocommerce' ), null ); 
 			?>
 		</p>
@@ -92,22 +91,3 @@ defined( 'ABSPATH' ) || exit;
 	<?php endif; ?>
 
 </div>
-
-<!-- <script trpe="text/javascript">
-
-
-jQuery(document).ready(function ($) {
-		var timesRefreshed = 0;
-		var redirectUrl = "<?php echo $_SESSION['return_url']; ?>";
-		$("iframe").load(function(){
-			// console.log('iframe load success')
-			// console.log(redirectUrl)
-			timesRefreshed++; 
-			if(timesRefreshed == 2){
-				window.location.href = redirectUrl;
-			}
-		});
-	});
-
-
-</script> -->
