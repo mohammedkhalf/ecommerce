@@ -1,3 +1,9 @@
+jQuery(document).ready(function ($) {
+
+  console.log("hello tetete")
+
+});
+
 jQuery(window).ready(function(){
   "use strict";
   jQuery('body').on('updated_checkout', function(){
