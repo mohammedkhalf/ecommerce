@@ -83,6 +83,7 @@ class WooCowpay
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->handleThankyouPage();
+		// $this->handleOtpRedirectPage();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
@@ -172,7 +173,7 @@ class WooCowpay
 			
 		}
 		
-        if (isset($_SESSION['fawryDetails'])) {
+        if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['creditCard'])  ) {
 
             $this->loader->add_filter('woocommerce_thankyou_order_received_text', $this, 'woo_title_order_received');
         
@@ -180,18 +181,45 @@ class WooCowpay
 
 	}
 
+	// private function handleOtpRedirectPage(){
+
+	// 	if ( ! session_id() ) {
+	// 		session_start();
+	// 	}
+		
+    //     if ( isset($_SESSION['CreditCardDetails']) ) {
+
+    //         $this->loader->add_filter('woocommerce_otpPage_redirect', $this, 'woo_title_otp_redirect_page');
+
+    //     }
+
+	// }
+
 	function woo_title_order_received() {
+		
 		if ( ! session_id() ) {
 			session_start();
 		}
+	
 		//Fawry Outlet
         if (isset($_SESSION['fawryDetails'])) {
             $title = "Thank you , Your order has been received .<br>Please use the following reference number 
 			<b>".$_SESSION['fawryDetails']->data->paymentGatewayReferenceId."</b> 
 			to pay <b>".$_SESSION['fawryDetails']->data->amount." EGP</b>  at the nearest fawry outlet";
             unset($_SESSION['fawryDetails']);
+			
 			return $title;
+
 		}
+
+		//Credit Card  OTP
+        if (isset($_SESSION['creditCard'])) {
+
+			echo $_SESSION['creditCard']->data->html;
+			unset($_SESSION['creditCard']);
+			
+		}
+
     }
 
 
