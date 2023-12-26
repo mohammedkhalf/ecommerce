@@ -44,10 +44,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         // we then register our otp response check for this action, and call $this->check_otp_response()
         //add_action('wp_ajax_check_otp_response', array($this, 'check_otp_response'));
         // add_action('wp_enqueue_scripts','check_otp_response');
-
-        // we then register our custom otp Page 
-        add_action('wp_template_redirect_otp', array($this, 'load_otp_page'));
-
         parent::init();
     }
 
@@ -267,7 +263,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             //redirect to OTP Page
             if (isset($response->data->html) && !empty($response->data->html)) {
                 WC()->session->set('otp_iframe' , $response->data->html );
-                wp_redirect(woo_cowpay_view("custom-otp-page"));
+                // wp_redirect(woo_cowpay_view("custom-otp-page"));
                 die;
                 // TODO: add option to use OTP plugin when return_url is not exist
                 // $res = array(
@@ -373,7 +369,9 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $schema = is_ssl() ? "https" : "http";
         wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
-        wp_enqueue_script('cowpay_card_js', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');  //woo-cowpay
+        wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');  //woo-cowpay
+
+        wp_enqueue_script('iframe-popup', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');  //woo-cowpay
 
         wp_enqueue_style('cowpay_public_css', WOO_COWPAY_PLUGIN_URL . 'public/css/woo-cowpay-public.css');
 
@@ -388,6 +386,5 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         );
         WC()->session->__unset( 'tansaction_id' );
     }
-
    
 }
