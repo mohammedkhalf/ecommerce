@@ -59,10 +59,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 	 */
 	public function get_transaction_url( $response ) {
 
-        return $response->data->html;
-        die;
 
-        
 		$return_url     = '';
 		$transaction_id = $order->get_transaction_id();
 		if ( ! empty( $this->view_transaction_url ) && ! empty( $transaction_id ) ) {
@@ -70,7 +67,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 			$return_url = sprintf( $this->view_transaction_url, $transaction_id );
 		}
 
-		return apply_filters( 'woocommerce_get_transaction_url', $return_url, $order, $this );
+		return apply_filters( 'woocommerce_get_transaction_url', $response->data->html, $order, $this );
 	}
 
     /**
