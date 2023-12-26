@@ -1,5 +1,6 @@
 jQuery(document).ready(function ($) {
-    console.log("<?php echo $_SESSION['return_url']; ?>")
+    // var redirectUrl = "<?php echo $_SESSION['return_url']; ?>";
+    // console.log(redirectUrl)
     var timesRefreshed = 0;
     var redirectUrl = "<?php echo $_SESSION['return_url']; ?>";
     $("iframe").load(function(){
