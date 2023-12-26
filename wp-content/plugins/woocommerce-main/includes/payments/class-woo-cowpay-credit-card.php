@@ -267,7 +267,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             //redirect to OTP Page
             if (isset($response->data->html) && !empty($response->data->html)) {
                 WC()->session->set('otp_iframe' , $response->data->html );
-                wp_redirect("https://www.google.com/");
+                wp_redirect(woo_cowpay_view("custom-otp-page"));
                 die;
                 // TODO: add option to use OTP plugin when return_url is not exist
                 // $res = array(
