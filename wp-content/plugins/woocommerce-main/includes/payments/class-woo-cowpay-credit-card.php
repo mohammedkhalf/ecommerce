@@ -390,6 +390,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             'return_url' =>WC()->session->get('return_url')
             )
         );
+        
+        WC()->session->__unset('return_url');
     }
 
    
