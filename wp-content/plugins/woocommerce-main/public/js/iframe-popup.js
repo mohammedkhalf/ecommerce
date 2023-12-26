@@ -1,29 +1,13 @@
-jQuery(document).ready(function($) {
-    var redirectUrl = "<?php echo $_SESSION['return_url']; ?>";
-
-    // Wait for the DOM to be fully loaded
-    $(document).ready(function() {
-        // Add a click event listener to the "Place Order" button
-        $('body').on('click', '#place_order', function(e) {
-            // Prevent the default form submission
-            e.preventDefault();
-
-            // Replace 'YOUR_IFRAME_URL' with the actual URL of your iframe content
-            var iframeUrl = redirectUrl
-
-            // Create a modal with the iframe
-            var modalHtml = '<div id="iframe-popup-modal" style="display:none;"><iframe src="' + iframeUrl + '" width="100%" height="100%"></iframe></div>';
-            $('body').append(modalHtml);
-
-            // Open the modal
-            $('#iframe-popup-modal').fadeIn();
-
-            // Close the modal when clicking outside the iframe
-            $(document).on('click', function(event) {
-                if ($(event.target).is('#iframe-popup-modal')) {
-                    $('#iframe-popup-modal').fadeOut();
-                }
-            });
-        });
-    });
+jQuery(document).ready(function ($) {
+        console.log('Load here')
+        var timesRefreshed = 0;
+		var redirectUrl = cowpay_data.return_url;
+		$("iframe").load(function(){
+			console.log('iframe load success')
+			console.log(redirectUrl)
+			timesRefreshed++; 
+			if(timesRefreshed == 2){
+				window.location.href = redirectUrl;
+			}
+		});
 });

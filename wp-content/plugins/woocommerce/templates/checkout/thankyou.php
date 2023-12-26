@@ -84,7 +84,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">
 			<?php 
-			    unset($_SESSION['return_url']);
+			    // unset($_SESSION['return_url']);
 				echo apply_filters( 'woocommerce_thankyou_order_received_text', esc_html__( 'Thank you. Your order has been received.', 'woocommerce' ), null ); 
 			?>
 		</p>
@@ -93,7 +93,7 @@ defined( 'ABSPATH' ) || exit;
 
 </div>
 
-<script trpe="text/javascript">
+<!-- <script trpe="text/javascript">
 
 
 jQuery(document).ready(function ($) {
@@ -110,4 +110,4 @@ jQuery(document).ready(function ($) {
 	});
 
 
-</script>
+</script> -->

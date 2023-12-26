@@ -263,9 +263,10 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
             //redirect to OTP Page
             if (isset($response->data->html) && !empty($response->data->html)) {
+                WC()->session->set('order_id',$order_id);
+                WC()->session->set('customer_order',$customer_order);
                 echo $_SESSION['creditCard']->data->html;
                 unset($_SESSION['creditCard']);
-                //WC()->session->set( 'tansaction_id' , $response->token );
                 //WC()->session->set('otp_iframe' , $response->data->html );
                 // wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
                 // die;
@@ -375,18 +376,25 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
 
+        wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
+
         wp_enqueue_style('cowpay_public_css', WOO_COWPAY_PLUGIN_URL . 'public/css/woo-cowpay-public.css');
 
         // Pass ajax_url to cowpay_js
         // this line will pass `admin_url('admin-ajax.php')` value to be accessed through
         // plugin_ajax_object.ajax_url in javascipt file with the handle cowpay_js (the one above)
         // wp_localize_script('cowpay_js', 'cowpay_data', array('ajax_url' => admin_url('admin-ajax.php')));
+        
+        $order_id = WC()->session->get('order_id');
+        $customer_order = WC()->session->get('customer_order');
         wp_localize_script('woo-cowpay', 'cowpay_data', array(
-            'tansaction_id' => WC()->session->get( 'tansaction_id'),
-            'ajax_url' => WC()->ajax_url(),
+            // 'order_id' => WC()->session->get( 'order_id'),
+            // 'ajax_url' => WC()->ajax_url(),
+            'return_url' =>home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key
             )
         );
-        WC()->session->__unset( 'tansaction_id' );
+        WC()->session->__unset( 'order_id' );
+        WC()->session->__unset( 'customer_order' );
     }
 
    
