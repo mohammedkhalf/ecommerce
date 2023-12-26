@@ -92,7 +92,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php endif; ?>
 
 </div>
-
+<!-- 
 <script trpe="text/javascript">
 jQuery(document).ready(function ($) {
 		var timesRefreshed = 0;
@@ -106,4 +106,4 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	});
-</script>
+</script> -->

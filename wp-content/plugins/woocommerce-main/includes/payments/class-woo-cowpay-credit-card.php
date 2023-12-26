@@ -370,7 +370,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');  //woo-cowpay
-        //wp_enqueue_script('iframe-popup', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');  //woo-cowpay
+        wp_enqueue_script('iframe-popup', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');  //woo-cowpay
         wp_enqueue_style('cowpay_public_css', WOO_COWPAY_PLUGIN_URL . 'public/css/woo-cowpay-public.css');
 
         // Pass ajax_url to cowpay_js
