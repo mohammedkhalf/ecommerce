@@ -83,7 +83,6 @@ class WooCowpay
 		$this->load_dependencies();
 		$this->set_locale();
 		$this->handleThankyouPage();
-		// $this->handleOtpRedirectPage();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 	}
@@ -180,20 +179,6 @@ class WooCowpay
 		}
 
 	}
-
-	// private function handleOtpRedirectPage(){
-
-	// 	if ( ! session_id() ) {
-	// 		session_start();
-	// 	}
-		
-    //     if ( isset($_SESSION['CreditCardDetails']) ) {
-
-    //         $this->loader->add_filter('woocommerce_otpPage_redirect', $this, 'woo_title_otp_redirect_page');
-
-    //     }
-
-	// }
 
 	function woo_title_order_received() {
 		
