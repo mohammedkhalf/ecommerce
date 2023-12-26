@@ -45,9 +45,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         //add_action('wp_ajax_check_otp_response', array($this, 'check_otp_response'));
         // add_action('wp_enqueue_scripts','check_otp_response');
 
-        // we then register our custom otp Page 
-        add_action('wp_template_redirect_otp', array($this, 'load_otp_page'));
-
         parent::init();
     }
 
@@ -57,17 +54,15 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 	 * @param  WC_Order $order the order object.
 	 * @return string transaction URL, or empty string.
 	 */
-	public function get_transaction_url( $response ) {
-
+	public function get_transaction_url( $order ) {
 
 		$return_url     = '';
 		$transaction_id = $order->get_transaction_id();
 		if ( ! empty( $this->view_transaction_url ) && ! empty( $transaction_id ) ) {
-            
 			$return_url = sprintf( $this->view_transaction_url, $transaction_id );
 		}
 
-		return apply_filters( 'woocommerce_get_transaction_url', $response->data->html, $order, $this );
+		return apply_filters( 'woocommerce_get_transaction_url', $return_url, $order, $this );
 	}
 
     /**
@@ -268,14 +263,14 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
             //redirect to OTP Page
             if (isset($response->data->html) && !empty($response->data->html)) {
-                WC()->session->set( 'otp_iframe' , $response->data->html );
+                WC()->session->set( 'tansaction_id' , $response->token );
                 //WC()->session->set('otp_iframe' , $response->data->html );
                 // wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
                 // die;
                 // TODO: add option to use OTP plugin when return_url is not exist
                 $res = array(
                     'result' => 'success',
-                    'redirect' =>  $this->get_transaction_url($response)
+                    'redirect' =>  $this->get_transaction_url($customer_order)
                 );
                 return $res;
             }

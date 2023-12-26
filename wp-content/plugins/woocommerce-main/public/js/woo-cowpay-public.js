@@ -1,6 +1,9 @@
 jQuery(window).ready(function(){
   "use strict";
   jQuery('body').on('updated_checkout', function(){
+
+    console.log("hello world")
+
     if(cowpay_data.tansaction_id){
       COWPAYOTPDIALOG.init()
       COWPAYOTPDIALOG.load(cowpay_data.tansaction_id); // the token from the charge request response
