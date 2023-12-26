@@ -1,6 +1,4 @@
 jQuery(document).ready(function($) {
-    var redirectUrl = "<?php echo $_SESSION['otp_iframe']; ?>";
-
     // Wait for the DOM to be fully loaded
     $(document).ready(function() {
         // Add a click event listener to the "Place Order" button
