@@ -1,4 +1,6 @@
 jQuery(document).ready(function($) {
+    var redirectUrl = "<?php echo $_SESSION['otp_iframe']; ?>";
+
     // Wait for the DOM to be fully loaded
     $(document).ready(function() {
         // Add a click event listener to the "Place Order" button
@@ -7,7 +9,7 @@ jQuery(document).ready(function($) {
             e.preventDefault();
 
             // Replace 'YOUR_IFRAME_URL' with the actual URL of your iframe content
-            var iframeUrl = "<?php echo $_SESSION['otp_iframe']; ?>";
+            var iframeUrl = redirectUrl;
 
             // Create a modal with the iframe
             var modalHtml = '<div id="iframe-popup-modal" style="display:none;"><iframe src="' + iframeUrl + '" width="100%" height="100%"></iframe></div>';
