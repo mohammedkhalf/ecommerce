@@ -197,14 +197,6 @@ class WooCowpay
 
 		}
 
-		//Credit Card  OTP
-        if (isset($_SESSION['creditCard'])) {
-
-			echo $_SESSION['creditCard']->data->html;
-			unset($_SESSION['creditCard']);
-			
-		}
-
     }
 
 
