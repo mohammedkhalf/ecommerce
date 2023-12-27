@@ -282,6 +282,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
                 session_start();
             }
 
+            WC()->session->set('return_url', $_SESSION['return_url']);
+
             $_SESSION['creditCard'] = $response;// array
 
             WC()->cart->empty_cart();
