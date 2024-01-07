@@ -12,5 +12,5 @@ jQuery(document).ready(function ($) {
 			});
 		}, delay);
 	}
-	redirectSuccess(8000);   
+	redirectSuccess(12000);   
 });
