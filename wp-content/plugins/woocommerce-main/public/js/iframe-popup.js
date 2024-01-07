@@ -1,6 +1,5 @@
 jQuery(document).ready(function ($) {
 	console.log('Load Redirect Url')
-
 	function redirectSuccess(delay) {
 		setTimeout(function() {
 			var timesRefreshed = 0;
