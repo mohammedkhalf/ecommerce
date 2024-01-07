@@ -1,5 +1,7 @@
 <?php
-
+if ( ! session_id() ) {
+	session_start();	
+}
 /**
  * The file that defines the core plugin class
  *
@@ -166,11 +168,11 @@ class WooCowpay
 	}
 	private function handleThankyouPage(){
 		
-		if ( ! session_id() ) {
+		// if ( ! session_id() ) {
 
-			session_start();
+		// 	session_start();
 			
-		}
+		// }
 		
         if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['creditCard'])  ) {
 
@@ -182,9 +184,9 @@ class WooCowpay
 
 	function woo_title_order_received() {
 		
-		if ( ! session_id() ) {
-			session_start();
-		}
+		// if ( ! session_id() ) {
+		// 	session_start();
+		// }
 	
 		//Fawry Outlet
         if (isset($_SESSION['fawryDetails'])) {
