@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 /**
  * Pay At Fawry payment method
  */
@@ -78,6 +74,11 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
                 
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $data = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip);
+        $data = json_decode($data);
+        print_($data); die;
+
         $customer_order = wc_get_order($order_id);   
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
