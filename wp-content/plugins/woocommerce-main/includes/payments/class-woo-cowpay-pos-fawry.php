@@ -77,7 +77,7 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
         $ip = $_SERVER['REMOTE_ADDR'];
         $data = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip);
         $data = json_decode($data);
-        print_($data); die;
+        print_($data->geoplugin_countryName); die;
 
         $customer_order = wc_get_order($order_id);   
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
