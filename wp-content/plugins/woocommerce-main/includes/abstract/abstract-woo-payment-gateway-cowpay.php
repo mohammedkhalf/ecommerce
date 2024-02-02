@@ -287,7 +287,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             '+1809' => 'Dominica',
             '+1809' => 'Dominican Republic',
             '+593' => 'Ecuador',
-            '+20' => 'Egypt',
+            '+2' => 'Egypt',
             '+503' => 'El Salvador',
             '+240' => 'Equatorial Guinea',
             '+291' => 'Eritrea',
