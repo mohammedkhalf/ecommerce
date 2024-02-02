@@ -81,15 +81,13 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
         $amount = $customer_order->order_total;
         $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
 
-        var_dump($dial_phone_number.$customer_order->get_billing_phone());die;
-
         $req_params = array(
             "gatewayTargetMethod" => "PayAtFawry",
             "merchantReferenceId" => $merchant_ref_id,
             "customerMerchantProfileId" => $customer_profile_id,
             "amount" => $amount,
             "signature" => $signature,
-            "customerMobile"  => $customer_order->get_billing_phone(),
+            "customerMobile"  => $dial_phone_number.$customer_order->get_billing_phone(),
             "customerFirstName" => $customer_order->get_formatted_billing_full_name(),
             "customerLastName" => $customer_order->get_formatted_billing_full_name(),
             "customerEmail" => $customer_order->get_billing_email(),
