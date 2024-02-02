@@ -227,8 +227,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
         $data = json_decode($data);
         $countryName = $data->geoplugin_countryName;
         $dialPhoneNumber = $this->getDailUsingCountry($countryName);
-        // print_r($data->geoplugin_countryName); die;
-
+        return $dialPhoneNumber;
     }
 
     public function getDailUsingCountry($countryName)
@@ -449,10 +448,8 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             '+260' => 'Zambia',
             '+263' => 'Zimbabwe',
         ];
-
         $key = array_search($countryName,$countryCodes);
-        var_dump($key,"hello"); die;
-
+        return $key;
     }
 
 

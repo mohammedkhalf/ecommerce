@@ -74,14 +74,14 @@ class WC_Payment_Gateway_Cowpay_POS_Fawry extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
         $dial_phone_number = $this->get_dial_phone_number();
-        var_dump($dial_phone_number);die;
-        
         $customer_order = wc_get_order($order_id);   
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
         $description = $this->get_cp_description($customer_order);
         $amount = $customer_order->order_total;
         $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
+
+        var_dump($dial_phone_number.$customer_order->get_billing_phone());die;
 
         $req_params = array(
             "gatewayTargetMethod" => "PayAtFawry",
