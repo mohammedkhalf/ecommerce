@@ -187,6 +187,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      */
     private function create_payment_request($order_id)
     {
+        $dial_phone_number = $this->get_dial_phone_number();
         $customer_order = wc_get_order($order_id);
         $merchant_ref_id = $this->get_cp_merchant_reference_id($customer_order);
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
@@ -202,11 +203,12 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             'customer_merchant_profile_id' => $customer_profile_id,
             'customer_name' => $customer_order->get_formatted_billing_full_name(),
             'customer_email' => $customer_order->get_billing_email(),
-            'customer_mobile' => $customer_order->get_billing_phone(),
+            'customer_mobile' => $dial_phone_number.$customer_order->get_billing_phone(),
             'amount' => $amount,
             'signature' => $signature,
             'description' => $description
         );
+        
         return $request_params;
     }
 
