@@ -219,4 +219,12 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             }
         }
     }
+
+    public function get_dial_phone_number()
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $data = file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip);
+        $data = json_decode($data);
+        print_r($data->geoplugin_countryName); die;
+    }
 }
