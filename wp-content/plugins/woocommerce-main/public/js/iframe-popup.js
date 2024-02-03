@@ -4,11 +4,11 @@ jQuery(document).ready(function ($) {
 			var redirectUrl = cowpay_data.return_url;
 			$("iframe").load(function(){
 				timesRefreshed++; 
-				if(timesRefreshed == 1){
+				if(timesRefreshed == 2){
 					window.location.href = redirectUrl;
-					// setTimeout(function() {
-					// 	window.location.href = redirectUrl;
-					// }, 9000);
+					setTimeout(function() {
+						window.location.href = redirectUrl;
+					}, 9000);
 				}
 			});
 });
