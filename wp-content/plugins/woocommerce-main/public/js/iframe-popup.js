@@ -4,7 +4,7 @@ jQuery(document).ready(function ($) {
 			var redirectUrl = cowpay_data.return_url;
 			$("iframe").load(function(){
 				timesRefreshed++; 
-				if(timesRefreshed == 2){
+				if(timesRefreshed == 1){
 					window.location.href = redirectUrl;
 					// setTimeout(function() {
 					// 	window.location.href = redirectUrl;
