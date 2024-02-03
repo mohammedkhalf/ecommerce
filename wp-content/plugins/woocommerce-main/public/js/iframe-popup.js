@@ -5,7 +5,6 @@ jQuery(document).ready(function ($) {
 			$("iframe").load(function(){
 				timesRefreshed++; 
 				if(timesRefreshed == 2){
-					window.location.href = redirectUrl;
 					setTimeout(function() {
 						window.location.href = redirectUrl;
 					}, 9000);
