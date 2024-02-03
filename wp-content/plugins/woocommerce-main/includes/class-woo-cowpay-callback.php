@@ -56,6 +56,10 @@ class Cowpay_Server_Callback
             default:
                 return $this->exit_error("unknown callback request type '$callback_type'");
         }
+
+        var_dump($data);die;
+        $_SESSION['callBackInfo'] =  $data;
+
         wp_die("callback successfully handled", 200);
     }
 
