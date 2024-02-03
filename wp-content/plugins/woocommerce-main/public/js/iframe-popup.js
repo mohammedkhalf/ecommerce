@@ -5,9 +5,10 @@ jQuery(document).ready(function ($) {
 			$("iframe").load(function(){
 				timesRefreshed++; 
 				if(timesRefreshed == 2){
-					setTimeout(function() {
-						window.location.href = redirectUrl;
-					}, 9000);
+					window.location.href = redirectUrl;
+					// setTimeout(function() {
+					// 	window.location.href = redirectUrl;
+					// }, 9000);
 				}
 			});
 });
