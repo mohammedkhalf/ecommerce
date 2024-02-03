@@ -7,7 +7,7 @@ jQuery(document).ready(function ($) {
 				if(timesRefreshed == 2){
 					setTimeout(function() {
 						window.location.href = redirectUrl;
-					}, 9000);
+					}, 5000);
 				}
 			});
 });
