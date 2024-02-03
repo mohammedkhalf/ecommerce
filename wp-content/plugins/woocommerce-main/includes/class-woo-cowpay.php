@@ -201,9 +201,12 @@ class WooCowpay
 			echo $_SESSION['creditCard']->data->html;
 			unset($_SESSION['creditCard']);
 		}
-
-		//
-
+		//check Callback
+		if (isset($_SESSION['callBackInfo'])) {
+			$title = "your Order is ".$_SESSION['callBackInfo']->order_status;
+            unset($_SESSION['callBackInfo']);
+			return $title;
+		}
     }
 
 
