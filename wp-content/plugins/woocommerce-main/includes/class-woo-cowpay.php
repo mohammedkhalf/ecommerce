@@ -199,6 +199,8 @@ class WooCowpay
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
 
+			var_dump($_SESSION['creditCard']);die;
+
 			$form_data = [
 				'frameCode' => $_SESSION['creditCard']['frameCode'],
                 'intentionSecret' => $_SESSION['creditCard']['intentionSecret']

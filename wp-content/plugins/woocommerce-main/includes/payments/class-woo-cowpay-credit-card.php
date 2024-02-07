@@ -60,8 +60,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 		$return_url     = '';
 		$transaction_id = $order->get_transaction_id();
 
-        var_dump($transaction_id);die;
-
 
 		if ( ! empty( $this->view_transaction_url ) && ! empty( $transaction_id ) ) {
 			$return_url = sprintf( $this->view_transaction_url, $transaction_id );
