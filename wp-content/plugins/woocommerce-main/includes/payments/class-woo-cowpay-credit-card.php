@@ -233,7 +233,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
-        var_dump($response);die;
+        var_dump($response->intentionSecret);die;
 
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
@@ -244,19 +244,14 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $customer_order->add_order_note(__($response->operationMessage));      
 
             //redirect to Iframe Page
-            if (isset($response->data->html) && !empty($response->data->html)) {
-                WC()->session->set('return_url', $_SESSION['return_url']);
-                echo $_SESSION['creditCard']->data->html;
-                unset($_SESSION['creditCard']);
-                //WC()->session->set('otp_iframe' , $response->data->html );
-                // wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
-                // die;
+            if (isset($response->token) && $response->token == true) {
+                WC()->session->set( 'tansaction_id' , $response->token );
                 // TODO: add option to use OTP plugin when return_url is not exist
-                // $res = array(
-                //     'result' => 'success',
-                //     'redirect' =>  $this->get_transaction_url($customer_order)
-                // );
-                // return $res;
+                $res = array(
+                    'result' => 'success',
+                    'redirect' =>  $this->get_transaction_url($customer_order)
+                );
+                return $res;
             }
 
             // not 3DS:
