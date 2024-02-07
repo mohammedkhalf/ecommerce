@@ -229,13 +229,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             "customerMobile"=>$request_params['customer_mobile'],
             "customerEmail"=>$request_params['customer_email'],
             "description"=>$request_params['description'],
-            "returnUrl3DS"=>$request_params['redirectUrl'],
+            "redirectUrl"=>$request_params['redirectUrl'],
         ];        
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
         var_dump($response);die;
-        
+
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
             // update order meta
