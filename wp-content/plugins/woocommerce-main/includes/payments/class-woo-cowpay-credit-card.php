@@ -233,7 +233,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
-        var_dump($response->data->intentionSecret);die;
+        // var_dump($response->data->intentionSecret);die;
 
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
@@ -244,8 +244,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $customer_order->add_order_note(__($response->operationMessage));      
 
             //redirect to Iframe Page
-            if (isset($response->token) && $response->token == true) {
-                WC()->session->set( 'tansaction_id' , $response->token );
+            if (isset($response->data->intentionSecret)) {
+                WC()->session->set( 'tansaction_id' , $response->data->intentionSecret);
                 // TODO: add option to use OTP plugin when return_url is not exist
                 $res = array(
                     'result' => 'success',
@@ -325,7 +325,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
     public function form()
     {
-        woo_cowpay_view("credit-card-form"); // have no data right now
+        woo_cowpay_view("credit-card-payment-fields"); // have no data right now
     }
    
 
@@ -352,26 +352,27 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $schema = is_ssl() ? "https" : "http";
         //wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
+
+        wp_enqueue_script('woo-cowpay-plugin', WOO_COWPAY_PLUGIN_URL . 'public/js/cowpay.js');
+
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
 
-        wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
-
+        // wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
         wp_enqueue_style('cowpay_public_css', WOO_COWPAY_PLUGIN_URL . 'public/css/woo-cowpay-public.css');
 
         // Pass ajax_url to cowpay_js
         // this line will pass `admin_url('admin-ajax.php')` value to be accessed through
         // plugin_ajax_object.ajax_url in javascipt file with the handle cowpay_js (the one above)
         // wp_localize_script('cowpay_js', 'cowpay_data', array('ajax_url' => admin_url('admin-ajax.php')));
-
-        wp_localize_script('woo-cowpay', 'cowpay_data', array(
+        wp_localize_script('woo-cowpay-plugin', 'cowpay_data', array(
             // 'order_id' => WC()->session->get( 'order_id'),
             // 'ajax_url' => WC()->ajax_url(),
-            'return_url' =>WC()->session->get('return_url')
+            // 'return_url' =>WC()->session->get('return_url')
+            'frameCode' => "584fc843-b6b3-466c-b05b-cfd01fb0af28",
+            'intentionSecret' => WC()->session->get( 'tansaction_id')
             )
         );
-
-        WC()->session->__unset('return_url');
+        WC()->session->__unset('frameCode');
+        WC()->session->__unset('intentionSecret');
     }
-
-   
 }
