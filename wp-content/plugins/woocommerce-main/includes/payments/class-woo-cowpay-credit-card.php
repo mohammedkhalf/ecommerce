@@ -232,9 +232,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         ];        
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
-
-        wp_redirect( wp_registration_url() );
-        die();
         // var_dump($response->data->intentionSecret);die;
 
         $messages = $this->get_user_error_messages($response);
@@ -249,6 +246,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             if (isset($response->data->intentionSecret)) {
                 WC()->session->set( 'tansaction_id' , $response->data->intentionSecret);
                 // TODO: add option to use OTP plugin when return_url is not exist
+                var_dump($this->get_transaction_url($customer_order));die;
                 $res = array(
                     'result' => 'success',
                     'redirect' =>  $this->get_transaction_url($customer_order)
