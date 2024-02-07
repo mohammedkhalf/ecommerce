@@ -198,8 +198,38 @@ class WooCowpay
 		}
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-			header('Location: https://www.google.com/');
+
+			$form_data = [
+				'frameCode' => $_SESSION['creditCard']['frameCode'],
+                'intentionSecret' => $_SESSION['creditCard']['intentionSecret']
+			];
+
+			var_dump($form_data);die;
+
+			// Send form data to Laravel site
+			$response = wp_remote_post('https://example.com/laravel-endpoint', array(
+				'method'      => 'POST',
+				'timeout'     => 45,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'blocking'    => true,
+				'headers'     => array(),
+				'body'        => $form_data,
+				'cookies'     => array(),
+			));
+		
+			if (!is_wp_error($response)) {
+				// Redirect user to Laravel site
+				wp_redirect('https://example.com/laravel-site');
+				exit;
+			} else {
+				// Handle error
+			}
+
+
+			// header('Location: https://www.google.com/');
 			unset($_SESSION['creditCard']);
+
 		}
     }
 

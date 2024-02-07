@@ -265,7 +265,12 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
             WC()->session->set('return_url', $_SESSION['return_url']);
 
-            $_SESSION['creditCard'] = $response;// array
+            $data = [
+                'frameCode' => '584fc843-b6b3-466c-b05b-cfd01fb0af28',
+                'intentionSecret' => $response->data->intentionSecret
+            ];
+
+            $_SESSION['creditCard'] = $data; // array
 
             WC()->cart->empty_cart();
             // wait server-to-server notification
