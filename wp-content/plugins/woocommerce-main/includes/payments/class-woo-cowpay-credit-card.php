@@ -47,8 +47,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
         parent::init();
 
-        $this->settings = Cowpay_Admin_Settings::getInstance();
-
     }
 
     /**
@@ -221,7 +219,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
         $request_params = [
-            "frameCode" => $this->setting->get_iframe_code(),
+            "frameCode" => Cowpay_Admin_Settings::get_iframe_code(),
             "amount"=>$request_params['amount'],
             "isfeesOnCustomer"=>"true",
             "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],

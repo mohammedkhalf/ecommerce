@@ -156,7 +156,7 @@ class Cowpay_Admin_Settings
         return sanitize_text_field($value);
     }
 
-    public function get_iframe_code()
+    public static function get_iframe_code()
     {
         $value = $this->settings['IFRAME_CODE'];
         return sanitize_text_field($value);
