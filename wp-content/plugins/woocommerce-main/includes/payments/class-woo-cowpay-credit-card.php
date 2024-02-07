@@ -247,16 +247,16 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $customer_order->add_order_note(__($response->operationMessage));      
 
             //redirect to Iframe Page
-            if (isset($response->data->intentionSecret)) {
-                WC()->session->set( 'tansaction_id' , $response->data->intentionSecret);
-                // TODO: add option to use OTP plugin when return_url is not exist
-                // $res = array(
-                //     'result' => 'success',
-                //     'redirect' =>  $this->get_transaction_url($customer_order)
-                // );
-                // return $res;
-                woo_cowpay_view("credit-card-payment-fields");die;
-            }
+            // if (isset($response->data->intentionSecret)) {
+            //     WC()->session->set( 'tansaction_id' , $response->data->intentionSecret);
+            //     // TODO: add option to use OTP plugin when return_url is not exist
+            //     // $res = array(
+            //     //     'result' => 'success',
+            //     //     'redirect' =>  $this->get_transaction_url($customer_order)
+            //     // );
+            //     // return $res;
+            //     woo_cowpay_view("credit-card-payment-fields");die;
+            // }
 
             // not 3DS:
             if ( ! session_id() ) {

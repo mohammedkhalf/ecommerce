@@ -198,7 +198,7 @@ class WooCowpay
 		}
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-			echo $_SESSION['creditCard']->data->html;
+			header('Location: https://www.google.com/');
 			unset($_SESSION['creditCard']);
 		}
     }
