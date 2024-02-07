@@ -233,6 +233,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
+        wp_redirect( wp_registration_url() );
+        die();
         // var_dump($response->data->intentionSecret);die;
 
         $messages = $this->get_user_error_messages($response);
