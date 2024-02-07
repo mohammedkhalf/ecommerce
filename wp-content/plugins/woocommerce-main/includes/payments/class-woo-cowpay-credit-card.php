@@ -221,14 +221,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $request_params = [
             "frameCode" => "584fc843-b6b3-466c-b05b-cfd01fb0af28",
             "amount"=>$request_params['amount'],
-            "isfeesOnCustomer"=>"true",
+            "isFeesOnCustomer"=>"true",
             "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
-            "merchantReferenceId"=>$request_params['merchant_reference_id'],
+            "MerchantReferenceId"=>$request_params['merchant_reference_id'],
             "customerFirstName"=>$request_params['customer_name'],
             "customerLastName"=>$request_params['customer_name'],
-            "customerMobile"=>$request_params['customer_mobile'],
+            "customerPhone"=>$request_params['customer_mobile'],
             "customerEmail"=>$request_params['customer_email'],
-            "description"=>$request_params['description'],
             "redirectUrl"=>$request_params['redirectUrl'],
         ];        
         
