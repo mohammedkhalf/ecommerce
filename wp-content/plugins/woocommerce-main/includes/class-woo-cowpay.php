@@ -202,8 +202,8 @@ class WooCowpay
 			//var_dump($_SESSION['creditCard']);die;
 
 			$form_data = [
-				'frameCode' => $_SESSION['creditCard']->frameCode,
-                'intentionSecret' => $_SESSION['creditCard']->intentionSecret
+				'frameCode' => $_SESSION['creditCard']['frameCode'],
+                'intentionSecret' => $_SESSION['creditCard']['intentionSecret']
 			];
 
 			var_dump($form_data);die;
