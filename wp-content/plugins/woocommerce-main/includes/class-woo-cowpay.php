@@ -206,10 +206,9 @@ class WooCowpay
                 'intentionSecret' => $_SESSION['creditCard']['intentionSecret']
 			];
 
-			var_dump($form_data);die;
 
 			// Send form data to Laravel site
-			$response = wp_remote_post('https://example.com/laravel-endpoint', array(
+			$response = wp_remote_post('https://staging.cowpay.me/render/iframe', array(
 				'method'      => 'POST',
 				'timeout'     => 45,
 				'redirection' => 5,
@@ -219,6 +218,8 @@ class WooCowpay
 				'body'        => $form_data,
 				'cookies'     => array(),
 			));
+
+			var_dump($response);die;
 		
 			if (!is_wp_error($response)) {
 				// Redirect user to Laravel site
