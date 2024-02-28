@@ -15,7 +15,7 @@ class WC_Gateway_Cowpay_API_Handler
     protected static $identity_staging_host = 'sit.cowpay.me:8002';
     protected static $identity_production_host = 'identity.cowpay.me:8002';
     protected static $endpoint_charge_fawry = 'payment/Pay';
-    protected static $endpoint_charge_cc = 'paymentIntegration/api/PaymentIntention/Create';
+    protected static $endpoint_charge_cc = 'payment/Pay';
     protected static $endpoint_charge_cash_collection = 'api/v1/charge/cash-collection';
     protected static $endpoint_load_iframe_token = 'api/v1/iframe/token';
     protected static $endpoint_checkout_url = 'api/v1/iframe/load';

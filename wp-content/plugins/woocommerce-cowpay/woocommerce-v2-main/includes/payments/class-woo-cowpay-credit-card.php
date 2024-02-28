@@ -46,7 +46,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         // add_action('wp_enqueue_scripts','check_otp_response');
 
         parent::init();
-
     }
 
     /**
@@ -59,8 +58,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
 		$return_url     = '';
 		$transaction_id = $order->get_transaction_id();
-
-
 		if ( ! empty( $this->view_transaction_url ) && ! empty( $transaction_id ) ) {
 			$return_url = sprintf( $this->view_transaction_url, $transaction_id );
 		}
@@ -196,20 +193,21 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
         $description = $this->get_cp_description($customer_order);
         $amount = $customer_order->get_total(); // TODO: format it like 10.00;
+        $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
 
         $request_params = array(
             // redirect user to our controller to check otp response
+            // 'return_url' => $this->notify_url,
+            'return_url' => home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key,
             'merchant_reference_id' => $merchant_ref_id,
             'customer_merchant_profile_id' => $customer_profile_id,
             'customer_name' => $customer_order->get_formatted_billing_full_name(),
             'customer_email' => $customer_order->get_billing_email(),
             'customer_mobile' => $dial_phone_number.$customer_order->get_billing_phone(),
             'amount' => $amount,
-            'description' => $description,
-            'redirectUrl' => home_url('/').'shop',
-
+            'signature' => $signature,
+            'description' => $description
         );
-        
         return $request_params;
     }
 
@@ -219,22 +217,44 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
         $customer_order = wc_get_order($order_id);
+        $cardNumber = $_POST['cowpay_credit_card_number'];
+        $expireMonth = $_POST['cowpay_credit_card_expire_month'];
+        $expireYear = $_POST['cowpay_credit_card_expire_year'];
+        $expireDate =  $expireMonth.''.$expireYear;
+        $cvv = $_POST['cowpay_credit_card_cvv'];
         $request_params = $this->create_payment_request($order_id);
+        $_SESSION['return_url'] =  $request_params['return_url'];
+
         $request_params = [
-            "frameCode" => "584fc843-b6b3-466c-b05b-cfd01fb0af28",
-            "amount"=>$request_params['amount'],
-            "isFeesOnCustomer"=>true,
+            "gatewayTargetMethod" => "MPGSCard",
+            "merchantReferenceId"=>$request_params['merchant_reference_id'],
             "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
-            "MerchantReferenceId"=>$request_params['merchant_reference_id'],
+            "amount"=>$request_params['amount'],
+            "signature"=>$request_params['signature'],
+            "customerMobile"=>$request_params['customer_mobile'],
+            "customerEmail"=>$request_params['customer_email'],
+            "isfeesOnCustomer"=>false,
+            "description"=>$request_params['description'],
+            "cardNumber"=>$cardNumber,
+            "cardExpMonth"=>$expireMonth,
+            "cardExpYear"=>$expireYear,
+            "cardCvv"=>$cvv,
             "customerFirstName"=>$request_params['customer_name'],
             "customerLastName"=>$request_params['customer_name'],
-            "customerPhone"=>$request_params['customer_mobile'],
-            "customerEmail"=>$request_params['customer_email'],
-            "redirectUrl"=>$request_params['redirectUrl'],
-        ];        
+            "customerAddress"=>"Cairo",
+            "customerCountry"=>"EG",
+            "customerState"=>"Cairo",
+            "customerCity"=>"Cairo",
+            "cardHolderName" => $request_params['customer_name'],
+            "customerZip"=>"123456",
+            "customerIP"=>"197.38.100.250",
+            "returnUrl3DS"=>$request_params['return_url'],
+        ];
+        
         
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
-        // var_dump($response->data->intentionSecret);die;
+
+        var_dump($response);
 
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
@@ -244,16 +264,20 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             // display to the admin
             $customer_order->add_order_note(__($response->operationMessage));      
 
-            //redirect to Iframe Page
-            // if (isset($response->data->intentionSecret)) {
-            //     WC()->session->set( 'tansaction_id' , $response->data->intentionSecret);
+            //redirect to OTP Page
+            // if (isset($response->data->html) && !empty($response->data->html)) {
+            //     WC()->session->set('return_url', $_SESSION['return_url']);
+            //     echo $_SESSION['creditCard']->data->html;
+            //     unset($_SESSION['creditCard']);
+            //     //WC()->session->set('otp_iframe' , $response->data->html );
+            //     // wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
+            //     // die;
             //     // TODO: add option to use OTP plugin when return_url is not exist
             //     // $res = array(
             //     //     'result' => 'success',
             //     //     'redirect' =>  $this->get_transaction_url($customer_order)
             //     // );
             //     // return $res;
-            //     woo_cowpay_view("credit-card-payment-fields");die;
             // }
 
             // not 3DS:
@@ -263,12 +287,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
             WC()->session->set('return_url', $_SESSION['return_url']);
 
-            $data = [
-                'frameCode' => '584fc843-b6b3-466c-b05b-cfd01fb0af28',
-                'intentionSecret' => $response->data->intentionSecret
-            ];
-
-            $_SESSION['creditCard'] = $data; // array
+            $_SESSION['creditCard'] = $response;// array
 
             WC()->cart->empty_cart();
             // wait server-to-server notification
@@ -332,7 +351,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
     public function form()
     {
-        woo_cowpay_view("credit-card-payment-fields"); // have no data right now
+        woo_cowpay_view("credit-card-form"); // have no data right now
     }
    
 
@@ -359,27 +378,26 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $schema = is_ssl() ? "https" : "http";
         //wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
-
-        wp_enqueue_script('woo-cowpay-plugin', WOO_COWPAY_PLUGIN_URL . 'public/js/cowpay.js');
-
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
 
-        // wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
+        wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
+
         wp_enqueue_style('cowpay_public_css', WOO_COWPAY_PLUGIN_URL . 'public/css/woo-cowpay-public.css');
 
         // Pass ajax_url to cowpay_js
         // this line will pass `admin_url('admin-ajax.php')` value to be accessed through
         // plugin_ajax_object.ajax_url in javascipt file with the handle cowpay_js (the one above)
         // wp_localize_script('cowpay_js', 'cowpay_data', array('ajax_url' => admin_url('admin-ajax.php')));
-        wp_localize_script('woo-cowpay-plugin', 'cowpay_data', array(
+
+        wp_localize_script('woo-cowpay', 'cowpay_data', array(
             // 'order_id' => WC()->session->get( 'order_id'),
             // 'ajax_url' => WC()->ajax_url(),
-            // 'return_url' =>WC()->session->get('return_url')
-            'frameCode' => "584fc843-b6b3-466c-b05b-cfd01fb0af28",
-            'intentionSecret' => WC()->session->get( 'tansaction_id')
+            'return_url' =>WC()->session->get('return_url')
             )
         );
-        WC()->session->__unset('frameCode');
-        WC()->session->__unset('intentionSecret');
+
+        WC()->session->__unset('return_url');
     }
+
+   
 }

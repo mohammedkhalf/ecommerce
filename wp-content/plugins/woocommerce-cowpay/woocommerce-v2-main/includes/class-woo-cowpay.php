@@ -1,7 +1,4 @@
 <?php
-if ( ! session_id() ) {
-	session_start();	
-}
 /**
  * The file that defines the core plugin class
  *
@@ -168,11 +165,9 @@ class WooCowpay
 	}
 	private function handleThankyouPage(){
 		
-		if ( ! session_id() ) {
-
-			session_start();
-			
-		}
+		// if ( ! session_id() ) {
+		// 	session_start();
+		// }
 		
         if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['creditCard'])  ) {
 
@@ -184,9 +179,9 @@ class WooCowpay
 
 	function woo_title_order_received() {
 		
-		if ( ! session_id() ) {
-			session_start();
-		}
+		// if ( ! session_id() ) {
+		// 	session_start();
+		// }
 	
 		//Fawry Outlet
         if (isset($_SESSION['fawryDetails'])) {
@@ -194,46 +189,19 @@ class WooCowpay
 			<b>".$_SESSION['fawryDetails']->data->paymentGatewayReferenceId."</b> 
 			to pay <b>".$_SESSION['fawryDetails']->data->amount." EGP</b>  at the nearest fawry outlet";
             unset($_SESSION['fawryDetails']);
+			
 			return $title;
+
 		}
+
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
 
-			//var_dump($_SESSION['creditCard']);die;
-
-			$form_data = [
-				'frameCode' => $_SESSION['creditCard']['frameCode'],
-                'intentionSecret' => $_SESSION['creditCard']['intentionSecret']
-			];
-
-
-			// Send form data to Laravel site
-			$response = wp_remote_post('https://staging.cowpay.me/render/iframe', array(
-				'method'      => 'POST',
-				'timeout'     => 45,
-				'redirection' => 5,
-				'httpversion' => '1.0',
-				'blocking'    => true,
-				'headers'     => array(),
-				'body'        => $form_data,
-				'cookies'     => array(),
-			));
-
-			var_dump($response);die;
-		
-			if (!is_wp_error($response)) {
-				// Redirect user to Laravel site
-				wp_redirect('https://example.com/laravel-site');
-				exit;
-			} else {
-				// Handle error
-			}
-
-
-			// header('Location: https://www.google.com/');
+			echo $_SESSION['creditCard']->data->html;
 			unset($_SESSION['creditCard']);
-
+			
 		}
+
     }
 
 
