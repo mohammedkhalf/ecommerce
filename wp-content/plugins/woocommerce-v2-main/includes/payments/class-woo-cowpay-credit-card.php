@@ -193,21 +193,20 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $customer_profile_id = $this->get_cp_customer_profile_id($customer_order);
         $description = $this->get_cp_description($customer_order);
         $amount = $customer_order->get_total(); // TODO: format it like 10.00;
-        $signature = $this->get_cp_signature($amount, $merchant_ref_id, $customer_profile_id);
 
         $request_params = array(
             // redirect user to our controller to check otp response
-            // 'return_url' => $this->notify_url,
-            'return_url' => home_url('/').'checkout/order-received/'.$order_id.'/?key='.$customer_order->order_key,
             'merchant_reference_id' => $merchant_ref_id,
             'customer_merchant_profile_id' => $customer_profile_id,
             'customer_name' => $customer_order->get_formatted_billing_full_name(),
             'customer_email' => $customer_order->get_billing_email(),
             'customer_mobile' => $dial_phone_number.$customer_order->get_billing_phone(),
             'amount' => $amount,
-            'signature' => $signature,
-            'description' => $description
+            'description' => $description,
+            'redirectUrl' => home_url('/').'shop',
+
         );
+
         return $request_params;
     }
 
@@ -217,41 +216,21 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     public function process_payment($order_id)
     {
         $customer_order = wc_get_order($order_id);
-        $cardNumber = $_POST['cowpay_credit_card_number'];
-        $expireMonth = $_POST['cowpay_credit_card_expire_month'];
-        $expireYear = $_POST['cowpay_credit_card_expire_year'];
-        $expireDate =  $expireMonth.''.$expireYear;
-        $cvv = $_POST['cowpay_credit_card_cvv'];
         $request_params = $this->create_payment_request($order_id);
-        $_SESSION['return_url'] =  $request_params['return_url'];
-
         $request_params = [
-            "gatewayTargetMethod" => "MPGSCard",
-            "merchantReferenceId"=>$request_params['merchant_reference_id'],
-            "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
+            "frameCode" => "584fc843-b6b3-466c-b05b-cfd01fb0af28",
             "amount"=>$request_params['amount'],
-            "signature"=>$request_params['signature'],
-            "customerMobile"=>$request_params['customer_mobile'],
-            "customerEmail"=>$request_params['customer_email'],
-            "isfeesOnCustomer"=>false,
-            "description"=>$request_params['description'],
-            "cardNumber"=>$cardNumber,
-            "cardExpMonth"=>$expireMonth,
-            "cardExpYear"=>$expireYear,
-            "cardCvv"=>$cvv,
+            "isFeesOnCustomer"=>true,
+            "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
+            "MerchantReferenceId"=>$request_params['merchant_reference_id'],
             "customerFirstName"=>$request_params['customer_name'],
             "customerLastName"=>$request_params['customer_name'],
-            "customerAddress"=>"Cairo",
-            "customerCountry"=>"EG",
-            "customerState"=>"Cairo",
-            "customerCity"=>"Cairo",
-            "cardHolderName" => $request_params['customer_name'],
-            "customerZip"=>"123456",
-            "customerIP"=>"197.38.100.250",
-            "returnUrl3DS"=>$request_params['return_url'],
+            "customerPhone"=>$request_params['customer_mobile'],
+            "customerEmail"=>$request_params['customer_email'],
+            "redirectUrl"=>$request_params['redirectUrl'],
         ];
-        
-        
+
+
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
         //check response
