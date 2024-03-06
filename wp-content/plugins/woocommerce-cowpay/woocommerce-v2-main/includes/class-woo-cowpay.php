@@ -165,9 +165,9 @@ class WooCowpay
 	}
 	private function handleThankyouPage(){
 		
-		// if ( ! session_id() ) {
-		// 	session_start();
-		// }
+		if ( ! session_id() ) {
+			session_start();
+		}
 		
         if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['creditCard'])  ) {
 
@@ -179,9 +179,9 @@ class WooCowpay
 
 	function woo_title_order_received() {
 		
-		// if ( ! session_id() ) {
-		// 	session_start();
-		// }
+		if ( ! session_id() ) {
+			session_start();
+		}
 	
 		//Fawry Outlet
         if (isset($_SESSION['fawryDetails'])) {
@@ -196,9 +196,11 @@ class WooCowpay
 
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-
-			echo $_SESSION['creditCard']->data->html;
+			
+			$title = $_SESSION['creditCard']->data->html;
 			unset($_SESSION['creditCard']);
+			return $title;
+			die;
 			
 		}
 
