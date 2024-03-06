@@ -167,7 +167,8 @@ class WooCowpayAdmin
 			'YOUR_MERCHANT_HASH' => "",
 			'YOUR_AUTHORIZATION_TOKEN' => "",
 			'YOUR_PHONE_NUMBER' => "01xxxxxxxx",
-			'description' => "No Description",
+            'IFRAME_CODE' => "",
+            'description' => "No Description",
 			'cowpay_callbackurl' => add_query_arg('action', 'cowpay', home_url('/')),
 			'environment' => 2,
 			'order_status' => "wc-processing",
@@ -217,6 +218,17 @@ class WooCowpayAdmin
 			'cowpay',
 			'cowpay_section_main'
 		);
+        //IFRAME_CODE
+        add_settings_field(
+            'IFRAME_CODE',
+            esc_html__('Iframe Code', 'cowpay'),
+            function () {
+                $options = get_option('cowpay_settings');
+                woo_cowpay_view('field-iframe-code', array("options" => $options));
+            },
+            'cowpay',
+            'cowpay_section_main'
+        );
 		add_settings_field(
 			'description',
 			esc_html__('Description', 'cowpay'),
