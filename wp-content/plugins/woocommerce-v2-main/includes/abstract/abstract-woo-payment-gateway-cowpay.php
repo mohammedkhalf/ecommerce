@@ -93,33 +93,33 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
      * @param Object? $response object if exists
      * @return void
      */
-//    public function set_cowpay_meta($order, $req_params, $response = null)
-//    {
-//        //* if meta key starts with underscore '_' character, it will be private
-//        //* and will not be shown in the order information in the dashboard.
-//
-//        $setOrderMeta = function ($k, $v) use ($order) {
-//            update_post_meta($order->get_id(), $k, $v);
-//            // don't use this right now, as it doesn't update in the database.
-//            //// $order->add_meta_data($k, $v);
-//        };
+    public function set_cowpay_meta($order, $req_params, $response = null)
+    {
+        //* if meta key starts with underscore '_' character, it will be private
+        //* and will not be shown in the order information in the dashboard.
+
+        $setOrderMeta = function ($k, $v) use ($order) {
+            update_post_meta($order->get_id(), $k, $v);
+            // don't use this right now, as it doesn't update in the database.
+            //// $order->add_meta_data($k, $v);
+        };
 //        $setOrderMeta("cp_merchantReferenceId", $req_params['merchantReferenceId']);
-//        $setOrderMeta("cp_customerMerchantProfileId", $req_params['customerMerchantProfileId']);
-//
-//        if ($response == null) return;
-//        // response meta
+        $setOrderMeta("cp_customerMerchantProfileId", $req_params['customerMerchantProfileId']);
+
+        if ($response == null) return;
+        // response meta
 //        $setOrderMeta("cp_cowpay_reference_id",$response->data->cowpayReferenceId);
-//        $is_3ds = true;
-//        $setOrderMeta("cp_is_3ds", $is_3ds);
-//        if (isset($response->data->paymentGatewayReferenceId)) {
-//            $setOrderMeta("cp_payment_gateway_reference_id", $response->data->paymentGatewayReferenceId);
-//        }elseif (is_array($response) && @isset($response['paymentGatewayReferenceId'])) {
-//            $setOrderMeta("cp_payment_gateway_reference_id", $response['paymentGatewayReferenceId']);
-//        }
-//
-//
-//        // TODO: do_action('cowpay_meta_after_update')
-//    }
+        $is_3ds = true;
+        $setOrderMeta("cp_is_3ds", $is_3ds);
+        if (isset($response->data->paymentGatewayReferenceId)) {
+            $setOrderMeta("cp_payment_gateway_reference_id", $response->data->paymentGatewayReferenceId);
+        }elseif (is_array($response) && @isset($response['paymentGatewayReferenceId'])) {
+            $setOrderMeta("cp_payment_gateway_reference_id", $response['paymentGatewayReferenceId']);
+        }
+
+
+        // TODO: do_action('cowpay_meta_after_update')
+    }
 
     /**
      * parse an error and returns readable helpful user message
