@@ -254,14 +254,14 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 //                 WC()->session->set('otp_iframe' , $response->data->html );
 //                 wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
 //                 die;
-                 wp_redirect(woo_cowpay_view("custom-otp-page"));
-                 exit;
+//                  wp_redirect(woo_cowpay_view("custom-otp-page"));
+//                  exit;
                  // TODO: add option to use OTP plugin when return_url is not exist
-                 // $res = array(
-                 //     'result' => 'success',
-                 //     'redirect' =>  $this->get_transaction_url($customer_order)
-                 // );
-                 // return $res;
+                  $res = array(
+                      'result' => 'success',
+                      'redirect' =>  $this->get_transaction_url($customer_order)
+                  );
+                  return $res;
              }
 
             // not 3DS:
@@ -335,7 +335,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
     public function form()
     {
-        woo_cowpay_view("credit-card-form"); // have no data right now
+        woo_cowpay_view("credit-card-payment-fields"); // have no data right now
     }
    
 
@@ -362,10 +362,9 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $schema = is_ssl() ? "https" : "http";
         //wp_enqueue_script('cowpay_card_js', "$schema://$host/js/plugins/CardPlugin.js");
         // wp_enqueue_script('cowpay_otp_js', "$schema://$host/js/plugins/OTPPaymentPlugin.js");
+        wp_enqueue_script('woo-cowpay-plugin', WOO_COWPAY_PLUGIN_URL . 'public/js/cowpay.js');
         wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
-
-        wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
-
+        //wp_enqueue_script('iframe-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/iframe-popup.js');
         wp_enqueue_style('cowpay_public_css', WOO_COWPAY_PLUGIN_URL . 'public/css/woo-cowpay-public.css');
 
         // Pass ajax_url to cowpay_js
@@ -376,11 +375,14 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         wp_localize_script('woo-cowpay', 'cowpay_data', array(
             // 'order_id' => WC()->session->get( 'order_id'),
             // 'ajax_url' => WC()->ajax_url(),
+            'intentionSecret' =>WC()->session->get('intentionSecret'),
             'return_url' =>WC()->session->get('return_url')
             )
         );
 
+        WC()->session->__unset('intentionSecret');
         WC()->session->__unset('return_url');
+
     }
 
    
