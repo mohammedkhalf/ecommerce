@@ -252,8 +252,10 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 //                 echo $_SESSION['creditCard']->data->intentionSecret;
 //                 unset($_SESSION['creditCard']);
 //                 WC()->session->set('otp_iframe' , $response->data->html );
-                 wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
-                 die;
+//                 wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
+//                 die;
+                 wp_redirect(woo_cowpay_view("custom-otp-page"));
+                 exit;
                  // TODO: add option to use OTP plugin when return_url is not exist
                  // $res = array(
                  //     'result' => 'success',
