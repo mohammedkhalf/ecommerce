@@ -1,3 +1,12 @@
-<?php
+<html>
 
-echo $_SESSION['intentionSecret'];
+<head>
+    <title></title>
+</head>
+<body>
+
+    <p> hello test </p>
+
+</body>
+
+</html>
