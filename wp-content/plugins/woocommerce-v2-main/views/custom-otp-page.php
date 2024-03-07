@@ -1,12 +1,4 @@
-<html>
+<?php
 
-<head>
-    <title></title>
-</head>
-<body>
 
-    <p> hello test </p>
-
-</body>
-
-</html>
+echo "hello";die;
