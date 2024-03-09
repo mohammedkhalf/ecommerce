@@ -189,18 +189,18 @@ class WooCowpay
             $title = "Thank you , Your order has been received .<br>Please use the following reference number 
 			<b>".$_SESSION['fawryDetails']->data->paymentGatewayReferenceId."</b> 
 			to pay <b>".$_SESSION['fawryDetails']->data->amount." EGP</b>  at the nearest fawry outlet";
-            unset($_SESSION['fawryDetails']);
-			
+            unset($_SESSION['fawryDetails']);			
 			return $title;
 
 		}
 
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-			$title = woo_cowpay_view('custom-otp-page');
+			$options = $_SESSION['creditCard'];
+			$title = woo_cowpay_view('custom-otp-page' , array("options" => $options));
+			unset($_SESSION['creditCard']);
 			return $title;
 		}
-
     }
 
 

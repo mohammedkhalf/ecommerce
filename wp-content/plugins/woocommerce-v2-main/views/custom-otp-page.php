@@ -8,5 +8,5 @@
 </html>      
 
 <script>
-    Cowpay.checkout("<?php echo $_SESSION['creditCard']['secret']; ?>","<?php  echo $_SESSION['creditCard']['frameCode']; ?>").mount("cowpay-checkout");
+    Cowpay.checkout("<?php echo $options['secret']; ?>","<?php  echo $options['frameCode']; ?>").mount("cowpay-checkout");
 </script>

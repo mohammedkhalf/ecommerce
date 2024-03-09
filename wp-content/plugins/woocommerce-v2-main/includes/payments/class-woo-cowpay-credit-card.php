@@ -217,11 +217,10 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      */
     public function process_payment($order_id)
     {
-        var_dump($this->settings->get_iframe_code());die;
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
         $request_params = [
-            "frameCode" => "584fc843-b6b3-466c-b05b-cfd01fb0af28",
+            "frameCode" => $this->settings->get_iframe_code(),
             "amount"=>$request_params['amount'],
             "isFeesOnCustomer"=>true,
             "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
@@ -249,8 +248,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
                 session_start();
             }
 
-            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>$request_params['frameCode']];
-            $_SESSION['creditCard'] =  $data;// array
+            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>$this->settings->get_iframe_code()];
+            $_SESSION['creditCard'] = $data;// array
 
             WC()->cart->empty_cart();
             // wait server-to-server notification
