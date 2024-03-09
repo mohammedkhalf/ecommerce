@@ -8,7 +8,7 @@
  */
 class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 {
-    private $settings;
+    public $settings;
     public $notify_url;
 
     // Setup our Gateway's id, description and other values
