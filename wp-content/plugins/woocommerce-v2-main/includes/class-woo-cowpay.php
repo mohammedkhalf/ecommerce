@@ -84,6 +84,9 @@ class WooCowpay
 		$this->handleThankyouPage();
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
+
+		// register required scripts for credit card payment method
+		add_action('wp_enqueue_scripts', array($this, 'cowpay_enqueue_scripts'));
 	}
 
 	/**
@@ -201,10 +204,7 @@ class WooCowpay
 			// return $title;
 			echo '<html lang="en">
 				<body>
-					<!-- Required div to display cowpay checkout button inside, with any id to be passed in mount() method. ! -->
 					<div id="cowpay-checkout"></div>
-					<!-- Loading Cowpay.js SDK -->
-					<script src="public/js/cowpay.js"></script>
 				</body>
 				</html>';
 			die;
@@ -295,5 +295,11 @@ class WooCowpay
 	public function get_version()
 	{
 		return $this->version;
+	}
+
+	public function cowpay_enqueue_scripts()
+    {
+        wp_enqueue_script('cowpay_card_js', WOO_COWPAY_PLUGIN_URL . 'public/js/cowpay.js');
+        wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
 	}
 }
