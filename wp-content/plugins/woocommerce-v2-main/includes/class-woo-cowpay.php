@@ -197,9 +197,10 @@ class WooCowpay
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
 			
-			$title = '<div id="cowpay-checkout"></div>';
-			unset($_SESSION['creditCard']);
-			return $title;
+			// $title = '<div id="cowpay-checkout"></div>';
+			// unset($_SESSION['creditCard']);
+			// return $title;
+			echo '<div id="cowpay-checkout"></div>';
 			die;
 			
 		}
