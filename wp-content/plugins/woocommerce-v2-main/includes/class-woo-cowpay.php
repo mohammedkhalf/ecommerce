@@ -297,10 +297,4 @@ class WooCowpay
 	{
 		return $this->version;
 	}
-
-	public function cowpay_enqueue_scripts()
-    {
-        wp_enqueue_script('cowpay_card_js', WOO_COWPAY_PLUGIN_URL . 'public/js/cowpay.js');
-        wp_enqueue_script('woo-cowpay', WOO_COWPAY_PLUGIN_URL . 'public/js/woo-cowpay-public.js');
-	}
 }
