@@ -197,17 +197,10 @@ class WooCowpay
 
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
+			$title = woo_cowpay_view('custom-otp-page');
 			// $title = '<div id="cowpay-checkout"></div>';
 			// unset($_SESSION['creditCard']);
-			// return $title;
-			echo '<html lang="en">
-				<body>
-					<!-- Required div to display cowpay checkout button inside, with any id to be passed in mount() method. ! -->
-					<div id="cowpay-checkout"></div>
-				</body>
-				</html>';
-			die;
-			
+			return $title;
 		}
 
     }
