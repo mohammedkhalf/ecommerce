@@ -275,6 +275,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>$request_params['frameCode']];
             $_SESSION['creditCard'] =  $data;// array
 
+            var_dump($data);
+
 
             WC()->cart->empty_cart();
             // wait server-to-server notification
