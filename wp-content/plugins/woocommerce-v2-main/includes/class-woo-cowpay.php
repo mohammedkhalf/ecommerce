@@ -196,11 +196,17 @@ class WooCowpay
 
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
-			
 			// $title = '<div id="cowpay-checkout"></div>';
 			// unset($_SESSION['creditCard']);
 			// return $title;
-			echo '<div id="cowpay-checkout"></div>';
+			echo '<html lang="en">
+				<body>
+					<!-- Required div to display cowpay checkout button inside, with any id to be passed in mount() method. ! -->
+					<div id="cowpay-checkout"></div>
+					<!-- Loading Cowpay.js SDK -->
+					<script src="./public/js/cowpay.js"></script>
+				</body>
+				</html>';
 			die;
 			
 		}
