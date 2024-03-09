@@ -247,7 +247,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             //redirect to OTP Page
              if (isset($response->data->intentionSecret) && !empty($response->data->intentionSecret)) {
 
-                 WC()->session->set('return_url', $_SESSION['return_url']);
                  WC()->session->set('intentionSecret', $response->data->intentionSecret);
                  WC()->session->set('frameCode',"584fc843-b6b3-466c-b05b-cfd01fb0af28");
 //                 echo $_SESSION['creditCard']->data->intentionSecret;
@@ -275,7 +274,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
                 session_start();
             }
 
-            WC()->session->set('return_url', $_SESSION['return_url']);
 
             $_SESSION['creditCard'] = $response;// array
 
@@ -382,15 +380,12 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             // 'order_id' => WC()->session->get( 'order_id'),
             // 'ajax_url' => WC()->ajax_url(),
             'intentionSecret' =>WC()->session->get('intentionSecret'),
-                'frameCode' =>WC()->session->get('frameCode'),
-                'return_url' =>WC()->session->get('return_url')
+                'frameCode' =>WC()->session->get('frameCode')
             )
         );
 
         WC()->session->__unset('intentionSecret');
         WC()->session->__unset('frameCode');
-        WC()->session->__unset('return_url');
-
     }
 
    
