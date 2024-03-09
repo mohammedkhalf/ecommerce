@@ -242,29 +242,29 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             $customer_order->add_order_note(__($response->operationMessage));      
 
             //redirect to OTP Page
-             if (isset($response->data->intentionSecret) && !empty($response->data->intentionSecret)) {
+//              if (isset($response->data->intentionSecret) && !empty($response->data->intentionSecret)) {
 
-                 WC()->session->set('intentionSecret', $response->data->intentionSecret);
-                 WC()->session->set('frameCode',"584fc843-b6b3-466c-b05b-cfd01fb0af28");
-//                 echo $_SESSION['creditCard']->data->intentionSecret;
-//                 unset($_SESSION['creditCard']);
-//                 WC()->session->set('otp_iframe' , $response->data->html );
-//                 wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
-//                 die;
-//                  wp_redirect(woo_cowpay_view("custom-otp-page"));
-//                  exit;
+//                  WC()->session->set('intentionSecret', $response->data->intentionSecret);
+//                  WC()->session->set('frameCode',"584fc843-b6b3-466c-b05b-cfd01fb0af28");
+// //                 echo $_SESSION['creditCard']->data->intentionSecret;
+// //                 unset($_SESSION['creditCard']);
+// //                 WC()->session->set('otp_iframe' , $response->data->html );
+// //                 wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
+// //                 die;
+// //                  wp_redirect(woo_cowpay_view("custom-otp-page"));
+// //                  exit;
 
-                 return array(
-                     'result'   => 'success',
-                     'redirect' => wp_safe_redirect(woo_cowpay_view("custom-otp-page"))
-                 );
-                 // TODO: add option to use OTP plugin when return_url is not exist
-                  $res = array(
-                      'result' => 'success',
-                      'redirect' =>  $this->get_transaction_url($customer_order)
-                  );
-                  return $res;
-             }
+//                  return array(
+//                      'result'   => 'success',
+//                      'redirect' => wp_safe_redirect(woo_cowpay_view("custom-otp-page"))
+//                  );
+//                  // TODO: add option to use OTP plugin when return_url is not exist
+//                   $res = array(
+//                       'result' => 'success',
+//                       'redirect' =>  $this->get_transaction_url($customer_order)
+//                   );
+//                   return $res;
+//              }
 
             // not 3DS:
             if ( ! session_id() ) {
