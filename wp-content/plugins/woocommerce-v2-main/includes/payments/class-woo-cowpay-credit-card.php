@@ -8,7 +8,7 @@
  */
 class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 {
-
+    private $settings;
     public $notify_url;
 
     // Setup our Gateway's id, description and other values
@@ -44,8 +44,10 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         // we then register our otp response check for this action, and call $this->check_otp_response()
         //add_action('wp_ajax_check_otp_response', array($this, 'check_otp_response'));
         // add_action('wp_enqueue_scripts','check_otp_response');
-
         parent::init();
+
+        $this->settings = Cowpay_Admin_Settings::getInstance();
+
     }
 
     /**
@@ -215,6 +217,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
      */
     public function process_payment($order_id)
     {
+        var_dump($this->settings->get_iframe_code());die;
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
         $request_params = [
@@ -241,41 +244,13 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             // display to the admin
             $customer_order->add_order_note(__($response->operationMessage));      
 
-            //redirect to OTP Page
-//              if (isset($response->data->intentionSecret) && !empty($response->data->intentionSecret)) {
-
-//                  WC()->session->set('intentionSecret', $response->data->intentionSecret);
-//                  WC()->session->set('frameCode',"584fc843-b6b3-466c-b05b-cfd01fb0af28");
-// //                 echo $_SESSION['creditCard']->data->intentionSecret;
-// //                 unset($_SESSION['creditCard']);
-// //                 WC()->session->set('otp_iframe' , $response->data->html );
-// //                 wp_safe_redirect(woo_cowpay_view("custom-otp-page"));
-// //                 die;
-// //                  wp_redirect(woo_cowpay_view("custom-otp-page"));
-// //                  exit;
-
-//                  return array(
-//                      'result'   => 'success',
-//                      'redirect' => wp_safe_redirect(woo_cowpay_view("custom-otp-page"))
-//                  );
-//                  // TODO: add option to use OTP plugin when return_url is not exist
-//                   $res = array(
-//                       'result' => 'success',
-//                       'redirect' =>  $this->get_transaction_url($customer_order)
-//                   );
-//                   return $res;
-//              }
-
             // not 3DS:
             if ( ! session_id() ) {
                 session_start();
             }
 
-
             $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>$request_params['frameCode']];
             $_SESSION['creditCard'] =  $data;// array
-
-
 
             WC()->cart->empty_cart();
             // wait server-to-server notification
