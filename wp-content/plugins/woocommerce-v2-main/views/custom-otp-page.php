@@ -8,7 +8,10 @@
 </html>      
 
 <script>
-    var secret =  <?php  echo $_SESSION['creditCard']['secret']; ?>
-    var frameCode =  <?php  echo $_SESSION['creditCard']['frameCode']; ?>
+    var secret =  <?php  echo $_SESSION['creditCard']['secret']; ?>;
+    var frameCode =  <?php  echo $_SESSION['creditCard']['frameCode']; ?>;
+
+    console.log(secret)
+
     Cowpay.checkout(secret,frameCode).mount("cowpay-checkout");
 </script>
