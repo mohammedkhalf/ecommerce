@@ -85,8 +85,6 @@ class WooCowpay
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
-		// register required scripts for credit card payment method
-		add_action('wp_enqueue_scripts', array($this, 'cowpay_enqueue_scripts'));
 	}
 
 	/**
