@@ -170,7 +170,7 @@ class WooCowpay
 			session_start();
 		}
 		
-        if (isset($_SESSION['fawryDetails']) ||  isset($_SESSION['creditCard'])  ) {
+        if (isset($_SESSION['fawryDetails'])) {
 
             $this->loader->add_filter('woocommerce_thankyou_order_received_text', $this, 'woo_title_order_received');
         
