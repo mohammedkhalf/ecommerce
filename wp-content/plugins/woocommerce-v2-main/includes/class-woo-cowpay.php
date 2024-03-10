@@ -170,10 +170,16 @@ class WooCowpay
 			session_start();
 		}
 		
-        if (isset($_SESSION['fawryDetails'])) {
+        if (isset($_SESSION['fawryDetails'])   ) {
 
             $this->loader->add_filter('woocommerce_thankyou_order_received_text', $this, 'woo_title_order_received');
         
+		}
+
+		if(isset($_SESSION['creditCard'])){
+
+			$this->loader->add_filter('woocommerce_custom_otp_page', $this, 'woo_custom_otp_page');
+
 		}
 
 	}
@@ -191,9 +197,12 @@ class WooCowpay
 			to pay <b>".$_SESSION['fawryDetails']->data->amount." EGP</b>  at the nearest fawry outlet";
             unset($_SESSION['fawryDetails']);			
 			return $title;
-
 		}
 
+    }
+
+	function woo_custom_otp_page ()
+	{
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
 			$options = $_SESSION['creditCard'];
@@ -201,7 +210,7 @@ class WooCowpay
 			unset($_SESSION['creditCard']);
 			return $title;
 		}
-    }
+	}
 
 
 	/**
