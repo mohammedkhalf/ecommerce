@@ -1,4 +1,4 @@
-<div class="paymentContainer" style="width:50%;height:100">
+<div class="paymentContainer" style="width:100%;height:50%">
         <!-- Required div to display cowpay checkout button inside, with any id to be passed in mount() method. ! -->
         <div id="cowpay-checkout"></div>
         <!-- Loading Cowpay.js SDK -->
