@@ -199,7 +199,9 @@ class WooCowpay
 			$options = $_SESSION['creditCard'];
 			$title = woo_cowpay_view('custom-otp-page' , array("options" => $options));
 			unset($_SESSION['creditCard']);
-			return $title;
+			echo $title;
+			die;
+			//return $title;
 		}
     }
 
