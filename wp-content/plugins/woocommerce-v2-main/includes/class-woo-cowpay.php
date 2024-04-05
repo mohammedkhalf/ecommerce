@@ -191,7 +191,6 @@ class WooCowpay
 			to pay <b>".$_SESSION['fawryDetails']->data->amount." EGP</b>  at the nearest fawry outlet";
             unset($_SESSION['fawryDetails']);			
 			return $title;
-
 		}
 
 		//Credit Card  OTP

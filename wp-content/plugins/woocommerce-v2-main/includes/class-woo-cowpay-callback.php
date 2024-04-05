@@ -73,7 +73,7 @@ class Cowpay_Server_Callback
     {
         // get post data payload
         $data = json_decode(file_get_contents('php://input'), true);
-
+        var_dump($data);die;
         // empty data?
         if (!isset($data) || empty($data)) return false;
 
