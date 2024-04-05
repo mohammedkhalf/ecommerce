@@ -73,6 +73,7 @@ class Cowpay_Server_Callback
     {
         // get post data payload
         $data = json_decode(file_get_contents('php://input'), true);
+        (wc_get_logger())->info(wc_print_r( $data, true)."\n" , array('source' => 'cowpay-webhook'));
         // empty data?
         if (!isset($data) || empty($data)) return false;
 
