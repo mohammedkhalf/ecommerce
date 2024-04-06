@@ -18,13 +18,13 @@ class Cowpay_Server_Callback
     {
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
-
-        var_dump($data,'test');
-
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-        $callback_type = "order_status_update";
+        $order_status = $data['order_status'];
+
+        var_dump($order_status);die;
+
         switch ($callback_type) {
             case 'charge_request':
                 // order created successfully
