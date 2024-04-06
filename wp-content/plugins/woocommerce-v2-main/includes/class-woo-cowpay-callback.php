@@ -21,44 +21,40 @@ class Cowpay_Server_Callback
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-        $order_status = $data['order_status'];
+
+        $order_status = strtoupper($data['order_status']);
 
         var_dump($order_status);die;
 
-        switch ($callback_type) {
-            case 'charge_request':
-                // order created successfully
-                $this->handle_order_creation($data);
-                break;
-            case 'order_status_update':
-                $order_status = strtoupper($data['order_status']);
-                switch ($order_status) {
-                    case 'UNPAID':
+        switch ($order_status) {
+            case 'PENDING':
+                       // order created successfully
+                       $this->handle_order_creation($data);
+                       break;
+
+                        case 'UNPAID':
                         $this->handle_unpaid($data);
                         break;
-                    case 'PAID':
+
+                        case 'PAID':
                         $this->handle_paid($data);
                         break;
-                    case 'EXPIRED':
+
+                        case 'EXPIRED':
                         $this->handle_expired($data);
                         break;
-                    case 'FAILED':
+
+                        case 'FAILED':
                         $this->handle_failed($data);
                         break;
-                    case 'DELIVERED':
+
+                        case 'DELIVERED':
                         // we are not handling cash-collection in this plugin yet
                         break;
-                    default:
-                        return $this->exit_error("unknown order status '$order_status'");
-                        break;
-                }
-                break;
-            case 'withdrawal_request':
-                # we are not handling withdrawals in this plugin yet
-                break;
             default:
                 return $this->exit_error("unknown callback request type '$callback_type'");
         }
+
         wp_die("callback successfully handled", 200);
     }
 
