@@ -45,9 +45,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         //add_action('wp_ajax_check_otp_response', array($this, 'check_otp_response'));
         // add_action('wp_enqueue_scripts','check_otp_response');
         parent::init();
-
-        $this->settings = Cowpay_Admin_Settings::getInstance();
-
     }
 
     /**
@@ -220,7 +217,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
         $request_params = [
-            "frameCode" => $this->settings->get_iframe_code(),
+            "frameCode" => Cowpay_Admin_Settings::getInstance()->get_iframe_code(),
             "amount"=>$request_params['amount'],
             "isFeesOnCustomer"=>true,
             "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
@@ -248,7 +245,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
                 session_start();
             }
 
-            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>$this->settings->get_iframe_code()];
+            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>Cowpay_Admin_Settings::getInstance()->get_iframe_code()];
             $_SESSION['creditCard'] = $data;// array
 
             WC()->cart->empty_cart();
