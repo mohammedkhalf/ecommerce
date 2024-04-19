@@ -22,7 +22,7 @@ class Cowpay_Server_Callback
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
 
-        $order_status = strtoupper($data['order_status']);
+        $order_status = strtoupper($data['status']);
 
 
         switch ($order_status) {
@@ -155,6 +155,7 @@ class Cowpay_Server_Callback
         if ($order == false) {
             // TODO: log a warning message
             // don't create order as it is already expired
+
             return;
         }
         $order->update_status("wc-pending");
