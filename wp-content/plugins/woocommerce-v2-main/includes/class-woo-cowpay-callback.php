@@ -228,6 +228,9 @@ class Cowpay_Server_Callback
         ];
 
         $order_status = isset($orderStatus[$statusId]) ? $orderStatus[$statusId] : null;
+        var_dump(isset($orderStatus[$statusId]) , $order_status);
+
+
         return  $order_status;
     }
 }
