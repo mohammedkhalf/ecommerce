@@ -161,7 +161,7 @@ class Cowpay_Server_Callback
 
             return;
         }
-        $order->update_status("wc-pending");
+        $order->update_status("wc-processing");
         $order->add_order_note(__('server callback update: The order was unpaid','woo-cowpay'));
     }
 
