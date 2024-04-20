@@ -154,8 +154,8 @@ class Cowpay_Server_Callback
     private function handle_unpaid($data)
     {
         $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
-        var_dump($merchant_reference_id,"test");die;
         $order = $this->find_order($merchant_reference_id);
+        var_dump($order,"test");die;
         if ($order == false) {
             // TODO: log a warning message
             // don't create order as it is already expired
