@@ -23,7 +23,6 @@ class Cowpay_Server_Callback
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $order_status = strtoupper($this->getOrderStatus($data['statusId']));
 
-
         switch ($order_status) {
             case 'PENDING':
                        // order created successfully
@@ -31,7 +30,7 @@ class Cowpay_Server_Callback
                        break;
 
                         case 'UNPAID':
-                        $this->handle_unpaid($data);
+                            $this->handle_unpaid($data);
                         break;
 
                         case 'PAID':
@@ -45,11 +44,9 @@ class Cowpay_Server_Callback
                         case 'FAILED':
                         $this->handle_failed($data);
                         break;
-
                         case 'REFUNDED':
                             $this->handle_refund($data);
                             break;
-
                         case 'DELIVERED':
                             // we are not handling cash-collection in this plugin yet
                             break;
@@ -141,16 +138,14 @@ class Cowpay_Server_Callback
     {
         $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
         $order = $this->find_order($merchant_reference_id);
-
         if ($order == false) {
             // TODO: log a warning message
             // try to recover if order is not created before
             $order = $this->create_order_recovery($data);
         }
-//        $order->payment_complete();
-//        $admin_complete_order_status = $this->settings->get_order_status();
-//        $order->update_status($admin_complete_order_status);
-        $order->update_status("completed");
+        $order->payment_complete();
+        $admin_complete_order_status = $this->settings->get_order_status();
+        $order->update_status($admin_complete_order_status);
         $order->add_order_note(esc_html__('server callback update: Successfully paid','woo-cowpay'));
     }
 
@@ -164,7 +159,7 @@ class Cowpay_Server_Callback
 
             return;
         }
-        $order->update_status("processing");
+        $order->update_status("wc-processing");
         $order->add_order_note(__('server callback update: The order was unpaid','woo-cowpay'));
     }
 
@@ -203,8 +198,7 @@ class Cowpay_Server_Callback
             // don't create order as it is already failed
             return;
         }
-
-        $order->update_status("wc-refunded");
+        $order->update_status("wc-cancelled");
         $order->add_order_note(esc_html__('server callback update: The order was refunded','woo-cowpay'));
     }
 
