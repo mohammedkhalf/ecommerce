@@ -21,9 +21,8 @@ class Cowpay_Server_Callback
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-        $order_status = $this->getOrderStatus($data['statusId']);      // strtoupper($data['status']);
-
-        var_dump($order_status);
+        $order_status = strtoupper($this->getOrderStatus($data['statusId']));
+        (wc_get_logger())->info(wc_print_r($order_status , true)."\n" , array('source' => 'cowpay-webhook'));
 
         switch ($order_status) {
             case 'PENDING':
