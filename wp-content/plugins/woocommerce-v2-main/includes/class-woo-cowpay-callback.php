@@ -23,8 +23,6 @@ class Cowpay_Server_Callback
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $order_status = strtoupper($this->getOrderStatus($data['statusId']));
 
-        var_dump($order_status);die;
-
         switch ($order_status) {
             case 'PENDING':
                        // order created successfully
@@ -47,9 +45,13 @@ class Cowpay_Server_Callback
                         $this->handle_failed($data);
                         break;
 
+                        case 'REFUNDED':
+                            $this->handle_refund($data);
+                            break;
+
                         case 'DELIVERED':
-                        // we are not handling cash-collection in this plugin yet
-                        break;
+                            // we are not handling cash-collection in this plugin yet
+                            break;
             default:
                 return $this->exit_error("unknown callback request type '$callback_type'");
         }
@@ -189,6 +191,20 @@ class Cowpay_Server_Callback
         $order->add_order_note(esc_html__('server callback update: The order was failed','woo-cowpay'));
     }
 
+    private function handle_refund($data)
+    {
+        $merchant_reference_id = explode("-", $data["merchant_reference_id"], 2)[0];
+        $order = $this->find_order($merchant_reference_id);
+        if ($order == false) {
+            // TODO: log a warning message
+            // don't create order as it is already failed
+            return;
+        }
+
+        $order->update_status("wc-refunded");
+        $order->add_order_note(esc_html__('server callback update: The order was refunded','woo-cowpay'));
+    }
+
     private function is_valid_signature($payload)
     {
         $callbackSign = md5("{$payload["merchantCode"]}{$payload["amount"]}{$payload["cowpay_reference_id"]}{$payload["merchant_reference_id"]}{$payload["order_status"]}");
@@ -229,9 +245,6 @@ class Cowpay_Server_Callback
         ];
 
         $order_status = isset($orderStatus[$statusId]) ? $orderStatus[$statusId] : null;
-        var_dump(isset($orderStatus[$statusId]) , $order_status);
-
-
         return  $order_status;
     }
 }
