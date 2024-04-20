@@ -23,7 +23,6 @@ class Cowpay_Server_Callback
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $order_status = strtoupper($this->getOrderStatus($data['statusId']));
 
-        var_dump($order_status);die;
 
         switch ($order_status) {
             case 'PENDING':
@@ -142,6 +141,9 @@ class Cowpay_Server_Callback
     {
         $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
         $order = $this->find_order($merchant_reference_id);
+
+        var_dump($merchant_reference_id,$order , "hello");die;
+
         if ($order == false) {
             // TODO: log a warning message
             // try to recover if order is not created before
