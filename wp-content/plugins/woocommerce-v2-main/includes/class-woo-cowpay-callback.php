@@ -23,6 +23,8 @@ class Cowpay_Server_Callback
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $order_status = strtoupper($this->getOrderStatus($data['statusId']));
 
+        var_dump($order_status);die;
+
         switch ($order_status) {
             case 'PENDING':
                        // order created successfully
