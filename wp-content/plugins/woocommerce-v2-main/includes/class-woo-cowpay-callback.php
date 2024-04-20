@@ -22,7 +22,6 @@ class Cowpay_Server_Callback
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $order_status = strtoupper($this->getOrderStatus($data['statusId']));
-        var_dump($order_status);die;
 
         switch ($order_status) {
             case 'PENDING':
@@ -154,7 +153,7 @@ class Cowpay_Server_Callback
 
     private function handle_unpaid($data)
     {
-        var_dump($data);die;
+        var_dump($data,"test");die;
         $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
