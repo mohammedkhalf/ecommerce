@@ -21,7 +21,9 @@ class Cowpay_Server_Callback
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
-        $order_status = strtoupper($data['status']);
+        $order_status = $this->getOrderStatus($data['statusId']);      // strtoupper($data['status']);
+
+        var_dump($order_status);
 
         switch ($order_status) {
             case 'PENDING':
@@ -211,5 +213,21 @@ class Cowpay_Server_Callback
     {
         // echo json_encode(array('error' => $cause, 'success' => false));
         wp_die($cause, 400);
+    }
+
+    public function getOrderStatus($statusId)
+    {
+        $orderStatus = [
+            1 =>'Pending',
+            2 =>'Paid',
+            3 =>'UnPaid',
+            4 =>'Expired',
+            5 =>'Failed',
+            6 =>'Refunded',
+            7 =>'PartiallyRefunded',
+        ];
+
+        $order_status = isset($orderStatus[$statusId]) ? $orderStatus[$statusId] : null;
+        return  $order_status;
     }
 }
