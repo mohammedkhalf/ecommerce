@@ -155,14 +155,13 @@ class Cowpay_Server_Callback
     {
         $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
         $order = $this->find_order($merchant_reference_id);
-        var_dump($order,"test");die;
         if ($order == false) {
             // TODO: log a warning message
             // don't create order as it is already expired
 
             return;
         }
-        $order->update_status("wc-processing");
+        $order->update_status("processing");
         $order->add_order_note(__('server callback update: The order was unpaid','woo-cowpay'));
     }
 
