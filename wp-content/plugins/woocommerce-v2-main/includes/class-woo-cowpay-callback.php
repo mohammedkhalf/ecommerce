@@ -82,10 +82,11 @@ class Cowpay_Server_Callback
             "payment_gateway_reference_id" => $data['paymentGatewayReferenceId'],
             "order_status" => $data['orderStatus'],
             "amount" => $data['amount'],
-            "paymentMethod" => $data['paymentMethod']
+            "paymentMethod" => $data['paymentMethod'],
+            'statusId' => $data['statusId']
         ];
         // check required fields
-        $required_data_keys = array("merchant_code","cowpay_reference_id", "merchant_reference_id", "order_status", "amount",'paymentMethod');
+        $required_data_keys = array("merchant_code","cowpay_reference_id", "merchant_reference_id", "order_status", "amount",'paymentMethod','statusId');
         foreach ($required_data_keys as $key) if (!isset($customData[$key])) return false;
         // we are safe now
         return $customData;
