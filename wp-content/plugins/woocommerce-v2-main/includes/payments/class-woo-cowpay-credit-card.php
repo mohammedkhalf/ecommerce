@@ -16,7 +16,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     {
         parent::__construct();
 
-        // The global ID for this Payment methodvar_dump
+        // The global ID for this Payment method
         $this->id = "cowpay_credit_card";
 
         // The Title shown on the top of the Payment Gateways Page next to all the other Payment Gateways

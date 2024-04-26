@@ -452,7 +452,4 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
         $key = array_search($countryName,$countryCodes);
         return $key;
     }
-
-
-
 }
