@@ -130,7 +130,7 @@ class Cowpay_Server_Callback
      */
     public function find_order($id)
     {
-        $order = wc_get_orders(array('cp_merchantReferenceId' => $id, 'limit' => 1));  //cp_merchant_reference_id
+        $order = wc_get_orders(array('cp_merchant_reference_id' => $id, 'limit' => 1));   //cp_merchantReferenceId
         if (empty($order)) return false;
         return $order[0];
     }
