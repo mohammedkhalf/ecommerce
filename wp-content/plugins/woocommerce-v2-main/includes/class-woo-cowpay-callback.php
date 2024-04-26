@@ -18,6 +18,7 @@ class Cowpay_Server_Callback
     {
         if (!$this->is_cowpay_callback()) return; // die peacely if we are not the target
         $data = $this->get_callback_request_data();
+        (wc_get_logger())->info(wc_print_r( $data, true)."\n" , array('source' => 'cowpay-webhook'));
         if (!$data) return $this->exit_error("not valid callback");
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
