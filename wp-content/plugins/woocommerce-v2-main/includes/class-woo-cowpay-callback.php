@@ -6,7 +6,7 @@
 class Cowpay_Server_Callback
 {
     private $settings;
-    
+
     function __construct()
     {
         $this->settings = Cowpay_Admin_Settings::getInstance();
@@ -27,31 +27,31 @@ class Cowpay_Server_Callback
 
         switch ($order_status) {
             case 'PENDING':
-                       // order created successfully
-                       $this->handle_order_creation($data);
-                       break;
+                // order created successfully
+                $this->handle_order_creation($data);
+                break;
 
-                        case 'UNPAID':
-                            $this->handle_unpaid($data);
-                        break;
+            case 'UNPAID':
+                $this->handle_unpaid($data);
+                break;
 
-                        case 'PAID':
-                        $this->handle_paid($data);
-                        break;
+            case 'PAID':
+                $this->handle_paid($data);
+                break;
 
-                        case 'EXPIRED':
-                        $this->handle_expired($data);
-                        break;
+            case 'EXPIRED':
+                $this->handle_expired($data);
+                break;
 
-                        case 'FAILED':
-                        $this->handle_failed($data);
-                        break;
-                        case 'REFUNDED':
-                            $this->handle_refund($data);
-                            break;
-                        case 'DELIVERED':
-                            // we are not handling cash-collection in this plugin yet
-                            break;
+            case 'FAILED':
+                $this->handle_failed($data);
+                break;
+            case 'REFUNDED':
+                $this->handle_refund($data);
+                break;
+            case 'DELIVERED':
+                // we are not handling cash-collection in this plugin yet
+                break;
             default:
                 return $this->exit_error("unknown callback request type '$callback_type'");
         }
@@ -100,7 +100,7 @@ class Cowpay_Server_Callback
      */
     private function handle_order_creation($data)
     {
-        $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order !== false) {
             // order already exists
@@ -117,7 +117,7 @@ class Cowpay_Server_Callback
      */
     private function create_order_recovery($data)
     {
-        $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = wc_create_order(array('status' => "wc-processing"));
         $order->add_meta_data("cp_merchant_reference_id", $merchant_reference_id);
         $order->add_meta_data("cp_amount", $data['amount']);
@@ -131,14 +131,14 @@ class Cowpay_Server_Callback
      */
     public function find_order($id)
     {
-        $order = wc_get_orders(array('cp_merchantReferenceId' => $id, 'limit' => 1));   //cp_merchant_reference_id
+        $order = wc_get_orders(array('cp_merchant_reference_id' => $id, 'limit' => 1));   // cp_merchantReferenceId
         if (empty($order)) return false;
         return $order[0];
     }
 
     private function handle_paid($data)
     {
-        $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
             // TODO: log a warning message
@@ -153,7 +153,7 @@ class Cowpay_Server_Callback
 
     private function handle_unpaid($data)
     {
-        $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
             // TODO: log a warning message
@@ -167,7 +167,7 @@ class Cowpay_Server_Callback
 
     private function handle_expired($data)
     {
-        $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
             // TODO: log a warning message
@@ -180,7 +180,7 @@ class Cowpay_Server_Callback
 
     private function handle_failed($data)
     {
-        $merchant_reference_id = explode("-",$data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
             // TODO: log a warning message
@@ -193,7 +193,7 @@ class Cowpay_Server_Callback
 
     private function handle_refund($data)
     {
-        $merchant_reference_id = explode("-", $data["merchant_reference_id"], 2)[0];
+        $merchant_reference_id = $data["merchant_reference_id"];
         $order = $this->find_order($merchant_reference_id);
         if ($order == false) {
             // TODO: log a warning message
