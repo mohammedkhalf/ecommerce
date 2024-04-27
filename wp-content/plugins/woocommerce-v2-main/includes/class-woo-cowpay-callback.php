@@ -6,6 +6,7 @@
 class Cowpay_Server_Callback
 {
     private $settings;
+    
     function __construct()
     {
         $this->settings = Cowpay_Admin_Settings::getInstance();
