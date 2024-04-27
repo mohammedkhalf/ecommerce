@@ -103,12 +103,12 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             // don't use this right now, as it doesn't update in the database.
             //// $order->add_meta_data($k, $v);
         };
-//        $setOrderMeta("cp_merchantReferenceId", $req_params['merchantReferenceId']);
+        $setOrderMeta("cp_merchantReferenceId", $req_params['merchantReferenceId']);
         $setOrderMeta("cp_customerMerchantProfileId", $req_params['customerMerchantProfileId']);
 
         if ($response == null) return;
         // response meta
-//        $setOrderMeta("cp_cowpay_reference_id",$response->data->cowpayReferenceId);
+        $setOrderMeta("cp_cowpay_reference_id",$response->data->cowpayReferenceId);
         $is_3ds = true;
         $setOrderMeta("cp_is_3ds", $is_3ds);
         if (isset($response->data->paymentGatewayReferenceId)) {
