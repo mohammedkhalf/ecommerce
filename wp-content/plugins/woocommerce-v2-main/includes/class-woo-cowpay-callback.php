@@ -24,17 +24,16 @@ class Cowpay_Server_Callback
         // $checkSign = $this->is_valid_signature($data);
         // if (!$this->is_valid_signature($data)) return $this->exit_error("not valid signature");
         $order_status = strtoupper($this->getOrderStatus($data['statusId']));
-        $this->handle_order_creation($data);
 
         switch ($order_status) {
-//            case 'PENDING':
-//                // order created successfully
-//                $this->handle_order_creation($data);
-//                break;
-//
-//            case 'UNPAID':
-//                $this->handle_unpaid($data);
-//                break;
+            case 'PENDING':
+                // order created successfully
+                $this->handle_order_creation($data);
+                break;
+
+            case 'UNPAID':
+                $this->handle_unpaid($data);
+                break;
             case 'PAID':
                 $this->handle_paid($data);
                 break;
