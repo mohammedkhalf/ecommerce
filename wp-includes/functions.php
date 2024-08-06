@@ -8892,7 +8892,7 @@ function wp_admin_notice( $message, $args = array() ) {
 }
 
 add_filter('http_request_host_is_external', function($bool, $host, $url){
-	if($url === 'https://apigateway.cowpay.me:8000/payment/Pay' && $host === 'https://apigateway.cowpay.me:8000'){
+	if($url === 'https://apigateway.cowpay.me/payment/Pay' && $host === 'https://apigateway.cowpay.me'){
 			return true;
 	}
 }, 10, 3);
