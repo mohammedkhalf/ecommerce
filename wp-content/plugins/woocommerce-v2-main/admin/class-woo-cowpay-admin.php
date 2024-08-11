@@ -222,7 +222,7 @@ class WooCowpayAdmin
         //IFRAME_CODE
         add_settings_field(
             'IFRAME_CODE',
-            esc_html__('Iframe Code', 'cowpay'),
+            esc_html__('Credit Card Iframe Code', 'cowpay'),
             function () {
                 $options = get_option('cowpay_settings');
                 woo_cowpay_view('field-iframe-code', array("options" => $options));
