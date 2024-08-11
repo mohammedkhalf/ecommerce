@@ -202,7 +202,7 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             'customer_mobile' => $dial_phone_number.$customer_order->get_billing_phone(),
             'amount' => $amount,
             'description' => $description,
-            'redirectUrl' => home_url('/').'shop',
+            'redirectUrl' => home_url('/').'index.php/shop',
 
         );
 
