@@ -3,7 +3,7 @@
 /**
  * Base class for all cowpay gateways (methods)
  */
-abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
+abstract class WC_Payment_Gateway_Cowpay
 {
     public $require_ssl = false;
     public $cp_admin_settings;
