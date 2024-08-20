@@ -244,9 +244,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             if ( ! session_id() ) {
                 session_start();
             }
-
-            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>Cowpay_Admin_Settings::getInstance()->get_iframe_code()];
-            $_SESSION['creditCard'] = $data;// array
+//            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>Cowpay_Admin_Settings::getInstance()->get_iframe_code()];
+            $_SESSION['creditCard'] = $response;// array
 
             WC()->cart->empty_cart();
             // wait server-to-server notification
