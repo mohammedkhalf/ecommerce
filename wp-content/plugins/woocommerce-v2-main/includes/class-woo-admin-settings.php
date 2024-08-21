@@ -162,5 +162,10 @@ class Cowpay_Admin_Settings
         return sanitize_text_field($value);
     }
 
+    public function get_fees()
+    {
+        $value = $this->settings['fees'];
+        return sanitize_text_field($value);
+    }
 
 }

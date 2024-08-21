@@ -216,10 +216,11 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
     {
         $customer_order = wc_get_order($order_id);
         $request_params = $this->create_payment_request($order_id);
+        $fees = Cowpay_Admin_Settings::getInstance()->get_fees() == 1 ? true : false;
         $request_params = [
             "frameCode" => Cowpay_Admin_Settings::getInstance()->get_iframe_code(),
             "amount"=>$request_params['amount'],
-            "isFeesOnCustomer"=>true,
+            "isFeesOnCustomer"=>$fees,
             "customerMerchantProfileId"=>$request_params['customer_merchant_profile_id'],
             "merchantReferenceId"=>$request_params['merchant_reference_id'],
             "customerFirstName"=>$request_params['customer_name'],
@@ -228,7 +229,6 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             "customerEmail"=>$request_params['customer_email'],
             "redirectUrl"=>$request_params['redirectUrl'],
         ];
-
 
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
@@ -244,8 +244,8 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
             if ( ! session_id() ) {
                 session_start();
             }
-//            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>Cowpay_Admin_Settings::getInstance()->get_iframe_code()];
-            $_SESSION['creditCard'] = $response;// array
+            $data = ['secret' =>$response->data->intentionSecret,'frameCode'=>Cowpay_Admin_Settings::getInstance()->get_iframe_code()];
+            $_SESSION['creditCard'] = $data;// array
 
             WC()->cart->empty_cart();
             // wait server-to-server notification

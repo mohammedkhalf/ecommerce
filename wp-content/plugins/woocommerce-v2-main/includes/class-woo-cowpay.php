@@ -197,12 +197,10 @@ class WooCowpay
 		//Credit Card  OTP
         if (isset($_SESSION['creditCard'])) {
 
-            $options = $_SESSION['creditCard'];
-            var_dump($options);die();
-//			$options = $_SESSION['creditCard'];
-//			$title = woo_cowpay_view('custom-otp-page' , array("options" => $options));
-//			unset($_SESSION['creditCard']);
-//			return $title;
+			$options = $_SESSION['creditCard'];
+			$title = woo_cowpay_view('custom-otp-page' , array("options" => $options));
+			unset($_SESSION['creditCard']);
+			return $title;
 		}
     }
 
