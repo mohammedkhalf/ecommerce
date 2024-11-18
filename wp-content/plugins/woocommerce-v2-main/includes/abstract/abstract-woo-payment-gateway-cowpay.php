@@ -325,7 +325,7 @@ abstract class WC_Payment_Gateway_Cowpay extends WC_Payment_Gateway
             '+98' => 'Iran',
             '+964' => 'Iraq',
             '+353' => 'Ireland',
-            '+972' => 'Israel',
+            '+972' => 'Palestine',
             '+39' => 'Italy',
             '+1876' => 'Jamaica',
             '+81' => 'Japan',

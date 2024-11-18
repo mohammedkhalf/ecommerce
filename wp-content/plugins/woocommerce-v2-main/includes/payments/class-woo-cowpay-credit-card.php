@@ -232,6 +232,9 @@ class WC_Payment_Gateway_Cowpay_CC extends WC_Payment_Gateway_Cowpay
 
         $response = WC_Gateway_Cowpay_API_Handler::get_instance()->charge_cc($request_params);
 
+        (wc_get_logger())->info(wc_print_r($request_params, true)."\n" , array('source' => 'wordpress-plugin'));
+        (wc_get_logger())->info(wc_print_r($response, true)."\n" , array('source' => 'cowpay-response'));
+
         $messages = $this->get_user_error_messages($response);
         if (empty($messages)) { // success
             // update order meta
